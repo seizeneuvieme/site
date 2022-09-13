@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\SubscriberRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -38,6 +40,18 @@ class Subscriber implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column]
     private ?bool $strictMode = null;
+
+    #[ORM\OneToMany(mappedBy: 'subscriber', targetEntity: Child::class)]
+    private Collection $childs;
+
+    #[ORM\ManyToMany(targetEntity: Platforms::class, inversedBy: 'subscribers')]
+    private Collection $platforms;
+
+    public function __construct()
+    {
+        $this->childs = new ArrayCollection();
+        $this->platforms = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -153,6 +167,60 @@ class Subscriber implements UserInterface, PasswordAuthenticatedUserInterface
     public function setStrictMode(bool $strictMode): self
     {
         $this->strictMode = $strictMode;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Child>
+     */
+    public function getChilds(): Collection
+    {
+        return $this->childs;
+    }
+
+    public function addChild(Child $child): self
+    {
+        if (!$this->childs->contains($child)) {
+            $this->childs->add($child);
+            $child->setSubscriber($this);
+        }
+
+        return $this;
+    }
+
+    public function removeChild(Child $child): self
+    {
+        if ($this->childs->removeElement($child)) {
+            // set the owning side to null (unless already changed)
+            if ($child->getSubscriber() === $this) {
+                $child->setSubscriber(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Platforms>
+     */
+    public function getPlatforms(): Collection
+    {
+        return $this->platforms;
+    }
+
+    public function addPlatform(Platforms $platform): self
+    {
+        if (!$this->platforms->contains($platform)) {
+            $this->platforms->add($platform);
+        }
+
+        return $this;
+    }
+
+    public function removePlatform(Platforms $platform): self
+    {
+        $this->platforms->removeElement($platform);
 
         return $this;
     }

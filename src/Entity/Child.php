@@ -23,6 +23,10 @@ class Child
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $birthDate = null;
 
+    #[ORM\ManyToOne(inversedBy: 'childs')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Subscriber $subscriber = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -60,6 +64,18 @@ class Child
     public function setBirthDate(\DateTimeInterface $birthDate): self
     {
         $this->birthDate = $birthDate;
+
+        return $this;
+    }
+
+    public function getSubscriber(): ?Subscriber
+    {
+        return $this->subscriber;
+    }
+
+    public function setSubscriber(?Subscriber $subscriber): self
+    {
+        $this->subscriber = $subscriber;
 
         return $this;
     }
