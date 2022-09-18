@@ -1,0 +1,30 @@
+//
+//
+// user-variables.scss
+//
+// Place your own variable overrides here, these will override any Bootstrap and theme variables.
+
+// Color Scheme
+// Uncomment the variables below and change the hex values.
+
+// $primary: #ff2e3d;
+// $primary-2: #ffd166;
+// $primary-3: #235789;
+
+$primary: #df233c;
+$primary-2: #ffbe0b;
+$primary-3: #f8f4e3;
+
+// Do not change or remove the $theme-color-scheme or $theme-colors maps below
+
+$theme-color-scheme: (
+  "primary": $primary,
+  "primary-2": $primary-2,
+  "primary-3": $primary-3,
+);
+
+$theme-colors: (
+  "primary": $primary,
+  "primary-2": $primary-2,
+  "primary-3": $primary-3,
+);
