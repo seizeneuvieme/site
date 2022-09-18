@@ -1,0 +1,72 @@
+//   BREAKPOINTS
+//   xs: 0
+//   sm: 576px
+//   md: 768px
+//   lg: 992px
+//   xl: 1200px
+@import "./leap/user-variables.scss";
+
+@media (max-width: 576px) {
+  .navbar-nav {
+    gap: 1rem;
+  }
+
+  .feature {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    gap: 1rem;
+    flex-flow: column;
+  }
+
+  .ml-3-desktop {
+    margin-left: 0 !important;
+  }
+}
+
+.ml-3-desktop {
+  margin-left: 1.5rem;
+}
+
+.navbar-container {
+  position: fixed !important;
+  z-index: 10000000;
+  width: 100%;
+  -webkit-box-shadow: 0px 0px 1px $primary;
+  -moz-box-shadow: 0px 0px 1px $primary;
+  box-shadow: 0px 0px 1px $primary;
+}
+
+h1 {
+  margin-top: 3rem !important;
+}
+
+/* grand-hotel-regular - latin */
+@font-face {
+  font-family: "Grand Hotel";
+  font-style: normal;
+  font-weight: 400;
+  src: url("../fonts/grand-hotel-v13-latin-regular.eot"); /* IE9 Compat Modes */
+  src: local(""),
+    url("../fonts/grand-hotel-v13-latin-regular.eot?#iefix")
+      format("embedded-opentype"),
+    /* IE6-IE8 */ url("../fonts/grand-hotel-v13-latin-regular.woff2")
+      format("woff2"),
+    /* Super Modern Browsers */
+      url("../fonts/grand-hotel-v13-latin-regular.woff") format("woff"),
+    /* Modern Browsers */ url("../fonts/grand-hotel-v13-latin-regular.ttf")
+      format("truetype"),
+    /* Safari, Android, iOS */
+      url("../fonts/grand-hotel-v13-latin-regular.svg#GrandHotel") format("svg"); /* Legacy iOS */
+}
+
+.logo {
+  font-family: "Grand Hotel";
+  color: $primary !important;
+  font-size: 25px !important;
+}
+
+.logo-img {
+  width: 150px;
+}
