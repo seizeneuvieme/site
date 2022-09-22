@@ -50,6 +50,7 @@
                     <div class="col-xl-4 col-lg-5 col-md-6">
                       <div class="form-group">
                         <input name="email" id="email" type="email" class="onboarding-form form-control" placeholder="Ton adresse email" {% if email is defined and email is not null %}value="{{ email }}"{% endif %}>
+
                         <small id="email-control-label" class="text-primary" style="display:none;">Adresse email invalide</small>
                         <small id="email-control-label" class="text-primary" style="display:none;">Cette adresse email est déjà utilisée</small>
                       </div>

@@ -34,6 +34,7 @@ class SignUpController extends AbstractController
             }
 
             $subscriber = $registrationService->createSubscriberFromDTO($registration);
+
             $entityManager->persist($subscriber);
             $entityManager->flush();
 
