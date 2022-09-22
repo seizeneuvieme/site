@@ -8,8 +8,10 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PlatformsRepository::class)]
-class Platforms
+class Platform
 {
+    public const AVAILABLE_PLATFORMS = ['Netflix', 'Disney', 'Prime', 'Canal'];
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]

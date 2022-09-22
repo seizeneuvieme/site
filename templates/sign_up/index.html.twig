@@ -18,11 +18,22 @@
                 <h1 class="mb-2">S'inscrire à la newsletter <span style="font-family: 'Grand Hotel'; color: #ff2e3d">Le Réhausseur</span> </h1>
                 <span>Afin de t'envoyer des contenus personnalisés, j'ai d'abord besoin de te connaître un peu mieux...</span>
             </div>
+            <div class="text-center mb-4">
+              {% if user_already_exist is defined %}
+                <div class="alert alert-primary" role="alert">
+                  L'adresse email {{ user_already_exist }} est déjà abonnée au Réhausseur 👉 <a href="{{ path('app_sign_in', {'email': user_already_exist }) }}" alt="Connexion">Je me connecte</a>
+                </div>
+              {% elseif error is defined %}
+                <div class="alert alert-primary" role="alert">
+                  Formulaire invalide. <br/>En cas de problème, <a href="mailto:contact@lerehausseur.fr" alt="Contacter Le Réhausseur">contactez-nous</a> :)
+                </div>
+              {% endif %}
+            </div>
           </div>
         </div>
         <div class="row">
           <div class="col">
-            <form id="onboarding-form" class="wizard sw-main sw-theme-default">
+            <form method="POST" id="onboarding-form" class="wizard sw-main sw-theme-default">
               <ul class="d-flex step-circles justify-content-center mb-5 nav nav-tabs step-anchor">
                 <li class="nav-item active"><a class="nav-link btn" href="#etape-1">1</a>
                 </li>
@@ -38,15 +49,16 @@
                   <div class="row justify-content-center">
                     <div class="col-xl-4 col-lg-5 col-md-6">
                       <div class="form-group">
-                        <input id="email" type="email" class="onboarding-form form-control" placeholder="Ton adresse email">
+                        <input name="email" id="email" type="email" class="onboarding-form form-control" placeholder="Ton adresse email" {% if email is defined and email is not null %}value="{{ email }}"{% endif %}>
                         <small id="email-control-label" class="text-primary" style="display:none;">Adresse email invalide</small>
+                        <small id="email-control-label" class="text-primary" style="display:none;">Cette adresse email est déjà utilisée</small>
                       </div>
                       <div class="form-group">
-                        <input id="password" type="password" class="onboarding-form form-control" placeholder="Ton mot de passe">
+                        <input name="password" id="password" type="password" class="onboarding-form form-control" placeholder="Ton mot de passe">
                         <small id="password-control-label" class="text-primary" style="display:none;">Le mot de passe doit faire au moins 8 caractères</small>
                       </div>
                       <div class="form-group">
-                        <input id="confirm-password" type="password" class="onboarding-form form-control" placeholder="Confirme ton mon de passe">
+                        <input name="confirm-password" id="confirm-password" type="password" class="onboarding-form form-control" placeholder="Confirme ton mon de passe">
                         <small id="confirm-password-control-label" class="text-primary" style="display:none;">Le mot de passe doit être identique</small>
                       </div>
                       <hr>
@@ -62,19 +74,16 @@
                   <div class="row justify-content-center">
                     <div class="col-xl-4 col-lg-5 col-md-6">
                       <div class="form-group">
-                        <input id="firstname" type="text" class="onboarding-form form-control" placeholder="Ton prénom">
+                        <input name="firstname"  id="firstname" type="text" class="onboarding-form form-control" placeholder="Ton prénom">
                         <small id="firstname-control-label" class="text-primary" style="display:none;">C'est un peu long :)</small>
                       </div>
                       <small>En sachant dans quelle ville tu habites, je pourrais t'envoyer des actualités sur les évennements dans ta région (festivals...) :</small><br/><br/>
                       <div class="form-group">
-                        <input id="city" class="onboarding-form form-control" list="city-datalist" placeholder="Ta ville">
+                        <input name="city"  id="city" class="onboarding-form form-control" list="city-datalist" placeholder="Ta ville">
                         <datalist id="city-datalist">
                         </datalist>
-                        <input id="city-details" class="onboarding-form form-control" hidden>
+                        <input name="city-details"  id="city-details" class="onboarding-form form-control" hidden>
                       </div>
-                      <input id="dpt-code" type="text" class="form-control" hidden>
-                      <input id="dpt" type="text" class="form-control" hidden>
-                      <input id="dpt" type="text" class="form-control" hidden>
                       <button class="btn btn-primary sw-btn-next text-white btn-block" id="btn-step-2" disabled>Suivant</button>
                     </div>
                   </div>
@@ -82,24 +91,13 @@
                 <div id="etape-3" class="tab-pane step-content">
                   <div class="row justify-content-center">
                     <div class="col-xl-4 col-lg-5 col-md-6">
-                    <small>Le Réhausseur s'adresse aux enfants de 3 à 12 ans. Commence par créer un profil pour un enfant, tu pourras en rajouter autant que tu voudras lorsque ton compte sera créé :</small><br/><br/>
+                      <small>Le Réhausseur s'adresse aux enfants de 3 à 12 ans. Commence par créer un profil pour un enfant, tu pourras en rajouter lorsque ton compte sera créé :</small><br/><br/>
                       <div class="form-group">
-                        <div class="form-group">
-                          <select id="child-emoji" class="custom-select onboarding-form">
-                            <option selected="">Choisis un emoji</option>
-                            <option value="1">👦</option>
-                            <option value="2">👧</option>
-                          </select>
-                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="injected-svg icon" data-src="assets/img/icons/interface/arrow-caret.svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<path d="M14.4444 8.41358C14.7776 8.2281 15.1875 8.46907 15.1875 8.85048V15.1495C15.1875 15.5309 14.7776 15.7719 14.4444 15.5864L8.78505 12.4369C8.44258 12.2463 8.44258 11.7537 8.78505 11.5631L14.4444 8.41358Z" fill="#212529"></path>
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <input type="text" id="child-firstname" class="form-control onboarding-form" placeholder="Son prénom">
+                        <input name="child-firstname" type="text" id="child-firstname" class="form-control onboarding-form" placeholder="Son prénom">
                         <small id="child-firstname-control-label" class="text-primary" style="display:none;">C'est un peu long :)</small>
                       </div>
                       <div class="form-group">
-                        <input id="child-birth-date" type="date" class="form-control onboarding-form" placeholder="Sa date de naissance">
+                        <input name="child-birth-date" id="child-birth-date" type="date" class="form-control onboarding-form" placeholder="Sa date de naissance">
                         <small id="child-birth-date-control-label" class="text-primary" style="display:none;">Le Réhausseur s'addresse aux enfants de 3 à 12 ans</small>
                       </div>
                       <button id="btn-step-3" class="btn btn-primary text-white sw-btn-next btn-block" disabled>Suivant</button>
@@ -111,20 +109,20 @@
                     <div class="col-xl-4 col-lg-5 col-md-6">
                       <small>En plus des supports gratuits, y a-t-il des plateformes de streaming payantes sur lesquelles tu aimerais recevoir des idées de film à regarder ?</small><br/><br/>
                       <div class="custom-control custom-checkbox mb-3">
-                        <input type="checkbox" class="custom-control-input" id="custom-checkbox-example-1">
-                        <label class="custom-control-label" for="custom-checkbox-example-1">Netflix</label>
+                        <input name="streaming[]" value="Netflix" type="checkbox" class="custom-control-input" id="netflix">
+                        <label class="custom-control-label" for="netflix">Netflix</label>
                       </div>
                       <div class="custom-control custom-checkbox mb-3">
-                        <input type="checkbox" class="custom-control-input" id="custom-checkbox-example-2">
-                        <label class="custom-control-label" for="custom-checkbox-example-2">Disney+</label>
+                        <input name="streaming[]" value="Disney" type="checkbox" class="custom-control-input" id="disney">
+                        <label class="custom-control-label" for="disney">Disney+</label>
                       </div>
                       <div class="custom-control custom-checkbox mb-3">
-                        <input type="checkbox" class="custom-control-input" id="custom-checkbox-example-3">
-                        <label class="custom-control-label" for="custom-checkbox-example-3">Amazon Prime</label>
+                        <input name="streaming[]" value="Prime" type="checkbox" class="custom-control-input" id="prime">
+                        <label class="custom-control-label" for="prime">Amazon Prime</label>
                       </div>
                       <div class="custom-control custom-checkbox mb-3">
-                        <input type="checkbox" class="custom-control-input" id="custom-checkbox-example-4">
-                        <label class="custom-control-label" for="custom-checkbox-example-4">Canal +</label>
+                        <input name="streaming[]" value="Canal" type="checkbox" class="custom-control-input" id="canal">
+                        <label class="custom-control-label" for="canal">Canal +</label>
                       </div>
                       <button class="btn btn-primary btn-block text-white" type="submit">Je crée mon compte</button>
                     </div>

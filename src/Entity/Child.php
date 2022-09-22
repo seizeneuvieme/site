@@ -14,9 +14,6 @@ class Child
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?int $emoji = null;
-
     #[ORM\Column(length: 255)]
     private ?string $firstname = null;
 
@@ -30,18 +27,6 @@ class Child
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getEmoji(): ?int
-    {
-        return $this->emoji;
-    }
-
-    public function setEmoji(int $emoji): self
-    {
-        $this->emoji = $emoji;
-
-        return $this;
     }
 
     public function getFirstname(): ?string

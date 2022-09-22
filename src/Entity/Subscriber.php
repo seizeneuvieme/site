@@ -36,15 +36,18 @@ class Subscriber implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $city = null;
 
     #[ORM\Column]
-    private ?int $postCode = null;
+    private ?string $departmentNumber = null;
 
     #[ORM\Column]
-    private ?bool $strictMode = null;
+    private ?string $departmentName = null;
 
-    #[ORM\OneToMany(mappedBy: 'subscriber', targetEntity: Child::class)]
+    #[ORM\Column]
+    private ?string $region = null;
+
+    #[ORM\OneToMany(mappedBy: 'subscriber', targetEntity: Child::class, cascade: ["persist", "remove"])]
     private Collection $childs;
 
-    #[ORM\ManyToMany(targetEntity: Platforms::class, inversedBy: 'subscribers')]
+    #[ORM\ManyToMany(targetEntity: Platform::class, inversedBy: 'subscribers', cascade: ["persist", "remove"])]
     private Collection $platforms;
 
     public function __construct()
@@ -147,26 +150,38 @@ class Subscriber implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getPostCode(): ?int
+    public function getDepartmentNumber(): ?string
     {
-        return $this->postCode;
+        return $this->departmentNumber;
     }
 
-    public function setPostCode(int $postCode): self
+    public function setDepartmentNumber(string $departmentNumber): self
     {
-        $this->postCode = $postCode;
+        $this->departmentNumber = $departmentNumber;
 
         return $this;
     }
 
-    public function isStrictMode(): ?bool
+    public function getDepartmentName(): ?string
     {
-        return $this->strictMode;
+        return $this->departmentName;
     }
 
-    public function setStrictMode(bool $strictMode): self
+    public function setDepartmentName(string $departmentName): self
     {
-        $this->strictMode = $strictMode;
+        $this->departmentName = $departmentName;
+
+        return $this;
+    }
+
+    public function getRegion(): ?string
+    {
+        return $this->region;
+    }
+
+    public function setRegion(string $region): self
+    {
+        $this->region = $region;
 
         return $this;
     }
@@ -202,14 +217,14 @@ class Subscriber implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection<int, Platforms>
+     * @return Collection<int, Platform>
      */
     public function getPlatforms(): Collection
     {
         return $this->platforms;
     }
 
-    public function addPlatform(Platforms $platform): self
+    public function addPlatform(Platform $platform): self
     {
         if (!$this->platforms->contains($platform)) {
             $this->platforms->add($platform);
@@ -218,7 +233,7 @@ class Subscriber implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function removePlatform(Platforms $platform): self
+    public function removePlatform(Platform $platform): self
     {
         $this->platforms->removeElement($platform);
 
