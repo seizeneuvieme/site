@@ -1,0 +1,137 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}S'inscrire à la newsletter Le Réhausseur{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('onboarding') }}
+{% endblock %}
+
+{% block body %}
+    {% include './partials/header.html.twig' %}
+
+    <section class="pt-0">
+      <div class="container">
+        <div class="row justify-content-center pt-6">
+          <div class="col-lg-5 col-md-6">
+            <div class="text-center mb-4">
+                <h1 class="mb-2">S'inscrire à la newsletter <span style="font-family: 'Grand Hotel'; color: #ff2e3d">Le Réhausseur</span> </h1>
+                <span>Afin de t'envoyer des contenus personnalisés, j'ai d'abord besoin de te connaître un peu mieux...</span>
+            </div>
+            {% if email_already_exist is defined %}
+              <div class="alert alert-primary" role="alert">
+                L'adresse email {{ email_already_exist }} est déjà abonnée au Réhausseur. <a href="{{ path('app_connexion', {'email': email_already_exist }) }}" alt="Connexion">Se connecter</a>
+              </div>
+            {% elseif errors is defined %}
+              <div class="alert alert-primary" role="alert">
+                Formulaire invalide. En cas de problème, n'hésitez pas à nous contacter <a href="mailto:contact@lerehausseur.fr" alt="Contacter Le Réhausseur">contact@lerehausseur.fr</a>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <form method="POST" id="onboarding-form" class="wizard sw-main sw-theme-default">
+              <ul class="d-flex step-circles justify-content-center mb-5 nav nav-tabs step-anchor">
+                <li class="nav-item active"><a class="nav-link btn" href="#etape-1">1</a>
+                </li>
+                <li class="nav-item"><a class="nav-link btn" href="#etape-2">2</a>
+                </li>
+                <li class="nav-item"><a class="nav-link btn" href="#etape-3">3</a>
+                </li>
+                <li class="nav-item"><a class="nav-link btn" href="#etape-4">4</a>
+                </li>
+              </ul>
+              <div class="sw-container tab-content" style="min-height: 232px;">
+                <div id="etape-1" class="active tab-pane step-content" style="">
+                  <div class="row justify-content-center">
+                    <div class="col-xl-4 col-lg-5 col-md-6">
+                      <div class="form-group">
+                        <input name="email" id="email" type="email" class="onboarding-form form-control" placeholder="Ton adresse email">
+                        <small id="email-control-label" class="text-primary" style="display:none;">Adresse email invalide</small>
+                        <small id="email-control-label" class="text-primary" style="display:none;">Cette adresse email est déjà utilisée</small>
+                      </div>
+                      <div class="form-group">
+                        <input name="password" id="password" type="password" class="onboarding-form form-control" placeholder="Ton mot de passe">
+                        <small id="password-control-label" class="text-primary" style="display:none;">Le mot de passe doit faire au moins 8 caractères</small>
+                      </div>
+                      <div class="form-group">
+                        <input name="confirm-password" id="confirm-password" type="password" class="onboarding-form form-control" placeholder="Confirme ton mon de passe">
+                        <small id="confirm-password-control-label" class="text-primary" style="display:none;">Le mot de passe doit être identique</small>
+                      </div>
+                      <hr>
+                      <div>
+                        <small>En validant mon abonnement, j'accepte les conditions générales d'utilisation et de vente du Réhausseur.</small>
+                      </div>
+                      <hr>
+                      <button class="btn btn-primary sw-btn-next text-white btn-block" id="btn-step-1" {# disabled #}>Suivant</button>
+                    </div>
+                  </div>
+                </div>
+                <div id="etape-2" class="tab-pane step-content">
+                  <div class="row justify-content-center">
+                    <div class="col-xl-4 col-lg-5 col-md-6">
+                      <div class="form-group">
+                        <input name="firstname"  id="firstname" type="text" class="onboarding-form form-control" placeholder="Ton prénom">
+                        <small id="firstname-control-label" class="text-primary" style="display:none;">C'est un peu long :)</small>
+                      </div>
+                      <small>En sachant dans quelle ville tu habites, je pourrais t'envoyer des actualités sur les évennements dans ta région (festivals...) :</small><br/><br/>
+                      <div class="form-group">
+                        <input name="city"  id="city" class="onboarding-form form-control" list="city-datalist" placeholder="Ta ville">
+                        <datalist id="city-datalist">
+                        </datalist>
+                        <input name="city-details"  id="city-details" class="onboarding-form form-control" hidden>
+                      </div>
+                      <button class="btn btn-primary sw-btn-next text-white btn-block" id="btn-step-2" {# disabled #}>Suivant</button>
+                    </div>
+                  </div>
+                </div>
+                <div id="etape-3" class="tab-pane step-content">
+                  <div class="row justify-content-center">
+                    <div class="col-xl-4 col-lg-5 col-md-6">
+                      <small>Le Réhausseur s'adresse aux enfants de 3 à 12 ans. Commence par créer un profil pour un enfant, tu pourras en rajouter lorsque ton compte sera créé :</small><br/><br/>
+                      <div class="form-group">
+                        <input name="child-firstname" type="text" id="child-firstname" class="form-control onboarding-form" placeholder="Son prénom">
+                        <small id="child-firstname-control-label" class="text-primary" style="display:none;">C'est un peu long :)</small>
+                      </div>
+                      <div class="form-group">
+                        <input name="child-birth-date" id="child-birth-date" type="date" class="form-control onboarding-form" placeholder="Sa date de naissance">
+                        <small id="child-birth-date-control-label" class="text-primary" style="display:none;">Le Réhausseur s'addresse aux enfants de 3 à 12 ans</small>
+                      </div>
+                      <button id="btn-step-3" class="btn btn-primary text-white sw-btn-next btn-block" {# disabled #}>Suivant</button>
+                    </div>
+                  </div>
+                </div>
+                <div id="etape-4" class="tab-pane step-content">
+                  <div class="row justify-content-center">
+                    <div class="col-xl-4 col-lg-5 col-md-6">
+                      <small>En plus des supports gratuits, y a-t-il des plateformes de streaming payantes sur lesquelles tu aimerais recevoir des idées de film à regarder ?</small><br/><br/>
+                      <div class="custom-control custom-checkbox mb-3">
+                        <input name="streaming[]" value="netflix" type="checkbox" class="custom-control-input" id="netflix">
+                        <label class="custom-control-label" for="netflix">Netflix</label>
+                      </div>
+                      <div class="custom-control custom-checkbox mb-3">
+                        <input name="streaming[]" value="disney" type="checkbox" class="custom-control-input" id="disney">
+                        <label class="custom-control-label" for="disney">Disney+</label>
+                      </div>
+                      <div class="custom-control custom-checkbox mb-3">
+                        <input name="streaming[]" value="prime" type="checkbox" class="custom-control-input" id="prime">
+                        <label class="custom-control-label" for="prime">Amazon Prime</label>
+                      </div>
+                      <div class="custom-control custom-checkbox mb-3">
+                        <input name="streaming[]" value="canal" type="checkbox" class="custom-control-input" id="canal">
+                        <label class="custom-control-label" for="canal">Canal +</label>
+                      </div>
+                      <button class="btn btn-primary btn-block text-white" type="submit">Je crée mon compte</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {% include './partials/footer.html.twig' with {'background':'bg-primary-alt', 'hasDivider': true} %}
+{% endblock %}
