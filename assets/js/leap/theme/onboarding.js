@@ -179,13 +179,6 @@ $("input.onboarding-form#city").on("input", function () {
 /**
  * STEP 3
  */
-function validateEmoji(emoji) {
-  if (emoji == 1 || emoji == 2) {
-    return true;
-  } else {
-    return false;
-  }
-}
 
 function validateChildFirstname(childFirstname) {
   if (childFirstname.length < 3 || childFirstname.length > 125) {
@@ -224,7 +217,6 @@ function validateChildBirthdayDate(birthdayDate) {
 }
 
 function validateStep3() {
-  emoji = validateEmoji($("select.onboarding-form#child-emoji").val());
   childFirstname = validateChildFirstname(
     $("input.onboarding-form#child-firstname").val()
   );
@@ -232,7 +224,6 @@ function validateStep3() {
     $("input.onboarding-form#child-birth-date").val()
   );
   if (
-    emoji === false ||
     childFirstname === false ||
     childBirthdayDate === false
   ) {
@@ -243,10 +234,6 @@ function validateStep3() {
 }
 
 $("input.onboarding-form#child-firstname").on("keyup", function () {
-  validateStep3();
-});
-
-$("select.onboarding-form#child-emoji").on("change", function () {
   validateStep3();
 });
 
