@@ -2,33 +2,33 @@
 
 namespace App\Service;
 
-use App\DTO\Subscription;
+use App\DTO\Registration;
 use App\Entity\Child;
 use App\Entity\Platform;
 use App\Entity\Subscriber;
 use App\Repository\SubscriberRepository;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-class SubscriptionService
+class RegistrationService
 {
     public function __construct(
         private readonly UserPasswordHasherInterface $passwordHasher,
         private readonly SubscriberRepository        $subscriberRepository
     ){}
 
-    public function processCityDetails(Subscription $subscription): void
+    public function processCityDetails(Registration $registration): void
     {
-        if (null !== $subscription->cityDetails) {
-            $cityDetails = explode(',', $subscription->cityDetails);
+        if (null !== $registration->cityDetails) {
+            $cityDetails = explode(',', $registration->cityDetails);
             if (count($cityDetails) === 3) {
-                $subscription->departmentNumber = trim($cityDetails[0]);
-                $subscription->departmentName = trim($cityDetails[1]);
-                $subscription->region = trim($cityDetails[2]);
+                $registration->departmentNumber = trim($cityDetails[0]);
+                $registration->departmentName = trim($cityDetails[1]);
+                $registration->region = trim($cityDetails[2]);
             }
         }
     }
 
-    public function doesUserAlreadyExist(Subscription $subscription): bool
+    public function doesUserAlreadyExist(Registration $subscription): bool
     {
         $subscriber = $this->subscriberRepository->findOneBy([
             'email' => $subscription->email
@@ -38,24 +38,24 @@ class SubscriptionService
         return $subscriber !== null;
     }
 
-    public function createSubscriberFromDTO(Subscription $subscription): Subscriber
+    public function createSubscriberFromDTO(Registration $registration): Subscriber
     {
         $subscriber = new Subscriber();
-        $subscriber->setEmail($subscription->email);
-        $hashedPassword = $this->passwordHasher->hashPassword($subscriber, $subscription->password);
+        $subscriber->setEmail($registration->email);
+        $hashedPassword = $this->passwordHasher->hashPassword($subscriber, $registration->password);
         $subscriber->setPassword($hashedPassword);
-        $subscriber->setFirstname($subscription->firstname);
-        $subscriber->setCity($subscription->city);
-        $subscriber->setDepartmentNumber($subscription->departmentNumber);
-        $subscriber->setDepartmentName($subscription->departmentName);
-        $subscriber->setRegion($subscription->region);
+        $subscriber->setFirstname($registration->firstname);
+        $subscriber->setCity($registration->city);
+        $subscriber->setDepartmentNumber($registration->departmentNumber);
+        $subscriber->setDepartmentName($registration->departmentName);
+        $subscriber->setRegion($registration->region);
 
         $child = new Child();
-        $child->setFirstname($subscription->childFirstname);
-        $child->setBirthDate($subscription->childBirthDate);
+        $child->setFirstname($registration->childFirstname);
+        $child->setBirthDate($registration->childBirthDate);
         $subscriber->addChild($child);
 
-        foreach ($subscription->streamingPlatforms as $streamingPlatform) {
+        foreach ($registration->streamingPlatforms as $streamingPlatform) {
             $platform = new Platform();
             $platform->setName($streamingPlatform);
             $subscriber->addPlatform($platform);

@@ -9,12 +9,14 @@
         <div class="row justify-content-center text-center">
           <div class="col-xl-8 col-lg-9 col-md-10">
             <h1 class="display-4">Chaque semaine, <span style="color: #ff2e3d">reçois une sélection de films choisis pour tes enfants ✉️</span></h1>
-            <div class="d-flex flex-column flex-sm-row justify-content-center align-items-center align-items-sm-start mt-5">
-              <input class="form-control form-control-lg" type="text" placeholder="Ton adresse email">
-            </div>
-            <div class="d-flex flex-column flex-sm-row justify-content-center align-items-center align-items-sm-start mt-5">
-              <a href="#" class="mx-1 btn btn-lg btn-primary text-white mt-sm-0">ESSAI GRATUIT 1 MOIS</a>
-            </div>
+            <form action="{{ path('app_sign_up') }}" method="GET">
+              <div class="d-flex flex-column flex-sm-row justify-content-center align-items-center align-items-sm-start mt-5">
+                <input class="form-control form-control-lg" type="text" placeholder="Ton adresse email" name="email">
+              </div>
+              <div class="d-flex flex-column flex-sm-row justify-content-center align-items-center align-items-sm-start mt-5">
+                <button class="mx-1 btn btn-lg btn-primary text-white mt-sm-0" type="submit">ESSAI GRATUIT 1 MOIS</button>
+              </div>
+            </form>
             <div class="d-flex flex-column flex-sm-row justify-content-center align-items-center align-items-sm-start mt-5">
               <p> 
                 Le Réhausseur s’engage à ne jamais transmettre ton adresse e-mail à des fins promotionnelles. 
@@ -108,7 +110,7 @@
                           Please get in touch for any questions you may have. We typically reply within 24 hours.
                         </p>
                       </div>
-                      <form action="/forms/smtp.php" data-form-email novalidate>
+                      <form novalidate>
                         <div class="form-group">
                           <input type="text" class="form-control" name="contact-name" placeholder="Your Name" required>
                         </div>

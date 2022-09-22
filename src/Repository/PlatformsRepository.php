@@ -2,26 +2,26 @@
 
 namespace App\Repository;
 
-use App\Entity\Platforms;
+use App\Entity\Platform;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Platforms>
+ * @extends ServiceEntityRepository<Platform>
  *
- * @method Platforms|null find($id, $lockMode = null, $lockVersion = null)
- * @method Platforms|null findOneBy(array $criteria, array $orderBy = null)
- * @method Platforms[]    findAll()
- * @method Platforms[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Platform|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Platform|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Platform[]    findAll()
+ * @method Platform[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class PlatformsRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Platforms::class);
+        parent::__construct($registry, Platform::class);
     }
 
-    public function add(Platforms $entity, bool $flush = false): void
+    public function add(Platform $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -30,7 +30,7 @@ class PlatformsRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(Platforms $entity, bool $flush = false): void
+    public function remove(Platform $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
 
@@ -40,7 +40,7 @@ class PlatformsRepository extends ServiceEntityRepository
     }
 
 //    /**
-//     * @return Platforms[] Returns an array of Platforms objects
+//     * @return Platform[] Returns an array of Platform objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -54,7 +54,7 @@ class PlatformsRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Platforms
+//    public function findOneBySomeField($value): ?Platform
 //    {
 //        return $this->createQueryBuilder('p')
 //            ->andWhere('p.exampleField = :val')

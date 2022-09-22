@@ -1,11 +1,12 @@
 <?php
 
 namespace App\DTO;
+
 use App\Validator as AppAssert;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[AppAssert\IsValidPassword]
-class Subscription
+class Registration
 {
     #[Assert\NotNull]
     #[Assert\Email]
@@ -49,7 +50,7 @@ class Subscription
     #[AppAssert\HasRightAge]
     public ?\DateTime $childBirthDate;
 
-    #[Assert\Choice(['Netflix', 'Disney', 'Prime', 'Canal'])]
+    #[AppAssert\IsValidPlatform]
     public array $streamingPlatforms;
 
     public function hydrateFromData(array $data)
