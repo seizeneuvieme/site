@@ -12,7 +12,7 @@ class DashboardController extends AbstractController
     public function index(): Response
     {
         return $this->render('subscriber/index.html.twig', [
-            'controller_name' => 'DashboardController',
+            'subscriber' => $this->getUser()
         ]);
     }
 }
