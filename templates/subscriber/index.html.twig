@@ -16,5 +16,9 @@
         <li>Your controller at <code><a href="{{ '/Users/bsureau/Code/le-rehausseur/src/Controller/DashboardController.php'|file_link(0) }}">src/Controller/SubscriberController.php</a></code></li>
         <li>Your template at <code><a href="{{ '/Users/bsureau/Code/le-rehausseur/templates/subscriber/index.html.twig'|file_link(0) }}">templates/subscriber/index.html.twig</a></code></li>
     </ul>
+
+    <li class="nav-item dropdown">
+        <a href="{{ path('app_logout') }}" class="ml-lg-3 dropdown-toggle" data-toggle="dropdown-grid" aria-expanded="false" aria-haspopup="true"><img class="icon" src="{{ asset('build/images/icons/theme/electric/shutdown.svg') }}" alt="decoration" data-inject-svg />Déconnexion</a>
+    </li>
 </div>
 {% endblock %}

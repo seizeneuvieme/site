@@ -50,6 +50,9 @@ class Subscriber implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: Platform::class, inversedBy: 'subscribers', cascade: ["persist", "remove"])]
     private Collection $platforms;
 
+    #[ORM\Column(type: 'boolean', options: ["default" => false])]
+    private $isVerified = false;
+
     public function __construct()
     {
         $this->childs = new ArrayCollection();
@@ -236,6 +239,18 @@ class Subscriber implements UserInterface, PasswordAuthenticatedUserInterface
     public function removePlatform(Platform $platform): self
     {
         $this->platforms->removeElement($platform);
+
+        return $this;
+    }
+
+    public function isVerified(): bool
+    {
+        return $this->isVerified;
+    }
+
+    public function setIsVerified(bool $isVerified): self
+    {
+        $this->isVerified = $isVerified;
 
         return $this;
     }
