@@ -1,0 +1,68 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    {% block stylesheets %}
+        <link rel="stylesheet" href="{{ absolute_url(asset('build/app.css')) }}" />
+    {% endblock %}
+</head>
+<body>
+<section class="pt-0 pb-3">
+    <div class="container">
+        <div class="row justify-content-center pt-3">
+            <div class="col-lg-8">
+                <div class="text-center mb-4">
+                    <h1 class="mb-2">Hey 👋</h1>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="row justify-content-center pt-2">
+                    <div class="col-lg-8 text-center">
+                        <p>Tu as oublié ton mot de passe ? Pas de panique !</p>
+                        <p>Il te suffit de le changer en <strong>cliquant sur le lien suivant</strong> 👇</p>
+
+                        <a class="btn btn-primary mb-5 mt-4" href="{{ url('app_reset_password', {token: resetToken.token}) }}">{{ url('app_reset_password', {token: resetToken.token}) }}</a>
+
+                        <p><strong>Attention</strong>, ce lien expirera automatiquement dans {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.<br><br></p>
+
+                        <p>
+                            À bientôt !<br>
+                            Fanny ❤️<br><br>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+</section>
+<section class="pb-4 bg-primary-alt has-divider" id="footer">
+    <div class="divider flip-y">
+        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100%" height="96px" viewBox="0 0 100 100" version="1.1" preserveAspectRatio="none" class="injected-svg bg-white" data-src="assets/img/dividers/divider-2.svg">
+            <path d="M0,0 C16.6666667,66 33.3333333,99 50,99 C66.6666667,99 83.3333333,66 100,0 L100,100 L0,100 L0,0 Z"></path>
+        </svg>
+    </div>
+    <div class="container pt-0 pb-0">
+        <div class="row mb-4 justify-content-center">
+            <div class="col-auto">
+                <a href="{{ absolute_url(path('app_home')) }}" target="_blank">
+                    <img class="logo-img" src="{{ absolute_url(asset('build/images/logos/logo.png')) }}" alt="Le Réhausseur" />
+                </a>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col">
+                <ul class="nav justify-content-center">
+                    <li class="nav-item"><a href="#" class="nav-link">Me désabonner</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>
+
+
+
+
+

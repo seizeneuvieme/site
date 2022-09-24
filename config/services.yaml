@@ -25,3 +25,7 @@ services:
     App\Controller\SignUpController:
         arguments:
             $loginAuthenticator: '@security.authenticator.form_login.main'
+
+    App\Service\SendInBlueApiService:
+        arguments:
+            $apiKey: '%env(SENDINBLUE_API_KEY)%'

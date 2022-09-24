@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Code de réinitialisation du mot de passe envoyé Le Réhausseur{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    {% include './partials/header.html.twig' %}
+
+    <section class="pt-0">
+        <div class="container">
+            <div class="row justify-content-center pt-6">
+                <div class="col-lg-4 col-md-6">
+                    <div class="text-center mb-4">
+                        <h1 class="mb-2">Code envoyé ✉️ </h1>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="row justify-content-center pt-2">
+                        <div class="col-lg-6 text-center">
+                            <p>
+                                Si un compte correspondant à ton adresse e-mail existe, tu devrais recevoir un lien que tu pourras utiliser pour réinitialiser ton mot de passe.
+                                Ce lien expirera dans {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.
+                            </p>
+                            <p>Tu n'as rien reçu ? Vérifie dans tes spams, ou demande un <a href="{{ path('app_forgot_password_request') }}">nouveau code de réinitialisation</a>.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {% include './partials/footer.html.twig' with {'background':'bg-primary-alt', 'hasDivider': true} %}
+{% endblock %}
+

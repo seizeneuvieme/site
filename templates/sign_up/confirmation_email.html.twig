@@ -1,11 +1,99 @@
-<h1>Hi! Please confirm your email!</h1>
+<html>
+<head>
+    <meta charset="UTF-8">
+    {% block stylesheets %}
+        <link rel="stylesheet" href="{{ absolute_url(asset('build/app.css')) }}" />
+    {% endblock %}
+</head>
+<body>
+    <section class="pt-0">
+        <div class="container">
+            <div class="row justify-content-center pt-3">
+                <div class="col-lg-8">
+                    <div class="text-center mb-4">
+                        <h1 class="mb-2">Hey {{ subscriber.firstname }} 👋</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="row justify-content-center pt-2">
+                        <div class="col-lg-8 text-center">
+                            <p>
+                                Si tu reçois cet e-mail c’est que tu viens de t'inscrire à la newsletter Le Réhausseur. Un énorme merci. ❤️❤️❤️
+                            </p>
+                            <p>
+                                <strong>✨ Il est important de lire cet e-mail car il va t’aider à améliorer l’expérience Le Réhausseur et à découvrir ce à quoi tu peux accéder.</strong>
+                            </p>
+                            <p>
+                                🚨 Petit tip : il se peut que Gmail place Le Réhausseur dans la catégorie “Promo”. Si tu ne veux pas rater une édition, je te conseille de changer le libellé de ce mail et de le mettre en catégorie principale.
+                            </p>
+                            <p>
+                                <strong>Et si tu utilises Apple Mail</strong> : clique sur l’adresse mail Le Réhausseur puis sur “Add to VIPs”.
+                            </p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row justify-content-center pt-2">
+                        <div class="col-lg-8 text-center">
+                           <h2>Tu viens de t'inscrire à la newsletter Le Réhausseur</h2>
+                            <p>✅ Commence tout de suite par <strong>activer ton compte en cliquant sur le lien suivant</strong> : <br><br>
+                                <a class="mt-2 mb-4 btn btn-primary text-white" href="{{ signedUrl }}">Activer mon compte</a><br>
+                                <strong>Attention</strong>, ce lien expirera automatiquement dans {{ expiresAtMessageKey|trans(expiresAtMessageData, 'VerifyEmailBundle') }}.
+                            </p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row justify-content-center pt-2">
+                        <div class="col-lg-8 text-center">
+                           <h2>Tu viens donc de t'inscrire à la newsletter Le Réhausseur</h2>
+                            <p><strong>Une selection </strong></p>
+                            <p><strong>Une selection </strong></p>
+                            <p><strong>Une selection </strong></p>
+                            <p><strong>Une selection </strong></p>
+                            <p>
+                                À tout moment, tu pourras ajouter un enfant ou une plateforme de streaming payante directement depuis ton compte 👇
+                            </p>
+                            <a class="mt-4 mb-5 btn btn-primary text-white" href="{{ absolute_url(path('app_dashboard')) }}">Accéder à mon compte</a>
+                            <p>
+                                À bientôt !<br>
+                                Fanny ❤️<br><br>
+                            </p>
+                            <p>ℹ️
+                                Tu peux aussi suivre Le Réhausseur <a href="#">Linkedin</a> ou <a href="#">Instagram</a> où je partagerai régulièrement des petites news et du contenu différent d’une plateforme à l’autre.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="pb-4 bg-primary-alt has-divider" id="footer">
+        <div class="divider flip-y">
+            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100%" height="96px" viewBox="0 0 100 100" version="1.1" preserveAspectRatio="none" class="injected-svg bg-white" data-src="assets/img/dividers/divider-2.svg">
+                <path d="M0,0 C16.6666667,66 33.3333333,99 50,99 C66.6666667,99 83.3333333,66 100,0 L100,100 L0,100 L0,0 Z"></path>
+            </svg>
+        </div>
+        <div class="container pt-0 pb-0">
+            <div class="row mb-4 justify-content-center">
+                <div class="col-auto">
+                    <a href="{{ absolute_url(path('app_home')) }}" target="_blank">
+                        <img class="logo-img" src="{{ absolute_url(asset('build/images/logos/logo.png')) }}" alt="Le Réhausseur" />
+                    </a>
+                </div>
+            </div>
+            <div class="row mb-4">
+                <div class="col">
+                    <ul class="nav justify-content-center">
+                        <li class="nav-item"><a href="#" class="nav-link">Me désabonner</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
 
-<p>
-    Please confirm your email address by clicking the following link: <br><br>
-    <a href="{{ signedUrl }}">Confirm my Email</a>.
-    This link will expire in {{ expiresAtMessageKey|trans(expiresAtMessageData, 'VerifyEmailBundle') }}.
-</p>
 
-<p>
-    Cheers!
-</p>
+

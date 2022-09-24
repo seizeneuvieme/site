@@ -4,6 +4,7 @@
 
 {% block javascripts %}
     {{ parent() }}
+    {{ encore_entry_script_tags('sign-in') }}
 {% endblock %}
 
 {% block body %}
@@ -19,7 +20,7 @@
                     <div class="text-center mb-4">
                         {% if error %}
                             <div class="alert alert-primary" role="alert">
-                                {{ error.messageKey|trans(error.messageData, 'security') }}
+                                Formulaire invalide. <br/>En cas de problème, <a href="mailto:contact@lerehausseur.fr" alt="Contacter Le Réhausseur">contactez-nous</a> :)
                             </div>
                         {% endif %}
                     </div>
@@ -31,18 +32,20 @@
                         <div class="col-xl-4 col-lg-5 col-md-6">
                             <form action="{{ path('app_sign_in') }}" method="POST">
                                 <div class="form-group">
-                                    <input type="email" name="_username" placeholder="Ton adresse email" class="form-control" value="{{ last_username }}">
+                                    <input id="email" type="email" name="_username" placeholder="Ton adresse email" class="form-control sign-in" value="{{ last_username }}">
+                                    <small id="email-control-label" class="text-primary" style="display:none;">Adresse email invalide</small>
                                 </div>
                                 <div class="form-group">
-                                    <input type="password" name="_password" placeholder="Mot de passe" class="form-control">
+                                    <input id="password" type="password" name="_password" placeholder="Mot de passe" class="form-control sign-in">
+                                    <small id="password-control-label" class="text-primary" style="display:none;">Le mot de passe doit faire au moins 8 caractères</small>
                                     <small>
-                                        <a href="#">J'ai oublié mon mot de passe</a>
+                                        <a href="{{ path('app_forgot_password_request') }}">J'ai oublié mon mot de passe</a>
                                     </small>
                                 </div>
                                 <div class="form-group">
                                     <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
                                     <input type="hidden" name="_target_path" value="/mon-compte"/>
-                                    <button class="btn-block btn btn-primary text-white" type="submit" >Connexion</button>
+                                    <button id="sign-in-btn" class="btn-block btn btn-primary text-white sign-in-btn" type="submit" disabled>Connexion</button>
                                 </div>
                                 <hr>
                                 <div class="text-center text-small text-muted">

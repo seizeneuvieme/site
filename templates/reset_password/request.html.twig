@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}J'ai oublié mon mot de passe Le Réhausseur{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('request-reset') }}
+{% endblock %}
+
+{% block body %}
+    {% include './partials/header.html.twig' %}
+
+    <section class="pt-0">
+        <div class="container">
+            <div class="row justify-content-center pt-6">
+                <div class="col-lg-4 col-md-6">
+                    <div class="text-center mb-4">
+                        <h1 class="mb-2">Réinitialiser mon mot de passe</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="row justify-content-center pt-2">
+                        <div class="col-xl-4 col-lg-5 col-md-6">
+                            <form action="{{ path('app_forgot_password_request') }}" method="POST">
+                                <div class="form-group">
+                                    <input id="email" type="email" name="_username" placeholder="Ton adresse email" class="form-control request-reset">
+                                    <small id="email-control-label" class="text-primary" style="display:none;">Adresse email invalide</small>
+                                    <small>
+                                        ✉️ Tu recevras un code de réinitialisation à cette adresse
+                                    </small>
+                                </div>
+                                <div class="form-group">
+                                    <button id="request-reset-btn" class="btn-block btn btn-primary text-white" type="submit" disabled>Recevoir mon code de réinitialisation</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {% include './partials/footer.html.twig' with {'background':'bg-primary-alt', 'hasDivider': true} %}
+{% endblock %}
+

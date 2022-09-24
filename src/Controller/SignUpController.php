@@ -6,7 +6,9 @@ use App\DTO\Registration;
 use App\Repository\SubscriberRepository;
 use App\Security\EmailVerifier;
 use App\Service\RegistrationService;
+use App\Service\SendInBlueApiService;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -63,10 +65,13 @@ class SignUpController extends AbstractController
             // generate a signed url and email it to the user
             $this->emailVerifier->sendEmailConfirmation('app_verify_email', $subscriber,
                 (new TemplatedEmail())
-                    ->from(new Address('contact@lerehausseur.fr', 'Le Réhausseur'))
+                    ->from(new Address('fanny@lerehausseur.fr', 'Fanny - Le Réhausseur'))
                     ->to($subscriber->getEmail())
-                    ->subject('Please Confirm your Email')
+                    ->subject('Le Réhausseur débarque dans ta boîte mail 📽️⚡')
                     ->htmlTemplate('sign_up/confirmation_email.html.twig')
+                    ->context([
+                        'subscriber' => $subscriber
+                    ])
             );
 
             $userAuthenticator->authenticateUser(
@@ -84,7 +89,10 @@ class SignUpController extends AbstractController
     }
 
     #[Route('/verification/email', name: 'app_verify_email')]
-    public function verifyUserEmail(Request $request, TranslatorInterface $translator, SubscriberRepository $subscriberRepository): Response
+    public function verifyUserEmail(
+        Request $request,
+        SubscriberRepository $subscriberRepository,
+    ): Response
     {
         $id = $request->get('id');
 
@@ -92,24 +100,19 @@ class SignUpController extends AbstractController
             return $this->redirectToRoute('app_sign_up');
         }
 
-        $user = $subscriberRepository->find($id);
+        $subscriber = $subscriberRepository->find($id);
 
-        if (null === $user) {
+        if (null === $subscriber) {
             return $this->redirectToRoute('app_sign_up');
         }
 
-        // validate email confirmation link, sets User::isVerified=true and persists
         try {
-            $this->emailVerifier->handleEmailConfirmation($request, $user);
-        } catch (VerifyEmailExceptionInterface $exception) {
-            $this->addFlash('verify_email_error', $translator->trans($exception->getReason(), [], 'VerifyEmailBundle'));
-
-            return $this->redirectToRoute('app_sign_up');
+            $this->emailVerifier->handleEmailConfirmation($request, $subscriber);
+            $this->addFlash('account_activated', "");
+        } catch (Exception $exception) {
+            $this->addFlash('verify_email_error', "");
         }
 
-        // @TODO Change the redirect on success and handle or remove the flash message in your templates
-        $this->addFlash('success', 'Votre email a bien été vérifié :)');
-
-        return $this->redirectToRoute('app_sign_up');
+        return $this->redirectToRoute('app_dashboard');
     }
 }
