@@ -27,6 +27,7 @@ Encore
   .addEntry("reset", "./assets/js/leap/theme/reset.js")
   .addEntry("update-email", "./assets/js/leap/theme/updateEmail.js")
   .addEntry("update-password", "./assets/js/leap/theme/updatePassword.js")
+  .addEntry("update-user-infos", "./assets/js/leap/theme/updateUserInfos.js")
 
   // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
   .enableStimulusBridge("./assets/controllers.json")

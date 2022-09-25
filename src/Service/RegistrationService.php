@@ -16,18 +16,6 @@ class RegistrationService
         private readonly SubscriberRepository        $subscriberRepository
     ){}
 
-    public function processCityDetails(Registration $registration): void
-    {
-        if (null !== $registration->cityDetails) {
-            $cityDetails = explode(',', $registration->cityDetails);
-            if (count($cityDetails) === 3) {
-                $registration->departmentNumber = trim($cityDetails[0]);
-                $registration->departmentName = trim($cityDetails[1]);
-                $registration->region = trim($cityDetails[2]);
-            }
-        }
-    }
-
     public function doesUserAlreadyExist(Registration $subscription): bool
     {
         $subscriber = $this->subscriberRepository->findOneBy([

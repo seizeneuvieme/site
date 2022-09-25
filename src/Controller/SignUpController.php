@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\DTO\Registration;
 use App\Repository\SubscriberRepository;
 use App\Security\EmailVerifier;
+use App\Service\CityService;
 use App\Service\RegistrationService;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
@@ -29,6 +30,7 @@ class SignUpController extends AbstractController
     public function index(
         Request $request,
         RegistrationService $registrationService,
+        CityService $cityDetails,
         ValidatorInterface $validator,
         EntityManagerInterface $entityManager,
         UserAuthenticatorInterface $userAuthenticator
@@ -47,7 +49,7 @@ class SignUpController extends AbstractController
                 ]);
             }
 
-            $registrationService->processCityDetails($registration);
+            $cityDetails->processCityDetails($registration);
             $errors = $validator->validate($registration);
             if ($errors->count() > 0) {
                 return $this->render('sign_up/index.html.twig', [

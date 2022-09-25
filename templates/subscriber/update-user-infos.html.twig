@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Modifier mon mot de passe Le Réhausseur{% endblock %}
+{% block title %}Modifier mes coordonnées Le Réhausseur{% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
-    {{ encore_entry_script_tags('update-password') }}
+    {{ encore_entry_script_tags('update-user-infos') }}
 {% endblock %}
 
 {% block body %}
@@ -15,7 +15,7 @@
             <div class="row justify-content-center pt-6">
                 <div class="col-lg-4 col-md-6">
                     <div class="text-center mb-4">
-                        <h1 class="mb-2">Modifier mon <span style="color: #ff2e3d">mot de passe</span></h1>
+                        <h1 class="mb-2">Modifier mes <span style="color: #ff2e3d">coordonnées</span></h1>
                         <div class="text-center mb-4">
                             {% if app.session.flashBag.has('error') %}
                                 {% for flashMessage in app.session.flashbag.get('error') %}
@@ -43,22 +43,25 @@
                 <div class="col">
                     <div class="row justify-content-center pt-2">
                         <div class="col-xl-4 col-lg-5 col-md-6 text-center">
-                            <form action="{{ path('app_update_password') }}" method="POST">
+                            <form action="{{ path('app_update_user_infos') }}" method="POST">
                                 <div class="form-group">
                                     <div class="form-group">
-                                        <input name="password" id="password" type="password" class="update-password form-control" placeholder="Ton nouveau mot de passe">
-                                        <small id="password-control-label" class="text-primary" style="display:none;">Le mot de passe doit faire au moins 8 caractères</small>
+                                        <input name="firstname"  id="firstname" type="text" class="update-user-form form-control" placeholder="Ton prénom">
+                                        <small id="firstname-control-label" class="text-primary" style="display:none;">C'est un peu long :)</small>
                                     </div>
+                                    <small>En sachant dans quelle ville tu habites, je pourrais t'envoyer des actualités sur les évennements dans ta région (festivals...) :</small><br/><br/>
                                     <div class="form-group">
-                                        <input name="confirm-password" id="confirm-password" type="password" class="update-password form-control" placeholder="Confirme ton mon de passe">
-                                        <small id="confirm-password-control-label" class="text-primary" style="display:none;">Le mot de passe doit être identique</small>
+                                        <input name="city"  id="city" class="update-user-form form-control" list="city-datalist" placeholder="Ta ville">
+                                        <datalist id="city-datalist">
+                                        </datalist>
+                                        <input name="city-details"  id="city-details" class="update-user-form form-control" hidden>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <button id="btn-update-password-form" class="btn-block btn btn-primary text-white" type="submit" disabled>Modifier mon mot de passe</button>
+                                    <button class="btn-block btn btn-primary text-white" id="btn-update-user-form" disabled>Modifier mes coordonnées</button>
                                 </div>
                             </form>
-                            <a class="text-primary" href="{{ path('app_dashboard') }}">Retour à mon compte</a>
+                            <a class="text-primary pt-5" href="{{ path('app_dashboard') }}">Retour à mon compte</a>
                         </div>
                     </div>
                 </div>

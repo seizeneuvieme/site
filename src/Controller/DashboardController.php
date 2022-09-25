@@ -4,9 +4,11 @@ namespace App\Controller;
 
 use App\DTO\Email;
 use App\DTO\Password;
+use App\DTO\UserInfos;
 use App\Entity\Subscriber;
 use App\Repository\SubscriberRepository;
 use App\Security\EmailVerifier;
+use App\Service\CityService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -111,45 +113,37 @@ class DashboardController extends AbstractController
     }
 
     #[Route('/modifier/coordonnees', name: 'app_update_user_infos')]
-    public function updateUserInfos(Request $request, EntityManagerInterface $entityManager): Response
+    public function updateUserInfos(
+        Request $request,
+        ValidatorInterface $validator,
+        CityService $cityService,
+        EntityManagerInterface $entityManager): Response
     {
-        $subscriber = $this->getUser();
-
         if($request->isMethod('POST')) {
-            $firstname = $request->request->get('firstname');
-            $city = $request->request->get('city');
-            $cityDetails = $request->request->get('city-details');
+            $userInfos = new UserInfos();
+            $userInfos->hydrateFromData($request->request->all());
+            $cityService->processCityDetails($userInfos);
 
-            $cityDetails = explode(',', $cityDetails);
-            if (count($cityDetails) === 3) {
-                $departmentNumber = trim($cityDetails[0]);
-                $departmentName = trim($cityDetails[1]);
-                $region = trim($cityDetails[2]);
-            } else {
-
+            $errors = $validator->validate($userInfos);
+            if (0 < $errors->count()) {
+                $this->addFlash('error', "");
+                return $this->render('subscriber/update-user-infos.html.twig');
             }
 
+            /**
+             * @var Subscriber $subscriber
+             */
+            $subscriber = $this->getUser();
+            $subscriber->setFirstname($userInfos->firstname);
+            $subscriber->setCity($userInfos->city);
+            $subscriber->setDepartmentNumber($userInfos->departmentNumber);
+            $subscriber->setDepartmentName($userInfos->departmentName);
+            $subscriber->setRegion($userInfos->region);
 
-            if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                $subscriber = $subscriberRepository->findOneBy([
-                    'email' => $email
-                ]);
-                if (null === $subscriber) {
-                    $subscriber = $this->getUser();
-                    /**
-                     * @var Subscriber $subscriber
-                     */
-                    $subscriber->setEmail($email);
-                    $entityManager->flush();
-                    $this->addFlash('success', "Ton adresse email a bien été modifiée 🎉");
-                } else {
-                    $this->addFlash('error', "Cette adresse email est déjà utilisée");
-                }
-            } else {
-                $this->addFlash('error', "Adresse email invalide");
-            }
+            $entityManager->flush();
+            $this->addFlash('success', "Vos coordonnées ont bien été modifiées 🎉");
         }
 
-        return $this->render('subscriber/update-email.html.twig');
+        return $this->render('subscriber/update-user-infos.html.twig');
     }
 }
