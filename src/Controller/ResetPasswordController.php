@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\DTO\Password;
 use App\Entity\Subscriber;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
@@ -13,6 +14,7 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use SymfonyCasts\Bundle\ResetPassword\Controller\ResetPasswordControllerTrait;
 use SymfonyCasts\Bundle\ResetPassword\Exception\ResetPasswordExceptionInterface;
@@ -76,7 +78,7 @@ class ResetPasswordController extends AbstractController
      * Validates and process the reset URL that the user clicked in their email.
      */
     #[Route('/reinitialisation/{token}', name: 'app_reset_password')]
-    public function reset(Request $request, UserPasswordHasherInterface $passwordHasher, TranslatorInterface $translator, string $token = null): Response
+    public function reset(Request $request, ValidatorInterface $validator, UserPasswordHasherInterface $passwordHasher, TranslatorInterface $translator, string $token = null): Response
     {
         if (true === $this->isGranted('ROLE_USER')) {
             return $this->redirectToRoute("app_dashboard");
@@ -98,7 +100,7 @@ class ResetPasswordController extends AbstractController
         }
 
         try {
-            $user = $this->resetPasswordHelper->validateTokenAndFetchUser($token);
+            $subscriber = $this->resetPasswordHelper->validateTokenAndFetchUser($token);
         } catch (ResetPasswordExceptionInterface $e) {
             $this->addFlash('reset_password_error', sprintf(
                 '%s - %s',
@@ -116,10 +118,11 @@ class ResetPasswordController extends AbstractController
             // A password reset token should be used only once, remove it.
             $this->resetPasswordHelper->removeResetRequest($token);
 
-            $password = $request->request->get('password');
-            $confirmPassword = $request->request->get('confirm-password');
+            $password = new Password();
+            $password->hydrateFromData($request->request->all());
 
-            if($password !== $confirmPassword && strlen($password) < 8) {
+            $errors = $validator->validate($password);
+            if (0 < $errors->count()) {
                 return $this->render('reset_password/reset.html.twig', [
                     'error' => true
                 ]);
@@ -127,11 +130,11 @@ class ResetPasswordController extends AbstractController
 
             // Encode(hash) the plain password, and set it.
             $encodedPassword = $passwordHasher->hashPassword(
-                $user,
-                $request->request->get('password')
+                $subscriber,
+                $password->password
             );
 
-            $user->setPassword($encodedPassword);
+            $subscriber->setPassword($encodedPassword);
             $this->entityManager->flush();
 
             // The session is cleaned up after the password has been changed.
