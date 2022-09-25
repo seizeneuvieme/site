@@ -68,12 +68,12 @@
                                     <tr>
                                         <td><small>Email :</small></td>
                                         <td>{{ subscriber.email }}</td>
-                                        <td class="text-right"><a href="#">modifier</a></td>
+                                        <td class="text-right"><a href="{{ path('app_update_email') }}">modifier</a></td>
                                     </tr>
                                     <tr>
                                         <td><small>Mot de passe :</small></th>
                                         <td>********</td>
-                                        <td class="text-right"><a href="#">modifier</a></td>
+                                        <td class="text-right"><a href="{{ path('app_update_password') }}">modifier</a></td>
                                     </tr>
                                 </tbody>
                             </table>

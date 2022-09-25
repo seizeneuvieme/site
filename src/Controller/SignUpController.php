@@ -6,7 +6,6 @@ use App\DTO\Registration;
 use App\Repository\SubscriberRepository;
 use App\Security\EmailVerifier;
 use App\Service\RegistrationService;
-use App\Service\SendInBlueApiService;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
@@ -18,7 +17,6 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 use Symfony\Component\Security\Http\Authenticator\AuthenticatorInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
 class SignUpController extends AbstractController
 {
