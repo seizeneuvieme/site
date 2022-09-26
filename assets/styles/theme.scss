@@ -79,3 +79,91 @@ h1 {
 .modal-open {
   overflow: auto !important; // you will need important here to override
 }
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+:focus {
+  outline: 0px;
+}
+
+.card_area {
+  position: relative;
+  margin-bottom: 30px;
+}
+
+.single_card {
+  border:1px solid #efefef;
+  border-radius: 0.5em;
+  -webkit-transition: all 0.3s linear;
+  -moz-transition: all 0.3s linear;
+  -o-transition: all 0.3s linear;
+  -ms-transition: all 0.3s linear;
+  -khtml-transition: all 0.3s linear;
+  transition: all 0.3s linear;
+}
+
+.card_icon {
+  max-width: 100%;
+  min-height: 100px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon {
+  position: relative;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: auto;
+  -webkit-transition: all 0.3s linear;
+  -moz-transition: all 0.3s linear;
+  -o-transition: all 0.3s linear;
+  -ms-transition: all 0.3s linear;
+  -khtml-transition: all 0.3s linear;
+  transition: all 0.3s linear;
+}
+
+.checkbox {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 999;
+  cursor: pointer;
+}
+.checkbox:checked ~ .single_card {
+  border: 1px solid $primary;
+  border-radius: 0.5em;
+}
+.checkbox:checked:hover ~ .single_card {
+  border: 1px solid $primary;
+  border-radius: 0.5em;
+}
+
+.checkbox:checked ~ .single_card .card_content .card_title {
+  background-color:$primary;
+  color: #ffffff;
+}
+.checkbox:checked ~ .single_card .card_content .card_title h3 {
+  color: #ffffff;
+}
+.checkbox:checked ~ .single_card .card_content .card_title h3 i{
+  opacity: 1;
+}
+/*Icon Selector*/
+
+.checkbox:checked ~ .single_card .card_content .card_icon {
+  color: $primary
+}
+
+.custom-control {
+  padding: 0;
+}

@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Modifier mes plateformes de streaming Le Réhausseur{% endblock %}
+{% block title %}Modifier mes plateformes de streaming - Le Réhausseur{% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
@@ -21,7 +21,7 @@
                                 {% for flashMessage in app.session.flashbag.get('error') %}
                                     <div class="alert alert-primary" role="alert">
                                         <p>
-                                            Formulaire invalide. <br/>En cas de problème, <a href="mailto:contact@lerehausseur.fr" alt="Contacter Le Réhausseur">contactez-nous</a> :)
+                                            Formulaire invalide. <br/>En cas de problème, <a href="mailto:contact@lerehausseur.fr" alt="Contacter Le Réhausseur">contacte-nous</a> :)
                                         </p>
                                     </div>
                                 {% endfor %}
@@ -45,21 +45,53 @@
                         <div class="col-xl-4 col-lg-5 col-md-6 text-center">
                             <form action="{{ path('app_update_platforms') }}" method="POST">
                                 <small>En plus des supports gratuits, y a-t-il des plateformes de streaming payantes sur lesquelles tu aimerais recevoir des idées de film à regarder ?</small><br/><br/>
-                                <div class="custom-control custom-checkbox mb-3">
-                                    <input name="streaming[]" value="Netflix" type="checkbox" class="custom-control-input" id="netflix" {% for platform in app.user.platforms %} {% if platform.name == 'Netflix' %} checked {% endif %} {% endfor %}>
-                                    <label class="custom-control-label" for="netflix"><img src="{{ asset('build/images/Netflix.png') }}" /></label>
+                                <div class="custom-control custom-checkbox mb-3" style="padding-left: 0 !important">
+                                    <div class="card_area">
+                                        <input class="checkbox" type="checkbox" id="netflix"  name="streaming[]" value="Netflix" {% for platform in app.user.platforms %} {% if platform.name == 'Netflix' %} checked="checked" {% endif %} {% endfor %} />
+                                        <div class="single_card">
+                                            <div class="card_content">
+                                                <div class="card_icon">
+                                                    <img src="{{ asset('build/images/Netflix.png') }}" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="custom-control custom-checkbox mb-3">
-                                    <input name="streaming[]" value="Disney" type="checkbox" class="custom-control-input" id="disney" {% for platform in app.user.platforms %} {% if platform.name == 'Disney' %} checked {% endif %} {% endfor %}>
-                                    <label class="custom-control-label" for="disney"><img src="{{ asset('build/images/Disney.png') }}" /></label>
+                                <div class="custom-control custom-checkbox mb-3" style="padding-left: 0 !important">
+                                    <div class="card_area">
+                                        <input class="checkbox" type="checkbox" id="disney"  name="streaming[]" value="Disney" {% for platform in app.user.platforms %} {% if platform.name == 'Disney' %} checked="checked" {% endif %} {% endfor %} />
+                                        <div class="single_card">
+                                            <div class="card_content">
+                                                <div class="card_icon">
+                                                    <img src="{{ asset('build/images/Disney.png') }}" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="custom-control custom-checkbox mb-3">
-                                    <input name="streaming[]" value="Prime" type="checkbox" class="custom-control-input" id="prime" {% for platform in app.user.platforms %} {% if platform.name == 'Prime' %} checked {% endif %} {% endfor %}>
-                                    <label class="custom-control-label" for="prime"><img src="{{ asset('build/images/Prime.png') }}" /></label>
+                                <div class="custom-control custom-checkbox mb-3" style="padding-left: 0 !important">
+                                    <div class="card_area">
+                                        <input class="checkbox" type="checkbox" id="prime"  name="streaming[]" value="Prime" {% for platform in app.user.platforms %} {% if platform.name == 'Prime' %} checked="checked" {% endif %} {% endfor %} />
+                                        <div class="single_card">
+                                            <div class="card_content">
+                                                <div class="card_icon">
+                                                    <img src="{{ asset('build/images/Prime.png') }}" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="custom-control custom-checkbox mb-3">
-                                    <input name="streaming[]" value="Canal" type="checkbox" class="custom-control-input" id="canal" {% for platform in app.user.platforms %} {% if platform.name == 'Canal' %} checked {% endif %} {% endfor %}>
-                                    <label class="custom-control-label" for="canal"><img src="{{ asset('build/images/Canal.png') }}" /></label>
+                                <div class="custom-control custom-checkbox mb-3" style="padding-left: 0 !important">
+                                    <div class="card_area">
+                                        <input class="checkbox" type="checkbox" id="canal"  name="streaming[]" value="Canal" {% for platform in app.user.platforms %} {% if platform.name == 'Canal' %} checked="checked" {% endif %} {% endfor %} />
+                                        <div class="single_card">
+                                            <div class="card_content">
+                                                <div class="card_icon">
+                                                    <img src="{{ asset('build/images/Canal.png') }}" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <button class="btn-block btn btn-primary text-white" id="btn-update-platforms">Modifier mes plateformes de streaming</button>

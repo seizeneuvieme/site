@@ -25,7 +25,7 @@
                 </div>
               {% elseif error is defined %}
                 <div class="alert alert-primary" role="alert">
-                  Formulaire invalide. <br/>En cas de problème, <a href="mailto:contact@lerehausseur.fr" alt="Contacter Le Réhausseur">contactez-nous</a> :)
+                  Formulaire invalide. <br/>En cas de problème, <a href="mailto:contact@lerehausseur.fr" alt="Contacter Le Réhausseur">contacte-nous</a> :)
                 </div>
               {% endif %}
             </div>
@@ -109,21 +109,53 @@
                   <div class="row justify-content-center">
                     <div class="col-xl-4 col-lg-5 col-md-6">
                       <small>En plus des supports gratuits, y a-t-il des plateformes de streaming payantes sur lesquelles tu aimerais recevoir des idées de film à regarder ?</small><br/><br/>
-                      <div class="custom-control custom-checkbox mb-3">
-                        <input name="streaming[]" value="Netflix" type="checkbox" class="custom-control-input" id="netflix">
-                        <label class="custom-control-label" for="netflix"><img src="{{ asset('build/images/Netflix.png') }}" /></label>
+                      <div class="custom-control custom-checkbox mb-3" style="padding-left: 0 !important">
+                        <div class="card_area">
+                          <input class="checkbox" type="checkbox" id="netflix"  name="streaming[]" value="Netflix" />
+                          <div class="single_card">
+                            <div class="card_content">
+                              <div class="card_icon">
+                                <img src="{{ asset('build/images/Netflix.png') }}" />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                       </div>
-                      <div class="custom-control custom-checkbox mb-3">
-                        <input name="streaming[]" value="Disney" type="checkbox" class="custom-control-input" id="disney">
-                        <label class="custom-control-label" for="disney"><img src="{{ asset('build/images/Disney.png') }}" /></label>
+                      <div class="custom-control custom-checkbox mb-3" style="padding-left: 0 !important">
+                        <div class="card_area">
+                          <input class="checkbox" type="checkbox" id="disney"  name="streaming[]" value="Disney" />
+                          <div class="single_card">
+                            <div class="card_content">
+                              <div class="card_icon">
+                                <img src="{{ asset('build/images/Disney.png') }}" />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                       </div>
-                      <div class="custom-control custom-checkbox mb-3">
-                        <input name="streaming[]" value="Prime" type="checkbox" class="custom-control-input" id="prime">
-                        <label class="custom-control-label" for="prime"><img src="{{ asset('build/images/Prime.png') }}" /></label>
+                      <div class="custom-control custom-checkbox mb-3" style="padding-left: 0 !important">
+                        <div class="card_area">
+                          <input class="checkbox" type="checkbox" id="prime"  name="streaming[]" value="Prime" />
+                          <div class="single_card">
+                            <div class="card_content">
+                              <div class="card_icon">
+                                <img src="{{ asset('build/images/Prime.png') }}" />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                       </div>
-                      <div class="custom-control custom-checkbox mb-3">
-                        <input name="streaming[]" value="Canal" type="checkbox" class="custom-control-input" id="canal">
-                        <label class="custom-control-label" for="canal"><img src="{{ asset('build/images/Canal.png') }}" /></label>
+                      <div class="custom-control custom-checkbox mb-3" style="padding-left: 0 !important">
+                        <div class="card_area">
+                          <input class="checkbox" type="checkbox" id="canal"  name="streaming[]" value="Canal" />
+                          <div class="single_card">
+                            <div class="card_content">
+                              <div class="card_icon">
+                                <img src="{{ asset('build/images/Canal.png') }}" />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                       <button class="btn btn-primary btn-block text-white" type="submit">Je crée mon compte</button>
                     </div>

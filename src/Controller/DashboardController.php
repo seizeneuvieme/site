@@ -16,7 +16,9 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
@@ -221,7 +223,7 @@ class DashboardController extends AbstractController
             $child->setBirthDate($newChild->childBirthDate);
             $subscriber->addChild($child);
             $entityManager->flush();
-            $this->addFlash('success', "✅ C'est noté ! Tu recevras désormais des recommandations de films pour {$child->getFirstname()}");
+            $this->addFlash('success', "✅ C'est noté ! Tu recevras désormais aussi des recommandations de films pour {$child->getFirstname()}");
         }
 
         return $this->render('subscriber/add-child.html.twig');
@@ -251,5 +253,32 @@ class DashboardController extends AbstractController
         $this->addFlash('success', "✅ C'est noté ! Tu recevras plus de recommandations de films pour {$child->getFirstname()}");
 
         return $this->redirectToRoute('app_dashboard');
+    }
+
+    #[Route('/supprimer/compte', name: 'app_remove_account', methods: ['POST'])]
+    public function removeAccount(
+        Request $request,
+        UserPasswordHasherInterface $passwordHasher,
+        EntityManagerInterface $entityManager
+    ): Response
+    {
+        $subscriber = $this->getUser();
+        $password = $request->request->get("password");
+
+        $isPasswordValid = $passwordHasher->isPasswordValid(
+            $subscriber,
+            $password
+        );
+
+        if (true === $isPasswordValid) {
+            $entityManager->remove($subscriber);
+            $entityManager->flush();
+            $session = new Session();
+            $session->invalidate();
+            return $this->redirectToRoute( 'app_logout');
+        } else {
+            $this->addFlash('cant_remove_account', "");
+            return $this->redirectToRoute('app_dashboard');
+        }
     }
 }
