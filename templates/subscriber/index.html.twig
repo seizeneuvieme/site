@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Mon compte Le Réhausseur{% endblock %}
+{% block title %}Mon compte - Le Réhausseur{% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
@@ -13,6 +13,9 @@
         <div class="container">
             <div class="row justify-content-center pt-6">
                 <div class="col-lg-7">
+                    <div class="text-center mb-4">
+                        <h1 class="mb-2">👋 {{ app.user.firstname }}</h1>
+                    </div>
                     <div class="text-center mb-4">
                         <h2 class="mb-2">Gérer <span style="color: #ff2e3d">mon compte</span></h2>
                     </div>
@@ -49,6 +52,15 @@
                                 <div class="alert alert-success" role="alert">
                                     <p>
                                         Ton compte a bien été activé 🎉 <br /> Tu recevras très bientôt la prochaine newsletter Le Réhausseur 👀
+                                    </p>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                        {% if app.session.flashBag.has('success') %}
+                            {% for flashMessage in app.session.flashbag.get('success') %}
+                                <div class="alert alert-success" role="alert">
+                                    <p>
+                                        {{flashMessage}}
                                     </p>
                                 </div>
                             {% endfor %}
@@ -149,12 +161,35 @@
                                         <tr>
                                             <td><small>Prénom : </small> {{ child.firstname }}</td>
                                             <td><small>Né(e) le </small> {{ child.birthDate|date("d/m/Y") }}</td>
-                                            <td class="text-right">{% if subscriber.childs|length > 1 %}<a href="{{ path('app_remove_child') }}">supprimer</a>{% endif %}</td>
+                                            <td class="text-right">{% if subscriber.childs|length > 1 %}<a href="#" data-toggle="modal" data-target="#confirm-child-remove-{{ child.id }}">supprimer</a>{% endif %}</td>
                                         </tr>
+                                        <div class="modal fade" id="confirm-child-remove-{{ child.id }}" tabindex="-1" role="dialog" aria-modal="true" style="top:35%!important;">
+                                            <div class="modal-dialog modal-lg" role="document">
+                                                <div class="modal-content col-lg-10" style="margin:auto;">
+                                                    <div class="modal-body">
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="injected-svg icon bg-dark" data-src="assets/img/icons/interface/cross.svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                                <path d="M16.2426 6.34311L6.34309 16.2426C5.95257 16.6331 5.95257 17.2663 6.34309 17.6568C6.73362 18.0473 7.36678 18.0473 7.75731 17.6568L17.6568 7.75732C18.0473 7.36679 18.0473 6.73363 17.6568 6.34311C17.2663 5.95258 16.6331 5.95258 16.2426 6.34311Z" fill="#212529"></path>
+                                                                <path d="M17.6568 16.2426L7.75734 6.34309C7.36681 5.95257 6.73365 5.95257 6.34313 6.34309C5.9526 6.73362 5.9526 7.36678 6.34313 7.75731L16.2426 17.6568C16.6331 18.0473 17.2663 18.0473 17.6568 17.6568C18.0474 17.2663 18.0474 16.6331 17.6568 16.2426Z" fill="#212529"></path>
+                                                            </svg>
+                                                        </button>
+                                                        <div class="m-2 text-center">
+                                                            <div class="mx-3">
+                                                                <h5 class="mb-1">Confirmation</h5>
+                                                                <p>ℹ️ Tu ne recevras plus de recommandation de films pour {{ child.firstname }}</p>
+                                                            </div>
+                                                            <a href="{{ path('app_remove_child', {'id': child.id}) }}" class="btn btn-primary text-white">
+                                                                Supprimer
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     {% endfor %}
                                 <tr>
                                     <td colspan="3" class="pb-4 pt-4">
-                                        <a href="{{ path('app_add_child') }}" class="hover-arrow" data-toggle="modal" data-target="#discover-modal">Ajouter un enfant</a>
+                                        <a href="{{ path('app_add_child') }}" class="hover-arrow" >Ajouter un enfant</a>
                                     </td>
                                 </tr>
                                 </tbody>

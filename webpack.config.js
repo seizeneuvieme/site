@@ -21,6 +21,7 @@ Encore
    * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
    */
   .addEntry("app", "./assets/app.js")
+  .addEntry("home", "./assets/js/leap/theme/home.js")
   .addEntry("onboarding", "./assets/js/leap/theme/onboarding.js")
   .addEntry("sign-in", "./assets/js/leap/theme/signIn.js")
   .addEntry("request-reset", "./assets/js/leap/theme/requestReset.js")
@@ -28,6 +29,7 @@ Encore
   .addEntry("update-email", "./assets/js/leap/theme/updateEmail.js")
   .addEntry("update-password", "./assets/js/leap/theme/updatePassword.js")
   .addEntry("update-user-infos", "./assets/js/leap/theme/updateUserInfos.js")
+  .addEntry("add-child", "./assets/js/leap/theme/addChild.js")
 
   // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
   .enableStimulusBridge("./assets/controllers.json")

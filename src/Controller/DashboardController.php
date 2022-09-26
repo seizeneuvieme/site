@@ -9,6 +9,7 @@ use App\DTO\StreamingPlatforms;
 use App\DTO\UserInfos;
 use App\Entity\Platform;
 use App\Entity\Subscriber;
+use App\Repository\ChildRepository;
 use App\Security\EmailVerifier;
 use App\Service\CityService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -220,7 +221,7 @@ class DashboardController extends AbstractController
             $child->setBirthDate($newChild->childBirthDate);
             $subscriber->addChild($child);
             $entityManager->flush();
-            $this->addFlash('success', "Tes plateformes de streaming payantes ont bien été modifiées 🎉");
+            $this->addFlash('success', "✅ C'est noté ! Tu recevras désormais des recommandations de films pour {$child->getFirstname()}");
         }
 
         return $this->render('subscriber/add-child.html.twig');
@@ -229,35 +230,26 @@ class DashboardController extends AbstractController
     #[Route('/supprimer/enfant/{id}', name: 'app_remove_child')]
     public function removeChild(
         Request $request,
-        ValidatorInterface $validator,
-        EntityManagerInterface $entityManager
+        ChildRepository $childRepository,
+        EntityManagerInterface $entityManager,
+        int $id
     ): Response
     {
-        if($request->isMethod('POST')) {
-            $streamingPlatforms = new StreamingPlatforms();
-            $streamingPlatforms->hydrateFromData($request->request->all());
+        $subscriber = $this->getUser();
 
-            $errors = $validator->validate($streamingPlatforms);
-            if (0 < $errors->count()) {
-                $this->addFlash('error', "");
-                return $this->render('subscriber/update-platforms.html.twig');
-            }
+        $child = $childRepository->findOneBy([
+            'id' => $id
+        ]);
 
-            /**
-             * @var Subscriber $subscriber
-             */
-            $subscriber = $this->getUser();
-            $subscriber->getPlatforms()->clear();
-            foreach ($streamingPlatforms->streamingPlatforms as $streamingPlatform) {
-                $platform = new Platform();
-                $platform->setName($streamingPlatform);
-                $subscriber->addPlatform($platform);
-            }
-
-            $entityManager->flush();
-            $this->addFlash('success', "Tes plateformes de streaming payantes ont bien été modifiées 🎉");
+        if (null === $child || $subscriber->getId() !== $child->getSubscriber()->getId() || $subscriber->getChilds()->count() < 2) {
+            return $this->redirectToRoute('app_dashboard');
         }
 
-        return $this->render('subscriber/update-platforms.html.twig');
+        $subscriber->removeChild($child);
+        $entityManager->remove($child);
+        $entityManager->flush();
+        $this->addFlash('success', "✅ C'est noté ! Tu recevras plus de recommandations de films pour {$child->getFirstname()}");
+
+        return $this->redirectToRoute('app_dashboard');
     }
 }

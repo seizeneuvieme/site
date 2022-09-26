@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier mes coordonnées Le Réhausseur{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('add-child') }}
+{% endblock %}
+
+{% block body %}
+    {% include './partials/header.html.twig' %}
+
+    <section class="pt-0">
+        <div class="container">
+            <div class="row justify-content-center pt-6">
+                <div class="col-lg-4 col-md-6">
+                    <div class="text-center mb-4">
+                        <h1 class="mb-2">Ajouter un <span style="color: #ff2e3d">enfant</span></h1>
+                        <div class="text-center mb-4">
+                            {% if app.session.flashBag.has('error') %}
+                                {% for flashMessage in app.session.flashbag.get('error') %}
+                                    <div class="alert alert-primary" role="alert">
+                                        <p>
+                                            Formulaire invalide. <br/>En cas de problème, <a href="mailto:contact@lerehausseur.fr" alt="Contacter Le Réhausseur">contactez-nous</a> :)
+                                        </p>
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+                            {% if app.session.flashBag.has('success') %}
+                                {% for flashMessage in app.session.flashbag.get('success') %}
+                                    <div class="alert alert-success" role="alert">
+                                        <p>
+                                            {{ flashMessage }}
+                                        </p>
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="row justify-content-center pt-2">
+                        <div class="col-xl-4 col-lg-5 col-md-6 text-center">
+                            <form action="{{ path('app_add_child') }}" method="POST">
+                                <div class="form-group">
+                                    <input name="child-firstname" type="text" id="child-firstname" class="form-control add-child-form" placeholder="Son prénom">
+                                    <small id="child-firstname-control-label" class="text-primary" style="display:none;">C'est un peu long :)</small>
+                                </div>
+                                <div class="form-group">
+                                    <input name="child-birth-date" id="child-birth-date" type="date" class="form-control add-child-form" placeholder="Sa date de naissance">
+                                    <small id="child-birth-date-control-label" class="text-primary" style="display:none;">Le Réhausseur s'addresse aux enfants de 3 à 12 ans</small>
+                                </div>
+                                <div class="form-group">
+                                    <button class="btn-block btn btn-primary text-white" id="btn-add-child-form" disabled>Ajouter un enfant</button>
+                                </div>
+                            </form>
+                            <a class="text-primary pt-5" href="{{ path('app_dashboard') }}">Retour à mon compte</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {% include './partials/footer.html.twig' with {'background':'bg-primary-alt', 'hasDivider': true} %}
+{% endblock %}
+
