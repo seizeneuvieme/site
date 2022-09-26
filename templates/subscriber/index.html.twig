@@ -204,11 +204,11 @@
                                         <td colspan="3"><strong>Mes plateformes de streaming payantes :</strong></td>
                                         <td colspan="2" class="text-right"><a href="{{ path('app_update_platforms') }}">modifier</a></td>
                                     </tr>
-                                    {% for platform in subscriber.platforms %}
                                         <tr>
-                                            <td colspan="5">{{ platform.name }}</td>
-                                        </tr>
+                                    {% for platform in subscriber.platforms %}
+                                            <td><img src="{{ asset('build/images/' ~ platform.name ~ '.png') }}"{{ platform.name }}</td>
                                     {% endfor %}
+                                        </tr>
                                 </tbody>
                             </table>
                         </div>

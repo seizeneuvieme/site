@@ -47,19 +47,19 @@
                                 <small>En plus des supports gratuits, y a-t-il des plateformes de streaming payantes sur lesquelles tu aimerais recevoir des idées de film à regarder ?</small><br/><br/>
                                 <div class="custom-control custom-checkbox mb-3">
                                     <input name="streaming[]" value="Netflix" type="checkbox" class="custom-control-input" id="netflix" {% for platform in app.user.platforms %} {% if platform.name == 'Netflix' %} checked {% endif %} {% endfor %}>
-                                    <label class="custom-control-label" for="netflix">Netflix</label>
+                                    <label class="custom-control-label" for="netflix"><img src="{{ asset('build/images/Netflix.png') }}" /></label>
                                 </div>
                                 <div class="custom-control custom-checkbox mb-3">
                                     <input name="streaming[]" value="Disney" type="checkbox" class="custom-control-input" id="disney" {% for platform in app.user.platforms %} {% if platform.name == 'Disney' %} checked {% endif %} {% endfor %}>
-                                    <label class="custom-control-label" for="disney">Disney+</label>
+                                    <label class="custom-control-label" for="disney"><img src="{{ asset('build/images/Disney.png') }}" /></label>
                                 </div>
                                 <div class="custom-control custom-checkbox mb-3">
                                     <input name="streaming[]" value="Prime" type="checkbox" class="custom-control-input" id="prime" {% for platform in app.user.platforms %} {% if platform.name == 'Prime' %} checked {% endif %} {% endfor %}>
-                                    <label class="custom-control-label" for="prime">Amazon Prime</label>
+                                    <label class="custom-control-label" for="prime"><img src="{{ asset('build/images/Prime.png') }}" /></label>
                                 </div>
                                 <div class="custom-control custom-checkbox mb-3">
                                     <input name="streaming[]" value="Canal" type="checkbox" class="custom-control-input" id="canal" {% for platform in app.user.platforms %} {% if platform.name == 'Canal' %} checked {% endif %} {% endfor %}>
-                                    <label class="custom-control-label" for="canal">Canal +</label>
+                                    <label class="custom-control-label" for="canal"><img src="{{ asset('build/images/Canal.png') }}" /></label>
                                 </div>
                                 <div class="form-group">
                                     <button class="btn-block btn btn-primary text-white" id="btn-update-platforms">Modifier mes plateformes de streaming</button>
