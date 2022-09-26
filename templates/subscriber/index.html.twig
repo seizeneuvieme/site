@@ -149,12 +149,12 @@
                                         <tr>
                                             <td><small>Prénom : </small> {{ child.firstname }}</td>
                                             <td><small>Né(e) le </small> {{ child.birthDate|date("d/m/Y") }}</td>
-                                            <td class="text-right"><a href="#">modifier</a></td>
+                                            <td class="text-right">{% if subscriber.childs|length > 1 %}<a href="{{ path('app_remove_child') }}">supprimer</a>{% endif %}</td>
                                         </tr>
                                     {% endfor %}
                                 <tr>
                                     <td colspan="3" class="pb-4 pt-4">
-                                        <a href="#" class="hover-arrow" data-toggle="modal" data-target="#discover-modal">Ajouter un enfant</a>
+                                        <a href="{{ path('app_add_child') }}" class="hover-arrow" data-toggle="modal" data-target="#discover-modal">Ajouter un enfant</a>
                                     </td>
                                 </tr>
                                 </tbody>
@@ -167,7 +167,7 @@
                                 <tbody>
                                     <tr>
                                         <td colspan="3"><strong>Mes plateformes de streaming payantes :</strong></td>
-                                        <td colspan="2" class="text-right"><a href="#">modifier</a></td>
+                                        <td colspan="2" class="text-right"><a href="{{ path('app_update_platforms') }}">modifier</a></td>
                                     </tr>
                                     {% for platform in subscriber.platforms %}
                                         <tr>

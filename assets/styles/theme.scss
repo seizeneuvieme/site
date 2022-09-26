@@ -23,6 +23,11 @@
   .ml-3-desktop {
     margin-left: 0 !important;
   }
+  
+  ul {
+    flex-flow: column;
+    align-items: center;
+  }
 }
 
 .ml-3-desktop {

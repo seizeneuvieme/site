@@ -33,7 +33,7 @@ function searchCity(keywords) {
     (option) => option.value === keywords
   );
   if (keywords.length === 0 || alreadyExist.length > 0) {
-    validateStep2();
+    validateUserInfos();
     return;
   }
   $.get(
@@ -45,7 +45,7 @@ function searchCity(keywords) {
         data.features.length > 0 &&
         data.features[0].properties.city === keywords
       ) {
-        validateStep2();
+        validateUserInfos();
         return;
       }
       $("#city-datalist").empty();
@@ -58,12 +58,12 @@ function searchCity(keywords) {
             "</option>"
         );
       });
-      validateStep2();
+      validateUserInfos();
     }
   );
 }
 
-function validateStep2() {
+function validateUserInfos() {
   firstname = validateFirstname($("input.update-user-form#firstname").val());
   city = validateCity($("input.update-user-form#city").val());
   if (firstname === false || city === false) {
@@ -74,74 +74,9 @@ function validateStep2() {
 }
 
 $("input.update-user-form#firstname").on("keyup", function () {
-  validateStep2();
+  validateUserInfos();
 });
 
 $("input.update-user-form#city").on("input", function () {
   searchCity(this.value);
-});
-
-/**
- * STEP 3
- */
-
-function validateChildFirstname(childFirstname) {
-  if (childFirstname.length < 3 || childFirstname.length > 125) {
-    if (childFirstname.length > 2) {
-      $("#child-firstname-control-label").show();
-    } else {
-      $("#child-firstname-control-label").hide();
-    }
-    return false;
-  } else {
-    $("#child-firstname-control-label").hide();
-    return true;
-  }
-}
-
-function validateChildBirthdayDate(birthdayDate) {
-  if (birthdayDate === "") {
-    $("#child-birth-date-control-label").hide();
-    return false;
-  }
-  if (Date.now() < new Date(birthdayDate)) {
-    $("#child-birth-date-control-label").show();
-    return false;
-  }
-  ageDifMs = Date.now() - new Date(birthdayDate).getTime();
-  ageDate = new Date(ageDifMs);
-  age = Math.abs(ageDate.getUTCFullYear() - 1970);
-
-  if (age < 3 || age > 12) {
-    $("#child-birth-date-control-label").show();
-    return false;
-  } else {
-    $("#child-birth-date-control-label").hide();
-    return true;
-  }
-}
-
-function validateStep3() {
-  childFirstname = validateChildFirstname(
-    $("input.update-user-form#child-firstname").val()
-  );
-  childBirthdayDate = validateChildBirthdayDate(
-    $("input.update-user-form#child-birth-date").val()
-  );
-  if (
-    childFirstname === false ||
-    childBirthdayDate === false
-  ) {
-    $("#btn-step-3").attr("disabled", "disabled");
-  } else {
-    $("#btn-step-3").removeAttr("disabled");
-  }
-}
-
-$("input.update-user-form#child-firstname").on("keyup", function () {
-  validateStep3();
-});
-
-$("input.update-user-form#child-birth-date").on("input", function () {
-  validateStep3();
 });

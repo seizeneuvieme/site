@@ -46,19 +46,19 @@
                             <form action="{{ path('app_update_user_infos') }}" method="POST">
                                 <div class="form-group">
                                     <div class="form-group">
-                                        <input name="firstname"  id="firstname" type="text" class="update-user-form form-control" placeholder="Ton prénom">
+                                        <input name="firstname"  id="firstname" type="text" class="update-user-form form-control" placeholder="Ton prénom" value="{{ app.user.firstname }}">
                                         <small id="firstname-control-label" class="text-primary" style="display:none;">C'est un peu long :)</small>
                                     </div>
                                     <small>En sachant dans quelle ville tu habites, je pourrais t'envoyer des actualités sur les évennements dans ta région (festivals...) :</small><br/><br/>
                                     <div class="form-group">
-                                        <input name="city"  id="city" class="update-user-form form-control" list="city-datalist" placeholder="Ta ville">
+                                        <input name="city"  id="city" class="update-user-form form-control" list="city-datalist" placeholder="Ta ville" value="{{ app.user.city }}">
                                         <datalist id="city-datalist">
                                         </datalist>
-                                        <input name="city-details"  id="city-details" class="update-user-form form-control" hidden>
+                                        <input name="city-details"  id="city-details" class="update-user-form form-control" hidden value="{{ app.user.departmentNumber ~ ', ' ~ app.user.departmentName ~ ', ' ~ app.user.region }}">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <button class="btn-block btn btn-primary text-white" id="btn-update-user-form" disabled>Modifier mes coordonnées</button>
+                                    <button class="btn-block btn btn-primary text-white" id="btn-update-user-form">Modifier mes coordonnées</button>
                                 </div>
                             </form>
                             <a class="text-primary pt-5" href="{{ path('app_dashboard') }}">Retour à mon compte</a>
