@@ -1,0 +1,125 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Politique de confidentialité - Le Réhausseur{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('sign-in') }}
+{% endblock %}
+
+{% block body %}
+    {% include './partials/header.html.twig' %}
+
+    <section class="pt-0">
+        <div class="container">
+            <div class="row justify-content-center pt-6">
+                <div class="col-lg-5 col-md-6">
+                    <div class="text-center mb-4">
+                        <h1 class="mb-2">Politique de <span style="color: #ff2e3d">confidentialité</span></h1>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="row justify-content-center pt-2">
+                        <div class="col-lg-10">
+                            <p style="text-align:justify"><strong>1. Introduction :</strong></p>
+
+                            <p style="text-align:justify">La confidentialit&eacute; des utilisateur du site <a href="{{ path('app_home') }}">www.lerehausseur.fr</a> est tr&egrave;s importante &agrave; nos yeux, et nous nous engageons &agrave; la prot&eacute;ger. Cette politique d&eacute;taille ce que nous faisons de vos informations personnelles.</p>
+
+                            <p style="text-align:justify">Consentir &agrave; notre utilisation de cookies en accord avec cette politique lors de votre premi&egrave;re visite de notre site web nous permet d&rsquo;utiliser des cookies &agrave; chaque fois que vous consultez notre site.</p>
+                            <br />
+                            <p style="text-align:justify"><strong>2. Collecte d&rsquo;informations personnelles : </strong></p>
+
+                            <p>Les types d&rsquo;informations personnelles suivants peuvent collect&eacute;s, stock&eacute;s et utilis&eacute;s :</p>
+
+                            <p>- Des informations &agrave; propos de votre ordinateur, y compris votre adresse IP, votre localisation g&eacute;ographique, le type et la version de votre navigateur, et votre syst&egrave;me d&rsquo;exploitation ; </p>
+                            <p>- Des informations sur vos visites et votre utilisation de ce site web y compris la source r&eacute;f&eacute;rente, la dur&eacute;e de la visite, les pages vues, et les chemins de navigation ;
+                            <p>- Des informations comme votre adresse e-mail, que vous nous fournissez lors de votre inscription au R&eacute;hausseur ; </p>
+                            <p>- Des informations que vous saisissez quand vous cr&eacute;ez un profil sur notre site web et que vous vous abonnez au R&eacute;hausseur ; </p>
+                            <p>- Des informations g&eacute;n&eacute;r&eacute;es lors de l&rsquo;utilisation de notre site, y compris quand, &agrave; quelle fr&eacute;quence et sous quelles circonstances vous l&rsquo;utilisez ;</p>
+                            <p>- Des informations contenues dans toutes les communications que vous nous envoyez par e-mail ou sur notre site web, y compris leurs contenus et leurs m&eacute;tadonn&eacute;es ; </p>
+                            <p>- Toute autre information personnelle que vous nous communiquez.</p>
+
+                            <p>Avant de nous divulguer des informations personnelles concernant une autre personne, vous devez obtenir le consentement de ladite personne en ce qui concerne la divulgation et le traitement de ces informations personnelles selon les termes de cette politique.</p>
+                            <br />
+                            <p style="text-align:justify"><strong>3. Utilisation de vos informations personnelles  :</strong></p>
+
+                            <p>Les informations personnelles qui nous sont fournies par le biais de notre site web seront utilis&eacute;es dans les objectifs d&eacute;crits dans cette politique ou dans les pages du site pertinentes. Nous pouvons utiliser vos informations personnelles pour:</p>
+
+                            <p>- Vous envoyer des notifications par e-mail ;</p>
+                            <p>- Personnaliser les contenus de la newsletter Le R&eacute;hausseur en fonction de votre profil (et dont vous pouvez &agrave; tout moment vous d&eacute;sabonner en supprimant votre compte).</p>
+                            <p>- Vous envoyer des communications relatives au R&eacute;hausseur ou &agrave; des entreprises/services tiers s&eacute;lectionn&eacute;s avec soin qui selon nous pourraient vous int&eacute;resser ; </p>
+                            <p>- Fournir des informations statistiques &agrave; des tierces parties (sans que ces tierces parties puissent identifier d&rsquo;utilisateur individuel avec ces informations) ;</p>
+                            <p>- Maintenir la s&eacute;curit&eacute; de notre site web.</p>
+                            <br />
+
+                            <p style="text-align:justify"><strong>4. Divulgation de vos informations personnelles :</strong></p>
+
+                            <p>Nous pouvons divulguer vos informations personnelles :</p>
+
+                            <p>- Dans la mesure o&ugrave; nous sommes tenus de le faire par la loi ;</p>
+                            <p>- Dans le cadre de toute proc&eacute;dure judiciaire en cours ou &agrave; venir ;</p>
+                            <p>- Pour &eacute;tablir, exercer ou d&eacute;fendre nos droits l&eacute;gaux ;</p>
+                            <p>- &Agrave; l&rsquo;acheteur (ou acheteur potentiel) de toute entreprise ou actif en notre possession que nous souhaitons (ou envisageons de) vendre.</p>
+
+                            <p> Sauf disposition contraire de la pr&eacute;sente politique, nous ne transmettrons pas vos informations personnelles &agrave; des tierces parties.</p>
+                            <br />
+                            <p style="text-align:justify"><strong>5. Conservation de vos informations personnelles :</strong></p>
+
+                            <p>Les informations personnelles que nous traitons &agrave; quelque fin que ce soit ne sont pas conserv&eacute;es plus longtemps que n&eacute;cessaire &agrave; cette fin ou &agrave; ces fins.</p>
+
+                            <p>En cas de suppression de compte, l'ensemble de vos donn&eacute;es seront automatiquement et instantan&eacute;ment supprim&eacute;es de notre base de donn&eacute;es.</p>
+
+                            <br />
+                            <p style="text-align:justify"><strong>6. S&eacute;curit&eacute; de vos informations personnelles :</strong></p>
+
+                            <p>Nous prendrons des pr&eacute;cautions techniques et organisationnelles raisonnables pour emp&ecirc;cher la perte, l&rsquo;abus ou l&rsquo;alt&eacute;ration de vos informations personnelle.</p>
+
+                            <p>Nous stockerons toutes les informations personnelles que vous nous fournissez sur des serveurs s&eacute;curis&eacute;s.</p>
+
+                            <p>Vous reconnaissez que la transmission d&rsquo;informations par internet est intrins&egrave;quement non s&eacute;curis&eacute;e, et que nous ne pouvons pas garantir la s&eacute;curit&eacute; de vos donn&eacute;es envoy&eacute;es par internet.</p>
+
+                            <p>Vous &ecirc;tes responsable de la confidentialit&eacute; du mot de passe que vous utilisez pour acc&eacute;der &agrave; notre site web ; nous ne vous demanderons jamais votre mot de passe (sauf quand vous vous identifiez sur notre site web).</p>
+
+                            <br />
+                            <p style="text-align:justify"><strong>7. Amendements : </strong></p>
+
+                            <p>Nous pouvons parfois mettre cette politique &agrave; jour en publiant une nouvelle version sur notre site web. Vous devez v&eacute;rifier cette page r&eacute;guli&egrave;rement pour vous assurer de prendre connaissance de tout changement effectu&eacute; &agrave; cette politique. Nous pouvons &eacute;galement vous informer des changements effectu&eacute;s &agrave; cette politique par courrier &eacute;lectronique.</p>
+                            <br />
+                            <p style="text-align:justify"><strong>8. Vos droits :</strong></p>
+
+                            <p>Vous pouvez nous demander de vous fournir toute information personnelle que nous d&eacute;tenons sur vous ; le transfert de telles informations sera soumis aux conditions suivantes:</p>
+
+                            <p>- Le r&egrave;glement de frais ;</p>
+                            <p>- La pr&eacute;sentation de preuves suffisantes de votre identit&eacute; (&agrave; ces fins, nous acceptons en g&eacute;n&eacute;ral une photocopie de votre passeport certifi&eacute;e par notaire plus une copie originale d&rsquo;une facture de service public indiquant votre adresse actuelle) ;</p>
+                            <p>- Nous pouvons retenir les informations personnelles que vous demandez dans la mesure autoris&eacute;e par la loi.</p>
+
+                            <p>Vous pouvez nous demander &agrave; tout moment de ne pas traiter vos informations personnelles &agrave; des fins marketing.</p>
+                            <br />
+                            <p style="text-align:justify"><strong>9. Sites web tiers :</strong></p>
+
+                            <p>La newsletter du R&eacute;hausseur peut contenir des liens hypertextes menant vers des sites web tiers et des informations les concernant. Nous n&rsquo;avons aucun contr&ocirc;le sur ces sites, et ne sommes pas responsables de leurs politiques de confidentialit&eacute; ni de leurs pratiques.</p>
+                            <br />
+                            <p style="text-align:justify"><strong>10. Mise &agrave; jour des informations :</strong></p>
+
+                            <p>Merci de nous faire savoir si les informations personnelles que nous d&eacute;tenons &agrave; votre sujet doivent &ecirc;tre corrig&eacute;es ou mises &agrave; jour.</p>
+                            <br />
+                            <p style="text-align:justify"><strong>11. Cookies :</strong></p>
+
+                            <p>Notre site web utilise des cookies. Un cookie est un fichier contenant un identifiant (une cha&icirc;ne de lettres et de chiffres) envoy&eacute; par un serveur web vers un navigateur web et stock&eacute; par le navigateur. L&rsquo;identifiant est alors renvoy&eacute; au serveur &agrave; chaque fois que le navigateur demande une page au serveur. Les cookies peuvent &ecirc;tre &laquo; persistants &raquo; ou &laquo; de session &raquo; : un cookie persistant est stock&eacute; par le navigateur et reste valide jusqu&rsquo;&agrave; sa date d&rsquo;expiration, &agrave; moins d&rsquo;&ecirc;tre supprim&eacute; par l&rsquo;utilisateur avant cette date d&rsquo;expiration ; quant &agrave; un cookie de session, il expire &agrave; la fin de la session utilisateur, lors de la fermeture du navigateur. Les cookies ne contiennent en g&eacute;n&eacute;ral aucune information permettant d&rsquo;identifier personnellement un utilisateur, mais les informations personnelles que nous stockons &agrave; votre sujet peuvent &ecirc;tre li&eacute;es aux informations stock&eacute;es dans les cookies et obtenues par les cookies.</p>
+
+                            <p>Les noms des cookies que nous utilisons sur notre site web et les objectifs dans lesquels nous les utilisons sont d&eacute;crits ci-dessous:</p>
+
+                            <p>- Google Analytics : pour reconna&icirc;tre un ordinateur lorsqu&rsquo;un utilisateur consulte le site web/ suivre les utilisateurs lors de leur navigation sur le site web / personnaliser l&rsquo;exp&eacute;rience utilisateur / analyser l&rsquo;utilisation du site web / administrer le site web / emp&ecirc;cher la fraude et am&eacute;liorer la s&eacute;curit&eacute; du site web ;</p>
+
+                            <p>Vous pouvez &agrave; tout moment supprimer les cookies stock&eacute;s sur votre ordinateur via votre navigateur.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {% include './partials/footer.html.twig' with {'background':'bg-primary-alt', 'hasDivider': true} %}
+{% endblock %}
