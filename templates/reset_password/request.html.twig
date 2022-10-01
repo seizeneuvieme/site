@@ -23,7 +23,7 @@
                 <div class="col">
                     <div class="row justify-content-center pt-2">
                         <div class="col-xl-4 col-lg-5 col-md-6">
-                            <form action="{{ path('app_forgot_password_request') }}" method="POST">
+                            <form action="{{ path('app_forgot_password_request') }}" method="POST" class="form">
                                 <div class="form-group">
                                     <input id="email" type="email" name="_username" placeholder="Ton adresse email" class="form-control request-reset">
                                     <small id="email-control-label" class="text-primary" style="display:none;">Adresse email invalide</small>
@@ -32,7 +32,7 @@
                                     </small>
                                 </div>
                                 <div class="form-group">
-                                    <button id="request-reset-btn" class="btn-block btn btn-primary text-white" type="submit" disabled>Recevoir mon code de réinitialisation</button>
+                                    <button id="request-reset-btn" class="btn-block btn btn-primary text-white" type="button">Recevoir mon code de réinitialisation</button>
                                 </div>
                             </form>
                         </div>

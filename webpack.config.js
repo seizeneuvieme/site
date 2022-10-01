@@ -22,7 +22,7 @@ Encore
    */
   .addEntry("app", "./assets/app.js")
   .addEntry("home", "./assets/js/leap/theme/home.js")
-  .addEntry("onboarding", "./assets/js/leap/theme/onboarding.js")
+  .addEntry("sign-up", "./assets/js/leap/theme/signUp.js")
   .addEntry("sign-in", "./assets/js/leap/theme/signIn.js")
   .addEntry("request-reset", "./assets/js/leap/theme/requestReset.js")
   .addEntry("reset", "./assets/js/leap/theme/reset.js")

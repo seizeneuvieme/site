@@ -13,11 +13,7 @@ function passEmailRgx(mail) {
 
 function validateEmail(email) {
     if (passEmailRgx(email) === false) {
-        if (email !== "") {
-            $("#email-control-label").show();
-        } else {
-            $("#email-control-label").hide();
-        }
+        $("#email-control-label").show();
         return false;
     } else {
         $("#email-control-label").hide();
@@ -26,12 +22,9 @@ function validateEmail(email) {
 }
 
 function validatePassword(password) {
-    if (password !== "" && password.length < 8) {
+    if (password.length < 8) {
         $("#password-control-label").show();
         return false;
-    } else if (password.length === 0) {
-        $("#password-control-label").hide();
-        return false
     } else {
         $("#password-control-label").hide();
         return true;
@@ -41,17 +34,29 @@ function validatePassword(password) {
 function validateSignForm() {
     email = validateEmail($("input.sign-in#email").val());
     password = validatePassword($("input.sign-in#password").val());
-    if (email === false || password === false) {
-        $("#sign-in-btn").attr("disabled", "disabled");
-    } else {
-        $("#sign-in-btn").removeAttr("disabled");
-    }
+
+    return email === true && password === true;
 }
 
-$("input.sign-in#email").on("keyup", function () {
-    validateSignForm();
+$("input.sign-in#email").on('change', function() {
+    validateEmail($(this).val());
+})
+
+$("input.sign-in#password").on('change', function() {
+    validatePassword($(this).val());
+})
+
+$('#sign-in-btn').click( function (e) {
+    if (validateSignForm() === true) {
+        $('.form').submit();
+    }
 });
 
-$("input.sign-in#password").on("keyup", function () {
-    validateSignForm();
-});
+$('input').keypress(function(e) {
+    if (e.keyCode === 13) {
+        e.preventDefault();
+        if (validateSignForm() === true) {
+            $('.form').submit();
+        }
+    }
+})

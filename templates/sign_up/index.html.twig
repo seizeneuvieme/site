@@ -4,7 +4,7 @@
 
 {% block javascripts %}
     {{ parent() }}
-    {{ encore_entry_script_tags('onboarding') }}
+    {{ encore_entry_script_tags('sign-up') }}
 {% endblock %}
 
 {% block body %}
@@ -33,7 +33,7 @@
         </div>
         <div class="row">
           <div class="col">
-            <form method="POST" id="onboarding-form" class="wizard sw-main sw-theme-default">
+            <form method="POST" id="sign-up-form" class="wizard sw-main sw-theme-default sign-up-form">
               <ul class="d-flex step-circles justify-content-center mb-5 nav nav-tabs step-anchor">
                 <li class="nav-item active"><a class="nav-link btn" href="#etape-1">1</a>
                 </li>
@@ -49,25 +49,20 @@
                   <div class="row justify-content-center">
                     <div class="col-xl-4 col-lg-5 col-md-6">
                       <div class="form-group">
-                        <input name="email" id="email" type="email" class="onboarding-form form-control" placeholder="Ton adresse email" {% if email is defined and email is not null %}value="{{ email }}"{% endif %}>
+                        <input name="email" id="email" type="email" class="sign-up-form form-control step-1" placeholder="Ton adresse email" {% if email is defined and email is not null %}value="{{ email }}"{% endif %}>
 
                         <small id="email-control-label" class="text-primary" style="display:none;">Adresse email invalide</small>
                         <small id="email-control-label" class="text-primary" style="display:none;">Cette adresse email est déjà utilisée</small>
                       </div>
                       <div class="form-group">
-                        <input name="password" id="password" type="password" class="onboarding-form form-control" placeholder="Ton mot de passe">
+                        <input name="password" id="password" type="password" class="sign-up-form form-control step-1" placeholder="Ton mot de passe">
                         <small id="password-control-label" class="text-primary" style="display:none;">Le mot de passe doit faire au moins 8 caractères</small>
                       </div>
                       <div class="form-group">
-                        <input name="confirm-password" id="confirm-password" type="password" class="onboarding-form form-control" placeholder="Confirme ton mon de passe">
+                        <input name="confirm-password" id="confirm-password" type="password" class="sign-up-form form-control step-1" placeholder="Confirme ton mon de passe">
                         <small id="confirm-password-control-label" class="text-primary" style="display:none;">Le mot de passe doit être identique</small>
                       </div>
-                      <hr>
-                      <div>
-                        <small>En validant mon abonnement, j'accepte les conditions générales d'utilisation et de vente du Réhausseur.</small>
-                      </div>
-                      <hr>
-                      <button class="btn btn-primary sw-btn-next text-white btn-block" id="btn-step-1" disabled>Suivant</button>
+                      <button class="btn btn-primary sw-btn-next text-white btn-block" id="btn-step-1" type="button">Suivant</button>
                     </div>
                   </div>
                 </div>
@@ -75,17 +70,18 @@
                   <div class="row justify-content-center">
                     <div class="col-xl-4 col-lg-5 col-md-6">
                       <div class="form-group">
-                        <input name="firstname"  id="firstname" type="text" class="onboarding-form form-control" placeholder="Ton prénom">
-                        <small id="firstname-control-label" class="text-primary" style="display:none;">C'est un peu long :)</small>
-                      </div>
+                        <input name="firstname"  id="firstname" type="text" class="sign-up-form form-control step-2" placeholder="Ton prénom">
+                        <small id="firstname-control-label-too-short" class="text-primary" style="display:none;">C'est un peu court :)</small>
+                        <small id="firstname-control-label-too-long" class="text-primary" style="display:none;">C'est un peu long :)</small>                      </div>
                       <small>En sachant dans quelle ville tu habites, je pourrais t'envoyer des actualités sur les évennements dans ta région (festivals...) :</small><br/><br/>
                       <div class="form-group">
-                        <input name="city"  id="city" class="onboarding-form form-control" list="city-datalist" placeholder="Ta ville">
+                        <input name="city"  id="city" class="sign-up-form form-control step-2" list="city-datalist" placeholder="Ta ville">
+                        <small id="city-control-label" class="text-primary" style="display:none;">Dis-nous où tu habites</small>
                         <datalist id="city-datalist">
                         </datalist>
-                        <input name="city-details"  id="city-details" class="onboarding-form form-control" hidden>
+                        <input name="city-details"  id="city-details" class="sign-up-form form-control" hidden>
                       </div>
-                      <button class="btn btn-primary sw-btn-next text-white btn-block" id="btn-step-2" disabled>Suivant</button>
+                      <button class="btn btn-primary sw-btn-next text-white btn-block" id="btn-step-2" type="button">Suivant</button>
                     </div>
                   </div>
                 </div>
@@ -94,14 +90,15 @@
                     <div class="col-xl-4 col-lg-5 col-md-6">
                       <small>Le Réhausseur s'adresse aux enfants de 3 à 12 ans. Commence par créer un profil pour un enfant, tu pourras en rajouter lorsque ton compte sera créé :</small><br/><br/>
                       <div class="form-group">
-                        <input name="child-firstname" type="text" id="child-firstname" class="form-control onboarding-form" placeholder="Son prénom">
-                        <small id="child-firstname-control-label" class="text-primary" style="display:none;">C'est un peu long :)</small>
+                        <input name="child-firstname" type="text" id="child-firstname" class="form-control sign-up-form step-3" placeholder="Son prénom">
+                        <small id="child-firstname-control-label-too-short" class="text-primary" style="display:none;">C'est un peu court :)</small>
+                        <small id="child-firstname-control-label-too-long" class="text-primary" style="display:none;">C'est un peu long :)</small>
                       </div>
                       <div class="form-group">
-                        <input name="child-birth-date" id="child-birth-date" type="date" class="form-control onboarding-form" placeholder="Sa date de naissance">
+                        <input name="child-birth-date" id="child-birth-date" type="date" class="form-control sign-up-form step-3" placeholder="Sa date de naissance">
                         <small id="child-birth-date-control-label" class="text-primary" style="display:none;">Le Réhausseur s'addresse aux enfants de 3 à 12 ans</small>
                       </div>
-                      <button id="btn-step-3" class="btn btn-primary text-white sw-btn-next btn-block" disabled>Suivant</button>
+                      <button id="btn-step-3" class="btn btn-primary text-white sw-btn-next btn-block" type="button">Suivant</button>
                     </div>
                   </div>
                 </div>
@@ -157,7 +154,7 @@
                           </div>
                         </div>
                       </div>
-                      <button class="btn btn-primary btn-block text-white" type="submit">Je crée mon compte</button>
+                      <button class="btn btn-primary btn-block text-white" id="sign-up-form-submit" type="submit">Je crée mon compte</button>
                     </div>
                   </div>
                 </div>

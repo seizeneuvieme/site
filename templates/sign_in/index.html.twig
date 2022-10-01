@@ -20,8 +20,7 @@
                     <div class="text-center mb-4">
                         {% if error %}
                             <div class="alert alert-primary" role="alert">
-                                Formulaire invalide. <br/>En cas de problème, <a href="mailto:contact@lerehausseur.fr" alt="Contacter Le Réhausseur">contacte-nous</a> :)
-                            </div>
+                                {{ error.messageKey|trans(error.messageData, 'security') }}                            </div>
                         {% endif %}
                     </div>
                 </div>
@@ -30,7 +29,7 @@
                 <div class="col">
                     <div class="row justify-content-center pt-2">
                         <div class="col-xl-4 col-lg-5 col-md-6">
-                            <form action="{{ path('app_sign_in') }}" method="POST">
+                            <form action="{{ path('app_sign_in') }}" method="POST" class="form">
                                 <div class="form-group">
                                     <input id="email" type="email" name="_username" placeholder="Ton adresse email" class="form-control sign-in" value="{{ last_username }}">
                                     <small id="email-control-label" class="text-primary" style="display:none;">Adresse email invalide</small>
@@ -45,7 +44,7 @@
                                 <div class="form-group">
                                     <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
                                     <input type="hidden" name="_target_path" value="/mon-compte"/>
-                                    <button id="sign-in-btn" class="btn-block btn btn-primary text-white sign-in-btn" type="submit" disabled>Connexion</button>
+                                    <button id="sign-in-btn" class="btn-block btn btn-primary text-white sign-in-btn" type="button">Connexion</button>
                                 </div>
                                 <hr>
                                 <div class="text-center text-small text-muted">

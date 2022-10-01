@@ -30,7 +30,7 @@
                 <div class="col">
                     <div class="row justify-content-center pt-2">
                         <div class="col-xl-4 col-lg-5 col-md-6">
-                            <form action="{{ path('app_reset_password') }}" method="POST">
+                            <form action="{{ path('app_reset_password') }}" method="POST" class="form">
                                 <div class="form-group">
                                     <div class="form-group">
                                         <input name="password" id="password" type="password" class="reset form-control" placeholder="Ton nouveau mot de passe">
@@ -42,7 +42,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <button id="btn-reset-form" class="btn-block btn btn-primary text-white" type="submit" disabled>Réinitialiser mon mot de passe</button>
+                                    <button id="btn-reset-form" class="btn-block btn btn-primary text-white" type="button">Réinitialiser mon mot de passe</button>
                                 </div>
                             </form>
                         </div>

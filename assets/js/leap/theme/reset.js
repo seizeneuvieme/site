@@ -1,56 +1,51 @@
 function validatePassword(password) {
-  if (password !== "" && password.length < 8) {
+  if (password.length < 8) {
     $("#password-control-label").show();
     if (
-      password !== $("input.reset#confirm-password").val() &&
-      $("input.reset#confirm-password").val() !== ""
+      password !== $("input.reset#confirm-password").val()
     ) {
-      $("#confirm-password-control-label").show();
+      if($("input.reset#confirm-password").val() !== "") {
+        $("#confirm-password-control-label").show();
+      }
       return false;
     } else if (
-      password === $("input.reset#confirm-password").val() &&
-      $("input.reset#confirm-password").val() !== ""
+      password === $("input.reset#confirm-password").val()
     ) {
       $("#confirm-password-control-label").hide();
       return true;
-    } else {
-      $("#confirm-password-control-label").hide();
-      return false;
     }
   } else {
     $("#password-control-label").hide();
     if (
-      password !== $("input.reset#confirm-password").val() &&
-      $("input.reset#confirm-password").val() !== ""
+      password !== $("input.reset#confirm-password").val()
     ) {
-      $("#confirm-password-control-label").show();
+      if($("input.reset#confirm-password").val() !== "") {
+        $("#confirm-password-control-label").show();
+      }
       return false;
     } else if (
-      password === $("input.reset#confirm-password").val() &&
-      $("input.reset#confirm-password").val() !== ""
+      password === $("input.reset#confirm-password").val()
     ) {
       $("#confirm-password-control-label").hide();
       return true;
-    } else {
-      $("#confirm-password-control-label").hide();
-      return false;
     }
   }
 }
 
 function validateResetForm() {
-  password = validatePassword($("input.reset#password").val());
-  if (password === false) {
-    $("#btn-reset-form").attr("disabled", "disabled");
-  } else {
-    $("#btn-reset-form").removeAttr("disabled");
-  }
+  return validatePassword($("input.reset#password").val());
 }
 
-$("input.reset#password").on("keyup", function () {
-  validateResetForm();
+$("input.reset#password").on("change", function () {
+  validatePassword($(this).val());
 });
 
-$("input.reset#confirm-password").on("keyup", function () {
-  validateResetForm();
+$("input.reset#confirm-password").on("change", function () {
+  validatePassword($(this).val());
+});
+
+$("#btn-reset-form").on('click', function() {
+  if (validateResetForm() === true) {
+    $('.form').submit();
+  }
 });
