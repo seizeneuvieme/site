@@ -42,26 +42,30 @@
             <div class="row">
                 <div class="col">
                     <div class="row justify-content-center pt-2">
-                        <div class="col-xl-4 col-lg-5 col-md-6 text-center">
-                            <form action="{{ path('app_update_user_infos') }}" method="POST">
+                        <div class="col-xl-4 col-lg-5 col-md-6">
+                            <form action="{{ path('app_update_user_infos') }}" method="POST" class="form">
                                 <div class="form-group">
                                     <div class="form-group">
                                         <input name="firstname"  id="firstname" type="text" class="update-user-form form-control" placeholder="Ton prénom" value="{{ app.user.firstname }}">
-                                        <small id="firstname-control-label" class="text-primary" style="display:none;">C'est un peu long :)</small>
+                                        <small id="firstname-control-label-too-short" class="text-primary" style="display:none;">C'est un peu court :)</small>
+                                        <small id="firstname-control-label-too-long" class="text-primary" style="display:none;">C'est un peu long :)</small>
+                                    </div>
                                     </div>
                                     <small>En sachant dans quelle ville tu habites, je pourrais t'envoyer des actualités sur les évennements dans ta région (festivals...) :</small><br/><br/>
                                     <div class="form-group">
                                         <input name="city"  id="city" class="update-user-form form-control" list="city-datalist" placeholder="Ta ville" value="{{ app.user.city }}">
+                                        <small id="city-control-label" class="text-primary" style="display:none;">Dis-nous où tu habites</small>
                                         <datalist id="city-datalist">
+                                            <option value="{{ app.user.city }}">{{ app.user.departmentNumber ~ ', ' ~ app.user.departmentName ~ ', ' ~ app.user.region }}</option>
                                         </datalist>
                                         <input name="city-details"  id="city-details" class="update-user-form form-control" hidden value="{{ app.user.departmentNumber ~ ', ' ~ app.user.departmentName ~ ', ' ~ app.user.region }}">
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <button class="btn-block btn btn-primary text-white" id="btn-update-user-form">Modifier mes coordonnées</button>
+                                    <div class="form-group">
+                                        <button class="btn-block btn btn-primary text-white" id="btn-update-user-form" type="button">Modifier mes coordonnées</button>
+                                    </div>
                                 </div>
                             </form>
-                            <a class="text-primary pt-5" href="{{ path('app_dashboard') }}">Retour à mon compte</a>
+                        <a class="text-primary pt-3 text-center" href="{{ path('app_dashboard') }}">Retour à mon compte</a>
                         </div>
                     </div>
                 </div>

@@ -1,58 +1,52 @@
-<html>
-<head>
-    <meta charset="UTF-8">
-    {% block stylesheets %}
-        <link rel="stylesheet" href="{{ absolute_url(asset('build/app.css')) }}" />
-    {% endblock %}
-</head>
-<body>
-<section class="pt-0 pb-3">
-    <div class="container">
-        <div class="row justify-content-center pt-3">
-            <div class="col-lg-8">
-                <div class="text-center mb-4">
-                    <h1 class="mb-2">Hey 👋</h1>
+<html style="box-sizing: border-box;-moz-osx-font-smoothing: grayscale;-webkit-font-smoothing: antialiased;font-family: sans-serif;line-height: 1.15;-webkit-text-size-adjust: 100%;-webkit-tap-highlight-color: rgba(0, 0, 0, 0);-ms-overflow-style: scrollbar;">
+<body style="box-sizing: border-box;transition: opacity 0.4s ease;margin: 0;font-family: &quot;Inter UI&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, &quot;Helvetica Neue&quot;, Arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;, &quot;Noto Color Emoji&quot;;font-size: 1rem;font-weight: 400;line-height: 1.5;color: #495057;text-align: left;background-color: #fff;-webkit-text-size-adjust: 100%;-webkit-tap-highlight-color: rgba(0, 0, 0, 0);min-width: 992px !important;">
+<section class="pt-0 pb-3" style="box-sizing: border-box;position: relative;padding: 6rem 0;display: block;padding-top: 0 !important;padding-bottom: 1.5rem !important;">
+    <div class="container" style="box-sizing: border-box;--bs-gutter-x: 24px;--bs-gutter-y: 0;width: 100%;padding-right: 12px;padding-left: 12px;margin-right: auto;margin-left: auto;min-width: 992px !important;">
+        <div class="row justify-content-center pt-3" style="box-sizing: border-box;width: 100%;--bs-gutter-x: 24px;--bs-gutter-y: 0;display: flex;flex-wrap: wrap;margin-top: calc(-1 * var(--bs-gutter-y));margin-right: -12px;margin-left: -12px;justify-content: center !important;padding-top: 1.5rem !important;">
+            <div class="col-lg-8" style="box-sizing: border-box;flex-shrink: 0;width: 100%;max-width: 66.6666666667%;padding-right: 12px;padding-left: 12px;margin-top: var(--bs-gutter-y);flex: 0 0 66.6666666667%;position: relative;">
+                <div class="text-center mb-4" style="box-sizing: border-box;margin-bottom: 2.25rem !important;text-align: center !important;">
+                    <h1 class="mb-2" style="box-sizing: border-box;font-size: calc(1.375rem + 1.5vw);letter-spacing: -0.03em;margin-top: 3rem !important;margin-bottom: 0.75rem !important;font-family: inherit;font-weight: 600;line-height: 1.2;color: #212529;">Hey 👋</h1>
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col">
-                <div class="row justify-content-center pt-2">
-                    <div class="col-lg-8 text-center">
-                        <p>Tu as oublié ton mot de passe ? Pas de panique !</p>
-                        <p>Il te suffit de le changer en <strong>cliquant sur le lien suivant</strong> 👇</p>
+        <div class="row" style="box-sizing: border-box;width: 100%;--bs-gutter-x: 24px;--bs-gutter-y: 0;display: flex;flex-wrap: wrap;margin-top: calc(-1 * var(--bs-gutter-y));margin-right: -12px;margin-left: -12px;">
+            <div class="col" style="box-sizing: border-box;flex-shrink: 0;width: 100%;max-width: 100%;padding-right: 12px;padding-left: 12px;margin-top: var(--bs-gutter-y);flex: 1 0 0%;flex-basis: 0;flex-grow: 1;min-width: 0;position: relative;">
+                <div class="row justify-content-center pt-2" style="box-sizing: border-box;width: 100%;--bs-gutter-x: 24px;--bs-gutter-y: 0;display: flex;flex-wrap: wrap;margin-top: calc(-1 * var(--bs-gutter-y));margin-right: -12px;margin-left: -12px;justify-content: center !important;padding-top: 0.75rem !important;">
+                    <div class="col-lg-8 text-center" style="box-sizing: border-box;flex-shrink: 0;width: 100%;max-width: 66.6666666667%;padding-right: 12px;padding-left: 12px;margin-top: var(--bs-gutter-y);flex: 0 0 66.6666666667%;position: relative;text-align: center !important;">
+                        <p style="box-sizing: border-box;margin-top: 0;margin-bottom: 1rem;orphans: 3;widows: 3;">Tu as oublié ton mot de passe ? Pas de panique !</p>
+                        <p style="box-sizing: border-box;margin-top: 0;margin-bottom: 1rem;orphans: 3;widows: 3;">Il te suffit de le changer en <strong style="box-sizing: border-box;font-weight: bolder;">cliquant sur le lien suivant</strong> 👇</p>
 
-                        <a class="btn btn-primary mb-5 mt-4" href="{{ url('app_reset_password', {token: resetToken.token}) }}">{{ url('app_reset_password', {token: resetToken.token}) }}</a>
+                        <a class="btn btn-primary mb-5 mt-4" href="{{ url('app_reset_password', {token: resetToken.token}) }}" style="box-sizing: border-box;font-weight: 600;color: #fff;text-decoration: none;background-color: #ff2e3d;letter-spacing: -0.02em;--bs-btn-padding-x: 1.25rem;--bs-btn-padding-y: 0.4375rem;--bs-btn-font-family: ;--bs-btn-font-size: 1rem;--bs-btn-font-weight: 600;--bs-btn-line-height: 1.5;--bs-btn-color: #000;--bs-btn-bg: #ff2e3d;--bs-btn-border-width: 1px;--bs-btn-border-color: #ff2e3d;--bs-btn-border-radius: 0.3125rem;--bs-btn-hover-border-color: #ff4350;--bs-btn-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 1px 1px rgba(0, 0, 0, 0.075);--bs-btn-disabled-opacity: 0.65;--bs-btn-focus-box-shadow: 0 0 0 0.2rem rgba(var(--bs-btn-focus-shadow-rgb), .5);display: inline-block;padding: 0.4375rem 1.25rem;font-family: var(--bs-btn-font-family);font-size: 1rem;line-height: 1.5;text-align: center;vertical-align: middle;cursor: pointer;user-select: none;border: 1px solid transparent;border-radius: 0.3125rem;transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;--bs-btn-hover-color: #000;--bs-btn-hover-bg: #ff4d5a;--bs-btn-focus-shadow-rgb: 217, 39, 52;--bs-btn-active-color: #000;--bs-btn-active-bg: #ff5864;--bs-btn-active-border-color: #ff4350;--bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);--bs-btn-disabled-color: #000;--bs-btn-disabled-bg: #ff2e3d;--bs-btn-disabled-border-color: #ff2e3d;border-color: #ff2e3d;margin-top: 2.25rem !important;margin-bottom: 3rem !important;">{{ url('app_reset_password', {token: resetToken.token}) }}</a>
 
-                        <p><strong>Attention</strong>, ce lien expirera automatiquement dans {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.<br><br></p>
+                        <p style="box-sizing: border-box;margin-top: 0;margin-bottom: 1rem;orphans: 3;widows: 3;"><strong style="box-sizing: border-box;font-weight: bolder;">Attention</strong>, ce lien expirera automatiquement dans {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.<br style="box-sizing: border-box;"><br style="box-sizing: border-box;"></p>
 
-                        <p>
-                            À bientôt !<br>
-                            Fanny ❤️<br><br>
+                        <p style="box-sizing: border-box;margin-top: 0;margin-bottom: 1rem;orphans: 3;widows: 3;">
+                            À bientôt !<br style="box-sizing: border-box;">
+                            Fanny ❤️<br style="box-sizing: border-box;"><br style="box-sizing: border-box;">
                         </p>
                     </div>
                 </div>
             </div>
         </div>
-</section>
-<section class="pb-4 bg-primary-alt has-divider" id="footer">
-    <div class="divider flip-y">
-        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100%" height="96px" viewBox="0 0 100 100" version="1.1" preserveAspectRatio="none" class="injected-svg bg-white" data-src="assets/img/dividers/divider-2.svg">
-            <path d="M0,0 C16.6666667,66 33.3333333,99 50,99 C66.6666667,99 83.3333333,66 100,0 L100,100 L0,100 L0,0 Z"></path>
+    </div></section>
+<section class="pb-4 bg-primary-alt has-divider" id="footer" style="box-sizing: border-box;position: relative;padding: 0;display: block;background: #fff2f3;padding-bottom: 2.25rem !important;">
+    <div class="divider flip-y" style="box-sizing: border-box;transform: scaleY(-1);position: relative;bottom: 1px;">
+        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100%" height="96px" viewbox="0 0 100 100" version="1.1" preserveaspectratio="none" class="injected-svg bg-white" data-src="assets/img/dividers/divider-2.svg" style="box-sizing: border-box;vertical-align: middle;overflow: hidden;--bs-bg-opacity: 1;height: 6vw;background-color: #fff !important;background: none !important;">
+            <path d="M0,0 C16.6666667,66 33.3333333,99 50,99 C66.6666667,99 83.3333333,66 100,0 L100,100 L0,100 L0,0 Z" style="box-sizing: border-box;fill: #fff;"></path>
         </svg>
     </div>
-    <div class="container pt-0 pb-0">
-        <div class="row mb-4 justify-content-center">
-            <div class="col-auto">
-                <a href="{{ absolute_url(path('app_home')) }}" target="_blank">
-                    <img class="logo-img" src="{{ absolute_url(asset('build/images/logos/logo.png')) }}" alt="Le Réhausseur" />
+    <div class="container pt-0 pb-0" style="box-sizing: border-box;--bs-gutter-x: 24px;--bs-gutter-y: 0;width: 100%;padding-right: 12px;padding-left: 12px;margin-right: auto;margin-left: auto;padding-top: 0 !important;padding-bottom: 0 !important;min-width: 992px !important;">
+        <div class="row mb-4 justify-content-center" style="box-sizing: border-box;width: 100%;--bs-gutter-x: 24px;--bs-gutter-y: 0;display: flex;flex-wrap: wrap;margin-top: calc(-1 * var(--bs-gutter-y));margin-right: -12px;margin-left: -12px;justify-content: center !important;margin-bottom: 2.25rem !important;">
+            <div class="col-auto" style="box-sizing: border-box;flex-shrink: 0;width: 100%;max-width: 100%;padding-right: 12px;padding-left: 12px;margin-top: var(--bs-gutter-y);flex: 0 0 auto;position: relative;">
+                <a href="{{ absolute_url(path('app_home')) }}" target="_blank" style="box-sizing: border-box;font-weight: 600;color: #ff2e3d;text-decoration: underline;background-color: transparent;">
+                    <img class="logo-img" src="{{ absolute_url(asset('build/images/logos/logo.png')) }}" alt="Le Réhausseur" style="box-sizing: border-box;max-width: 100%;flex-shrink: 0;vertical-align: middle;border-style: none;page-break-inside: avoid;width: 150px;">
                 </a>
             </div>
         </div>
-        <div class="row mb-4">
-            <div class="col">
-                <ul class="nav justify-content-center">
-                    <li class="nav-item"><a href="#" class="nav-link">Me désabonner</a>
+        <div class="row mb-4" style="box-sizing: border-box;width: 100%;--bs-gutter-x: 24px;--bs-gutter-y: 0;display: flex;flex-wrap: wrap;margin-top: calc(-1 * var(--bs-gutter-y));margin-right: -12px;margin-left: -12px;margin-bottom: 2.25rem !important;">
+            <div class="col" style="box-sizing: border-box;flex-shrink: 0;width: 100%;max-width: 100%;padding-right: 12px;padding-left: 12px;margin-top: var(--bs-gutter-y);flex: 1 0 0%;flex-basis: 0;flex-grow: 1;min-width: 0;position: relative;">
+                <ul class="nav justify-content-center" style="box-sizing: border-box;flex-flow: column;align-items: center;padding-left: 0;margin-top: 0;margin-bottom: 0;--bs-nav-link-padding-x: 1rem;--bs-nav-link-padding-y: 0.5rem;--bs-nav-link-font-weight: ;--bs-nav-link-color: var(--bs-link-color);--bs-nav-link-hover-color: var(--bs-link-hover-color);--bs-nav-link-disabled-color: inherit;display: flex;flex-wrap: wrap;list-style: none;justify-content: center !important;">
+                    <li class="nav-item" style="box-sizing: border-box;"><a href="#" class="nav-link" style="box-sizing: border-box;font-weight: var(--bs-nav-link-font-weight);color: #212529;text-decoration: underline;background-color: transparent;display: block;padding: 0.5rem 1rem;font-size: var(--bs-nav-link-font-size);transition: opacity 0.2s linear;margin: 0 1rem 0 1rem;">Me désabonner</a>
                     </li>
                 </ul>
             </div>
@@ -61,8 +55,3 @@
 </section>
 </body>
 </html>
-
-
-
-
-

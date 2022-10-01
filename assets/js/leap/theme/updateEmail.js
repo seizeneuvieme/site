@@ -13,11 +13,7 @@ function passEmailRgx(mail) {
 
 function validateEmail(email) {
     if (passEmailRgx(email) === false) {
-        if (email !== "") {
-            $("#email-control-label").show();
-        } else {
-            $("#email-control-label").hide();
-        }
+        $("#email-control-label").show();
         return false;
     } else {
         $("#email-control-label").hide();
@@ -26,14 +22,27 @@ function validateEmail(email) {
 }
 
 function validateUpdateEmailForm() {
-    email = validateEmail($("input.update-email#email").val());
-    if (email === false) {
-        $("#update-email-btn").attr("disabled", "disabled");
-    } else {
-        $("#update-email-btn").removeAttr("disabled");
-    }
+    return validateEmail($("input.update-email#email").val()) === true;
 }
 
-$("input.update-email#email").on("keyup", function () {
+$("input.update-email#email").on("change", function () {
     validateUpdateEmailForm();
 });
+
+$("#update-email-btn").on("click", function (e) {
+    e.stopImmediatePropagation();
+    if (validateUpdateEmailForm() === true) {
+        $('.form').submit();
+    }
+});
+
+$('input').keypress(function(e) {
+    if (e.keyCode === 13) {
+        e.preventDefault();
+        if (validateUpdateEmailForm() === true) {
+            $('.form').submit();
+        }
+    }
+})
+
+

@@ -42,22 +42,22 @@
             <div class="row">
                 <div class="col">
                     <div class="row justify-content-center pt-2">
-                        <div class="col-xl-4 col-lg-5 col-md-6 text-center">
-                            <form action="{{ path('app_add_child') }}" method="POST">
+                        <div class="col-xl-4 col-lg-5 col-md-6">
+                            <form action="{{ path('app_add_child') }}" method="POST" class="form">
                                 <div class="form-group">
                                     <input name="child-firstname" type="text" id="child-firstname" class="form-control add-child-form" placeholder="Son prénom">
-                                    <small id="child-firstname-control-label" class="text-primary" style="display:none;">C'est un peu long :)</small>
-                                </div>
+                                    <small id="child-firstname-control-label-too-short" class="text-primary" style="display:none;">C'est un peu court :)</small>
+                                    <small id="child-firstname-control-label-too-long" class="text-primary" style="display:none;">C'est un peu long :)</small>                                </div>
                                 <div class="form-group">
                                     <input name="child-birth-date" id="child-birth-date" type="date" class="form-control add-child-form" placeholder="Sa date de naissance">
                                     <small id="child-birth-date-control-label" class="text-primary" style="display:none;">Le Réhausseur s'addresse aux enfants de 3 à 12 ans</small>
                                 </div>
                                 <div class="form-group">
-                                    <button class="btn-block btn btn-primary text-white" id="btn-add-child-form" disabled>Ajouter un enfant</button>
+                                    <button class="btn-block btn btn-primary text-white" id="btn-add-child-form" type="button">Ajouter un enfant</button>
                                 </div>
                             </form>
-                            <a class="text-primary pt-5" href="{{ path('app_dashboard') }}">Retour à mon compte</a>
                         </div>
+                        <a class="text-primary pt-3 text-center" href="{{ path('app_dashboard') }}">Retour à mon compte</a>
                     </div>
                 </div>
             </div>

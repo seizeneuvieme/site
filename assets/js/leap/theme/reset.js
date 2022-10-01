@@ -1,39 +1,29 @@
 function validatePassword(password) {
   if (password.length < 8) {
     $("#password-control-label").show();
-    if (
-      password !== $("input.reset#confirm-password").val()
-    ) {
-      if($("input.reset#confirm-password").val() !== "") {
-        $("#confirm-password-control-label").show();
-      }
-      return false;
-    } else if (
-      password === $("input.reset#confirm-password").val()
-    ) {
-      $("#confirm-password-control-label").hide();
-      return true;
-    }
+    return false;
   } else {
     $("#password-control-label").hide();
-    if (
-      password !== $("input.reset#confirm-password").val()
-    ) {
-      if($("input.reset#confirm-password").val() !== "") {
-        $("#confirm-password-control-label").show();
-      }
-      return false;
-    } else if (
-      password === $("input.reset#confirm-password").val()
-    ) {
-      $("#confirm-password-control-label").hide();
-      return true;
-    }
+    return true;
+  }
+}
+
+function validateConfirmPassword(password) {
+  if (
+      password !== $("input.reset#password").val()
+  ) {
+    $("#confirm-password-control-label").show();
+    return false;
+  } else {
+    $("#confirm-password-control-label").hide();
+    return true;
   }
 }
 
 function validateResetForm() {
-  return validatePassword($("input.reset#password").val());
+  password = validatePassword($("input.reset#password").val());
+  confirmPassword = validateConfirmPassword($("input.reset#confirm-password").val());
+  return password === true && confirmPassword === true;
 }
 
 $("input.reset#password").on("change", function () {
@@ -41,7 +31,7 @@ $("input.reset#password").on("change", function () {
 });
 
 $("input.reset#confirm-password").on("change", function () {
-  validatePassword($(this).val());
+  validateConfirmPassword($(this).val());
 });
 
 $("#btn-reset-form").on('click', function() {
@@ -49,3 +39,12 @@ $("#btn-reset-form").on('click', function() {
     $('.form').submit();
   }
 });
+
+$('input').keypress(function(e) {
+  if (e.keyCode === 13) {
+    e.preventDefault();
+    if (validateResetForm() === true) {
+      $('.form').submit();
+    }
+  }
+})

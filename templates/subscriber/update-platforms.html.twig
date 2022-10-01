@@ -4,7 +4,7 @@
 
 {% block javascripts %}
     {{ parent() }}
-    {{ encore_entry_script_tags('update-user-infos') }}
+    {{ encore_entry_script_tags('update-platforms') }}
 {% endblock %}
 
 {% block body %}
@@ -42,9 +42,9 @@
             <div class="row">
                 <div class="col">
                     <div class="row justify-content-center pt-2">
-                        <div class="col-xl-4 col-lg-5 col-md-6 text-center">
-                            <form action="{{ path('app_update_platforms') }}" method="POST">
-                                <small>En plus des supports gratuits, y a-t-il des plateformes de streaming payantes sur lesquelles tu aimerais recevoir des idées de film à regarder ?</small><br/><br/>
+                        <div class="col-xl-4 col-lg-5 col-md-6">
+                            <form action="{{ path('app_update_platforms') }}" method="POST" class="form">
+                                <small class="text-center">En plus des supports gratuits, y a-t-il des plateformes de streaming payantes sur lesquelles tu aimerais recevoir des idées de film à regarder ?</small><br/><br/>
                                 <div class="custom-control custom-checkbox mb-3" style="padding-left: 0 !important">
                                     <div class="card_area">
                                         <input class="checkbox" type="checkbox" id="netflix"  name="streaming[]" value="Netflix" {% for platform in app.user.platforms %} {% if platform.name == 'Netflix' %} checked="checked" {% endif %} {% endfor %} />
@@ -97,8 +97,8 @@
                                     <button class="btn-block btn btn-primary text-white" id="btn-update-platforms">Modifier mes plateformes de streaming</button>
                                 </div>
                             </form>
-                                <a class="text-primary " href="{{ path('app_dashboard') }}">Retour à mon compte</a>
                         </div>
+                        <a class="text-primary text-center pt-3" href="{{ path('app_dashboard') }}">Retour à mon compte</a>
                     </div>
                 </div>
             </div>

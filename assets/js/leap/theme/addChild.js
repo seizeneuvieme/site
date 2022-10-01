@@ -1,20 +1,21 @@
+
 function validateChildFirstname(childFirstname) {
-  if (childFirstname.length < 3 || childFirstname.length > 125) {
-    if (childFirstname.length > 2) {
-      $("#child-firstname-control-label").show();
-    } else {
-      $("#child-firstname-control-label").hide();
-    }
+  if (childFirstname.length < 3) {
+    $("#child-firstname-control-label-too-short").show();
+    return false;
+  } else if (childFirstname.length > 125) {
+    $("#child-firstname-control-label-too-long").show();
     return false;
   } else {
-    $("#child-firstname-control-label").hide();
+    $("#child-firstname-control-label-too-short").hide();
+    $("#child-firstname-control-label-too-long").hide();
     return true;
   }
 }
 
 function validateChildBirthdayDate(birthdayDate) {
   if (birthdayDate === "") {
-    $("#child-birth-date-control-label").hide();
+    $("#child-birth-date-control-label").show();
     return false;
   }
   if (Date.now() < new Date(birthdayDate)) {
@@ -41,20 +42,31 @@ function validateAddChild() {
   childBirthdayDate = validateChildBirthdayDate(
     $("input.add-child-form#child-birth-date").val()
   );
-  if (
-    childFirstname === false ||
-    childBirthdayDate === false
-  ) {
-    $("#btn-add-child-form").attr("disabled", "disabled");
-  } else {
-    $("#btn-add-child-form").removeAttr("disabled");
-  }
+ return childFirstname === true && childBirthdayDate === true;
 }
 
-$("input.add-child-form#child-firstname").on("keyup", function () {
+$("input.add-child-form#child-firstname").on("change", function () {
   validateAddChild();
 });
 
-$("input.add-child-form#child-birth-date").on("input", function () {
+$("input.add-child-form#child-birth-date").on("change", function () {
   validateAddChild();
 });
+
+
+$("#btn-add-child-form").on("click", function (e) {
+  e.stopImmediatePropagation();
+  if (validateAddChild() === true) {
+    $('.form').submit();
+  }
+});
+
+$('input').keypress(function(e) {
+  if (e.keyCode === 13) {
+    e.preventDefault();
+    if (validateAddChild() === true) {
+      $('.form').submit();
+    }
+  }
+})
+
