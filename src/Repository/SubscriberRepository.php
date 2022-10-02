@@ -65,10 +65,11 @@ class SubscriberRepository extends ServiceEntityRepository implements PasswordUp
         return $this->getEntityManager()
             ->getConnection()
             ->executeQuery(
-                "SELECT COUNT(*) 
+                "SELECT id 
                      FROM subscriber
                      WHERE is_verified = true"
-            );
+            )
+            ->rowCount();
     }
 
     /**
@@ -79,11 +80,12 @@ class SubscriberRepository extends ServiceEntityRepository implements PasswordUp
         return $this->getEntityManager()
             ->getConnection()
             ->executeQuery(
-                "SELECT COUNT(*) 
+                "SELECT id 
                      FROM subscriber
                      WHERE is_verified = true
                      AND created_at >= date_trunc('month', current_date - interval '1' month)"
-            );
+            )
+            ->rowCount();
     }
 
     /**
@@ -94,7 +96,7 @@ class SubscriberRepository extends ServiceEntityRepository implements PasswordUp
         return $this->getEntityManager()
             ->getConnection()
             ->executeQuery(
-                "SELECT COUNT(*) 
+                "SELECT s.id
                      FROM subscriber s 
                      INNER JOIN subscriber_platform sp ON s.id = sp.subscriber_id
                      INNER JOIN platform p ON sp.platform_id = p.id
@@ -103,7 +105,8 @@ class SubscriberRepository extends ServiceEntityRepository implements PasswordUp
                 [
                     'platform' => Platform::NETFLIX
                 ]
-            );
+            )
+            ->rowCount();
     }
 
     /**
@@ -114,16 +117,17 @@ class SubscriberRepository extends ServiceEntityRepository implements PasswordUp
         return $this->getEntityManager()
             ->getConnection()
             ->executeQuery(
-                "SELECT COUNT(*) 
+                "SELECT s.id 
                      FROM subscriber s 
                      INNER JOIN subscriber_platform sp ON s.id = sp.subscriber_id
                      INNER JOIN platform p ON sp.platform_id = p.id
                      WHERE s.is_verified = true
                      AND p.name = :platform",
                 [
-                    'platform' => Platform::Disney
+                    'platform' => Platform::DISNEY
                 ]
-            );
+            )
+            ->rowCount();
     }
 
 //    /**
