@@ -36,3 +36,19 @@
     </div>
     </nav>
 </div>
+{% if app.request.cookies.has('cookies') == false %}
+    <div class="modal fade" id="cookies-modal" tabindex="-1" role="dialog" style="width: fit-content !important; display: flex !important; top: inherit !important; overflow-y: auto; justify-content: center;" data-backdrop="false">
+        <div class="modal-dialog modal-lg" style="position: fixed; bottom: 5rem; right: 1%; left: 1%;" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="d-flex m-2 align-items-center">
+                        <div class="mx-3">
+                            👋 En poursuivant ta navigation sur Le Réhausseur, tu acceptes le dépôt de cookies pour recueillir des données à des fins uniquement statistiques. Voir notre <a href="{{ path('app_privacy_policy') }}">politique de confidentialité</a>.
+                        </div>
+                        <button class="btn btn-primary text-white" data-dismiss="modal" id="cookies-modal-close">Fermer</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}

@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Platform;
 use App\Entity\Subscriber;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -54,6 +55,75 @@ class SubscriberRepository extends ServiceEntityRepository implements PasswordUp
         $user->setPassword($newHashedPassword);
 
         $this->add($user, true);
+    }
+
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
+    public function getTotalNumberOfSubscribers(): int
+    {
+        return $this->getEntityManager()
+            ->getConnection()
+            ->executeQuery(
+                "SELECT COUNT(*) 
+                     FROM subscriber
+                     WHERE is_verified = true"
+            );
+    }
+
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
+    public function getNumberOfNewSubscribersThisMonth(): int
+    {
+        return $this->getEntityManager()
+            ->getConnection()
+            ->executeQuery(
+                "SELECT COUNT(*) 
+                     FROM subscriber
+                     WHERE is_verified = true
+                     AND created_at >= date_trunc('month', current_date - interval '1' month)"
+            );
+    }
+
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
+    public function getNumberOfSubscribersForNetflix(): int
+    {
+        return $this->getEntityManager()
+            ->getConnection()
+            ->executeQuery(
+                "SELECT COUNT(*) 
+                     FROM subscriber s 
+                     INNER JOIN subscriber_platform sp ON s.id = sp.subscriber_id
+                     INNER JOIN platform p ON sp.platform_id = p.id
+                     WHERE s.is_verified = true
+                     AND p.name = :platform",
+                [
+                    'platform' => Platform::NETFLIX
+                ]
+            );
+    }
+
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
+    public function getNumberOfSubscribersForDisney(): int
+    {
+        return $this->getEntityManager()
+            ->getConnection()
+            ->executeQuery(
+                "SELECT COUNT(*) 
+                     FROM subscriber s 
+                     INNER JOIN subscriber_platform sp ON s.id = sp.subscriber_id
+                     INNER JOIN platform p ON sp.platform_id = p.id
+                     WHERE s.is_verified = true
+                     AND p.name = :platform",
+                [
+                    'platform' => Platform::Disney
+                ]
+            );
     }
 
 //    /**

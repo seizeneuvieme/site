@@ -54,3 +54,11 @@ import "./js/leap/mrare/wizard";
 
 // start the Stimulus application
 //import "./bootstrap";
+
+if (false === document.cookie.includes("cookies=true")) {
+    $('#cookies-modal').modal('show');
+}
+
+$('#cookies-modal-close').on('click', function() {
+    document.cookie = "cookies=true";
+});

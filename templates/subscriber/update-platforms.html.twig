@@ -69,30 +69,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="custom-control custom-checkbox mb-3" style="padding-left: 0 !important">
-                                    <div class="card_area">
-                                        <input class="checkbox" type="checkbox" id="prime"  name="streaming[]" value="Prime" {% for platform in app.user.platforms %} {% if platform.name == 'Prime' %} checked="checked" {% endif %} {% endfor %} />
-                                        <div class="single_card">
-                                            <div class="card_content">
-                                                <div class="card_icon">
-                                                    <img src="{{ asset('build/images/Prime.png') }}" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="custom-control custom-checkbox mb-3" style="padding-left: 0 !important">
-                                    <div class="card_area">
-                                        <input class="checkbox" type="checkbox" id="canal"  name="streaming[]" value="Canal" {% for platform in app.user.platforms %} {% if platform.name == 'Canal' %} checked="checked" {% endif %} {% endfor %} />
-                                        <div class="single_card">
-                                            <div class="card_content">
-                                                <div class="card_icon">
-                                                    <img src="{{ asset('build/images/Canal.png') }}" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                                 <div class="form-group">
                                     <button class="btn-block btn btn-primary text-white" id="btn-update-platforms">Modifier mes plateformes de streaming</button>
                                 </div>
