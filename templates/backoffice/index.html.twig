@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Mon compte - Le Réhausseur{% endblock %}
+{% block title %}Backoffice - Le Réhausseur{% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
@@ -14,36 +14,47 @@
             <div class="row justify-content-center pt-4">
                 <div class="text-center mb-4">
                     <h1 class="mb-2">🔒 Backoffice</h1>
+                    <div class="text-center mb-4 col-lg-9" style="margin: auto;">
+                        {% if app.session.flashBag.has('success') %}
+                            {% for flashMessage in app.session.flashbag.get('success') %}
+                                <div class="alert alert-success" role="alert">
+                                    <p>
+                                        {{ flashMessage }}
+                                    </p>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
                 </div>
                 <div class="row justify-content-center">
                     <div class="col-sm-6 col-md-4 col-lg-3">
-                        <div class="card card-sm card-body flex-row align-items-center justify-content-center">
+                        <div class="bg-primary-alt card card-sm card-body flex-row align-items-center justify-content-center">
                             <div class="text-primary text-bold font-weight-bold" style="font-size:2rem;">
                                 {{ nbOfSubscribers }}
                             </div>
                             <div class="ml-3">
                                 <h6 class="mb-0">Nombre d'abonnés</h6>
-                                <span class="font-weight-bold">(+{{ nbOfSubscribersThisMonth}} ce mois-ci)</span>
+                                <span class="font-weight-bold text-primary">(+{{ nbOfSubscribersThisMonth}} ce mois-ci)</span>
                             </div>
                         </div>
                     </div>
                     <div class="col-sm-6 col-md-4 col-lg-3">
-                        <div class="card card-sm card-body flex-row align-items-center justify-content-center">
+                        <div class="bg-primary-alt card card-sm card-body flex-row align-items-center justify-content-center">
                             <div class="text-primary text-bold font-weight-bold" style="font-size:2rem;">
                                 {{ nbOfSubscribersForNetflix }}
                             </div>
                             <div class="ml-3">
-                                <h6 class="mb-0">Nombre d'abonnés Netflix</h6>
+                                <h6 class="mb-0">Nombre d'abonnés à <span style="color: #ff2e3d">Netflix</span></h6>
                             </div>
                         </div>
                     </div>
                     <div class="col-sm-6 col-md-4 col-lg-3">
-                        <div class="card card-sm card-body flex-row align-items-center justify-content-center">
+                        <div class="bg-primary-alt card card-sm card-body flex-row align-items-center justify-content-center">
                             <div class="text-primary text-bold font-weight-bold" style="font-size:2rem;">
                                 {{ nbOfSubscribersForDisney }}
                             </div>
                             <div class="ml-3">
-                                <h6 class="mb-0">Nombre d'abonnés Disney</h6>
+                                <h6 class="mb-0">Nombre d'abonnés à <span style="color: #ff2e3d">Disney</span></h6>
                             </div>
                         </div>
                     </div>
@@ -55,7 +66,88 @@
         <div class="container">
             <div class="row justify-content-center pt-4">
                 <div class="text-center mb-4">
-                    <h2 class="mb-2">Campagnes <span style="color: #ff2e3d">à envoyer</span></h2>
+                    <h2 class="mb-2">Campagnes <span style="color: #ff2e3d">programmées</span></h2>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-lg-7">
+                    <div class="row justify-content-center pt-0 pb-0 ml-1 mr-1">
+                        <div class="row justify-content-center mt-0 bg-primary-alt" style="border-radius: 1rem;">
+                            <table class="table table-borderless mt-2 mb-2" style="--bs-table-accent-bg: inherit">
+                                <thead>
+                                <tr>
+                                    <th scope="col">Nom de la campagne</th>
+                                    <th scope="col">Date d'envoi</th>
+                                    <th scope="col">Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for pendingCampaign in pendingCampaigns %}
+                                <tr>
+                                    <td>{{ pendingCampaign.name }}</td>
+                                    <td class="text-left">{{ pendingCampaign.sendingDate|date("d/m/Y") }}</td>
+                                    <td>
+                                        <a href={{ "https://my.sendinblue.com/camp/template/" ~  pendingCampaign.templateId ~ "/setup/app-smtp" }} target="_blank"><img class="icon" src="{{ asset('build/images/icons/theme/code/settings-4.svg') }}" alt="decoration" data-inject-svg /></a>
+                                        <a href="{{ path('app_update_campaign', {'id': pendingCampaign.id}) }}"><img class="icon" src="{{ asset('build/images/icons/theme/home/timer.svg') }}" alt="decoration" data-inject-svg /></a>
+                                        <a href="#" data-toggle="modal" data-target="#confirm-campaign-test-{{ pendingCampaign.id }}"><img class="icon" src="{{ asset('build/images/icons/theme/communication/sending-mail.svg') }}" alt="decoration" data-inject-svg /></a>
+                                        <div class="modal fade" id="confirm-campaign-test-{{ pendingCampaign.id }}" tabindex="-1" role="dialog" aria-modal="true" style="top:35%!important;">
+                                            <div class="modal-dialog modal-lg" role="document">
+                                                <div class="modal-content col-lg-10" style="margin:auto;">
+                                                    <div class="modal-body">
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="injected-svg icon bg-dark" data-src="assets/img/icons/interface/cross.svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                                <path d="M16.2426 6.34311L6.34309 16.2426C5.95257 16.6331 5.95257 17.2663 6.34309 17.6568C6.73362 18.0473 7.36678 18.0473 7.75731 17.6568L17.6568 7.75732C18.0473 7.36679 18.0473 6.73363 17.6568 6.34311C17.2663 5.95258 16.6331 5.95258 16.2426 6.34311Z" fill="#212529"></path>
+                                                                <path d="M17.6568 16.2426L7.75734 6.34309C7.36681 5.95257 6.73365 5.95257 6.34313 6.34309C5.9526 6.73362 5.9526 7.36678 6.34313 7.75731L16.2426 17.6568C16.6331 18.0473 17.2663 18.0473 17.6568 17.6568C18.0474 17.2663 18.0474 16.6331 17.6568 16.2426Z" fill="#212529"></path>
+                                                            </svg>
+                                                        </button>
+                                                        <div class="m-2 text-center">
+                                                            <div class="mx-3">
+                                                                <h5 class="mb-1">Confirmation</h5>
+                                                                <p>ℹ️ Envoyer un email test de la campagne {{ pendingCampaign.name }} ?</p>
+                                                                <p>L'email sera envoyé à {{ app.user.email }} ?</p>
+                                                            </div>
+                                                            <a href="{{ path('app_send_campaign_mail_test', {'id': pendingCampaign.id}) }}" class="btn btn-primary text-white">
+                                                                Envoyer
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <a href="#" data-toggle="modal" data-target="#confirm-campaign-remove-{{ pendingCampaign.id }}"><img class="icon" src="{{ asset('build/images/icons/theme/navigation/close.svg') }}" alt="decoration" data-inject-svg /></a>
+                                        <div class="modal fade" id="confirm-campaign-remove-{{ pendingCampaign.id }}" tabindex="-1" role="dialog" aria-modal="true" style="top:35%!important;">
+                                            <div class="modal-dialog modal-lg" role="document">
+                                                <div class="modal-content col-lg-10" style="margin:auto;">
+                                                    <div class="modal-body">
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="injected-svg icon bg-dark" data-src="assets/img/icons/interface/cross.svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                                <path d="M16.2426 6.34311L6.34309 16.2426C5.95257 16.6331 5.95257 17.2663 6.34309 17.6568C6.73362 18.0473 7.36678 18.0473 7.75731 17.6568L17.6568 7.75732C18.0473 7.36679 18.0473 6.73363 17.6568 6.34311C17.2663 5.95258 16.6331 5.95258 16.2426 6.34311Z" fill="#212529"></path>
+                                                                <path d="M17.6568 16.2426L7.75734 6.34309C7.36681 5.95257 6.73365 5.95257 6.34313 6.34309C5.9526 6.73362 5.9526 7.36678 6.34313 7.75731L16.2426 17.6568C16.6331 18.0473 17.2663 18.0473 17.6568 17.6568C18.0474 17.2663 18.0474 16.6331 17.6568 16.2426Z" fill="#212529"></path>
+                                                            </svg>
+                                                        </button>
+                                                        <div class="m-2 text-center">
+                                                            <div class="mx-3">
+                                                                <h5 class="mb-1">Confirmation</h5>
+                                                                <p>ℹ️ Supprimer la campagne {{ pendingCampaign.name }} ?</p>
+                                                            </div>
+                                                            <a href="{{ path('app_remove_campaign', {'id': pendingCampaign.id}) }}" class="btn btn-primary text-white">
+                                                                Supprimer
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                                <tr>
+                                    <td class="text-left"><strong><a href="{{ path('app_add_campaign') }}">+ Programmer une campagne</a></strong></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -64,7 +156,52 @@
         <div class="container">
             <div class="row justify-content-center pt-4">
                 <div class="text-center mb-4">
-                    <h2 class="mb-2">Campagnes <span style="color: #ff2e3d">envoyées</span></h2>
+                    <h2 class="mb-2">Dernières campagnes <span style="color: #ff2e3d">envoyées</span></h2>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-lg-7">
+                    <div class="row justify-content-center pt-0 pb-0 ml-1 mr-1">
+                        <div class="row justify-content-center mt-0 bg-primary-alt" style="border-radius: 1rem;">
+                            {% if sentCampaigns|length > 0 %}
+                                <table class="table table-borderless mt-2 mb-2" style="--bs-table-accent-bg: inherit">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">Nom de la campagne</th>
+                                        <th scope="col">Date d'envoi</th>
+                                        <th scope="col">Nombre d'envois</th>
+                                        <th scope="col">Actions</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        {% for sentCampaign in sentCampaigns %}
+                                            <td>{{ sentCampaign.name }}</td>
+                                            <td class="text-left">{{ sentCampaign.sendingDate|date("d/m/Y") }}</td>
+                                            <td class="text-left">{{ sentCampaign.numberSent }}</td>
+                                            <td><a href="https://app-smtp.sendinblue.com/statistics" target="_blank"><img class="icon" src="{{ asset('build/images/icons/theme/shopping/chart-line-1.svg') }}" alt="decoration" data-inject-svg /></a></td>
+                                        {% endfor %}
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            {% else %}
+                                <small class="mt-2 mb-2 text-center">Aucune donnée</small>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <hr>
+    <section class="pt-0 pb-6">
+        <div class="row justify-content-center">
+            <div class="col-lg-7">
+                <div class="row justify-content-center pt-2">
+                    <div class="row justify-content-center text-center pt-2">
+                        <a class="text-primary text-center mb-3" href="{{ path('app_dashboard') }}">Retour à mon compte</a>
+                        <a href="{{ path('app_logout') }}">Déconnexion</a>
+                    </div>
                 </div>
             </div>
         </div>

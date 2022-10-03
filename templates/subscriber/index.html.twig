@@ -15,6 +15,17 @@
                 <div class="col-lg-7">
                     <div class="text-center mb-4">
                         <h1 class="mb-2">👋 {{ app.user.firstname }}</h1>
+                        <div class="text-center mb-4">
+                            {% if app.session.flashBag.has('success') %}
+                                {% for flashMessage in app.session.flashbag.get('success') %}
+                                    <div class="alert alert-success" role="alert">
+                                        <p>
+                                            {{ flashMessage }}
+                                        </p>
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
                     </div>
                     {% if is_granted('ROLE_ADMIN') %}
                         <div class="bg-primary mb-4 text-white" style="border-radius: 1rem;">
@@ -205,7 +216,7 @@
                                     {% endfor %}
                                 <tr>
                                     <td colspan="3" class="pb-4 pt-4">
-                                        <a href="{{ path('app_add_child') }}" class="hover-arrow" >Ajouter un enfant</a>
+                                        <a href="{{ path('app_add_child') }}">+ Ajouter un enfant</a>
                                     </td>
                                 </tr>
                                 </tbody>

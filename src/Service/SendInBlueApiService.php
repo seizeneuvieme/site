@@ -2,52 +2,61 @@
 
 namespace App\Service;
 
-use App\Entity\Subscriber;
+use Exception;
 use GuzzleHttp\Client;
-use SendinBlue\Client\Api\ContactsApi;
+use SendinBlue\Client\Api\TransactionalEmailsApi;
 use SendinBlue\Client\Configuration;
-use SendinBlue\Client\Model\CreateContact;
+use SendinBlue\Client\Model\GetSmtpTemplateOverview;
+use SendinBlue\Client\Model\SendSmtpEmail;
 
 class SendInBlueApiService
 {
     public function __construct(
-        private string $apiKey
+        private readonly string        $apiKey
     ){}
 
-    public function createContact(Subscriber $subscriber)
+    public function getTemplate(int $templateId): ?GetSmtpTemplateOverview
     {
         $configuration = Configuration::getDefaultConfiguration()->setApiKey('api-key', $this->apiKey);
-        $apiInstance = new ContactsApi(
+        $apiInstance = new TransactionalEmailsApi(
             new Client(),
             $configuration
         );
 
-        $createContact = new CreateContact(); // Values to create a contact
-        $createContact['email'] = $subscriber->getEmail();
+        try {
+            return $apiInstance->getSmtpTemplate($templateId);
+        } catch (Exception $e) {
+            return null;
+        }
+    }
 
-        $attributes = [
-            'firstname' => $subscriber->getFirstname(),
-            'city' => $subscriber->getCity(),
-            'departmentNumber' => $subscriber->getDepartmentNumber(),
-            'departmentName' => $subscriber->getDepartmentName(),
-            'region' => $subscriber->getRegion(),
+    public function sendTransactionalEmail(GetSmtpTemplateOverview $template, array $to): bool
+    {
+        $configuration = Configuration::getDefaultConfiguration()->setApiKey('api-key', $this->apiKey);
+        $apiInstance = new TransactionalEmailsApi(
+            new Client(),
+            $configuration
+        );
+
+        $sendSmtpEmail = new SendSmtpEmail();
+        $sendSmtpEmail['subject'] = $template->getSubject();
+        $sendSmtpEmail['htmlContent'] = $template->getHtmlContent();
+        $sendSmtpEmail['sender'] = [
+            'name' =>  $template->getSender()->getName(),
+            'email' => $template->getSender()->getEmail()
         ];
+        $sendSmtpEmail['to'] = [$to];
+        $sendSmtpEmail['templateId'] = $template->getId();
+        $sendSmtpEmail['tags'] = [$template->getTag()];
+        //$sendSmtpEmail['params'] = array('parameter' => 'My param value', 'subject' => 'New Subject');
 
-        foreach ($subscriber->getChilds() as $child) {
-            $attributes['childs'][] = [
-                'firstname' => $child->getFirstname(),
-                'birthDate' => $child->getBirthDate()
-            ];
+        try {
+            $result = $apiInstance->sendTransacEmail($sendSmtpEmail);
+            return true;
+        } catch (Exception $e) {
+            dd('result:', $e);
+
+            return false;
         }
-        foreach ($subscriber->getPlatforms() as $platform) {
-            $attributes['platforms'][] = [
-                $platform->getName()
-            ];
-        }
-
-        $createContact['attributes'] = $attributes;
-        $createContact['listIds'] = [3];
-
-        return $apiInstance->createContact($createContact);
     }
 }

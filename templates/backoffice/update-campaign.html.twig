@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Modifier mon mot de passe Le Réhausseur{% endblock %}
+{% block title %}Reprogrammer une campagne - Le Réhausseur{% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
-    {{ encore_entry_script_tags('update-password') }}
+    {{ encore_entry_script_tags('update-campaign') }}
 {% endblock %}
 
 {% block body %}
@@ -15,13 +15,14 @@
             <div class="row justify-content-center pt-6">
                 <div class="col-lg-4 col-md-6">
                     <div class="text-center mb-4">
-                        <h1 class="mb-2">Modifier mon <span style="color: #ff2e3d">mot de passe</span></h1>
+                        <h1 class="mb-2">Reprogrammer la campagne <span style="color: #ff2e3d">{{ campaign.name }}</span></h1>
                         <div class="text-center mb-4">
-                            {% if app.session.flashBag.has('error') %}
-                                {% for flashMessage in app.session.flashbag.get('error') %}
+                            {% if app.session.flashBag.has('invalid_form') %}
+                                {% for flashMessage in app.session.flashbag.get('invalid_form') %}
                                     <div class="alert alert-primary" role="alert">
                                         <p>
-                                            Formulaire invalide. <br/>En cas de problème, <a href="mailto:contact@lerehausseur.fr" alt="Contacter Le Réhausseur">contacte-nous</a> :)
+                                            <strong>Formulaire invalide.</strong> <br/>
+                                            Vérifiez la date d'envoi...
                                         </p>
                                     </div>
                                 {% endfor %}
@@ -43,23 +44,18 @@
                 <div class="col">
                     <div class="row justify-content-center pt-2">
                         <div class="col-xl-4 col-lg-5 col-md-6">
-                            <form action="{{ path('app_update_password') }}" method="POST" class="form">
+                            <form action="{{ path('app_update_campaign', {'id': campaign.id}) }}" method="POST" class="form">
                                 <div class="form-group">
-                                    <div class="form-group">
-                                        <input name="password" id="password" type="password" class="update-password form-control" placeholder="Ton nouveau mot de passe">
-                                        <small id="password-control-label" class="text-primary" style="display:none;">Le mot de passe doit faire au moins 8 caractères</small>
-                                    </div>
-                                    <div class="form-group">
-                                        <input name="confirm-password" id="confirm-password" type="password" class="update-password form-control" placeholder="Confirme ton mon de passe">
-                                        <small id="confirm-password-control-label" class="text-primary" style="display:none;">Le mot de passe doit être identique</small>
-                                    </div>
+                                    <label for="campaign-sending-date" class="text-primary-alt"><small>Date d'envoi :</small></label>
+                                    <input name="campaign-sending-date" id="campaign-sending-date" type="date" class="form-control update-campaign-form">
+                                    <small id="campaign-sending-date-control-label" class="text-primary" style="display:none;">Date invalide</small>
                                 </div>
                                 <div class="form-group">
-                                    <button id="btn-update-password-form" class="btn-block btn btn-primary text-white" type="button">Modifier mon mot de passe</button>
+                                    <button class="btn-block btn btn-primary text-white" id="btn-update-campaign-form" type="button">Reprogrammer la campagne</button>
                                 </div>
                             </form>
                         </div>
-                        <a class="text-primary text-center mt-3" href="{{ path('app_dashboard') }}">Retour à mon compte</a>
+                        <a class="text-primary mt-3 text-center" href="{{ path('app_backoffice') }}">Retour au backoffice</a>
                     </div>
                 </div>
             </div>
