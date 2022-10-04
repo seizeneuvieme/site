@@ -30,7 +30,7 @@ class SendInBlueApiService
         }
     }
 
-    public function sendTransactionalEmail(GetSmtpTemplateOverview $template, array $to): bool
+    public function sendTransactionalEmail(GetSmtpTemplateOverview $template, array $to, array $params = []): bool
     {
         $configuration = Configuration::getDefaultConfiguration()->setApiKey('api-key', $this->apiKey);
         $apiInstance = new TransactionalEmailsApi(
@@ -48,14 +48,12 @@ class SendInBlueApiService
         $sendSmtpEmail['to'] = [$to];
         $sendSmtpEmail['templateId'] = $template->getId();
         $sendSmtpEmail['tags'] = [$template->getTag()];
-        //$sendSmtpEmail['params'] = array('parameter' => 'My param value', 'subject' => 'New Subject');
+        $sendSmtpEmail['params'] = $params;
 
         try {
-            $result = $apiInstance->sendTransacEmail($sendSmtpEmail);
+            $apiInstance->sendTransacEmail($sendSmtpEmail);
             return true;
         } catch (Exception $e) {
-            dd('result:', $e);
-
             return false;
         }
     }
