@@ -6,7 +6,6 @@ use App\DTO\Campaign AS CampaignDTO;
 use App\Entity\Campaign;
 use App\Entity\Child;
 use App\Entity\Platform;
-use App\Repository\CampaignRepository;
 use App\Repository\SubscriberRepository;
 use Doctrine\DBAL\Exception;
 use Doctrine\ORM\EntityManagerInterface;
@@ -33,7 +32,7 @@ class CampaignService
     /**
      * @throws \Doctrine\DBAL\Exception
      */
-    public function processCampaign(Campaign $campaign, SymfonyStyle $io): int
+    public function processCampaign(Campaign $campaign, SymfonyStyle $io): void
     {
         $template = $this->sendInBlueApiService->getTemplate($campaign->getTemplateId());
 
@@ -62,46 +61,40 @@ class CampaignService
                 $params['AGE_GROUP_1'] = "";
                 $ageGroup1Childs = $subscriber->getChilds()->filter(function(Child $child){
                     $age = date_diff($child->getBirthDate(), date_create(date("Y-m-d")));
-                    return $age->format('y') >= 3 &&  $age->format('y') < 6;
+                    return $age->format('%y') >= 3 &&  $age->format('%y') < 6;
                 })->toArray();
 
-                foreach ($ageGroup1Childs as $key => $ageGroup1Child) {
-                    if ($key < count($ageGroup1Childs)) {
-                        $params['AGE_GROUP_1'] .= ", " . $ageGroup1Child['firstname'];
+                $index = 1;
+                foreach ($ageGroup1Childs as $ageGroup1Child) {
+                    if ($index === 1) {
+                        $params['AGE_GROUP_1'] = $ageGroup1Child->getFirstname();
+                    } else if ($index < count($ageGroup1Childs)) {
+                        $params['AGE_GROUP_1'] .= ", " . $ageGroup1Child->getFirstname();
                     } else {
-                        $params['AGE_GROUP_1'] .= " et " . $ageGroup1Child['firstname'];
+                        $params['AGE_GROUP_1'] .= " et " . $ageGroup1Child->getFirstname();
                     }
+                    $index++;
+                }
+
+                $params['AGE_GROUP_2'] = "";
+                $ageGroup2Childs = $subscriber->getChilds()->filter(function(Child $child){
+                    $age = date_diff($child->getBirthDate(), date_create(date("Y-m-d")));
+                    return $age->format('%y') >= 6 &&  $age->format('%y') < 12;
+                })->toArray();
+
+                $index = 1;
+                foreach ($ageGroup2Childs as $key => $ageGroup2Child) {
+                    if ($index === 1) {
+                        $params['AGE_GROUP_2'] = $ageGroup2Child->getFirstname();
+                    } else if ($key < count($ageGroup1Childs)) {
+                        $params['AGE_GROUP_2'] .= ", " . $ageGroup2Child->getFirstname();
+                    } else {
+                        $params['AGE_GROUP_2'] .= " et " . $ageGroup2Child->getFirstname();
+                    }
+                    $index++;
                 }
 
                 //TODO: same for each group
-
-                $params['BIRTHDAYS'] = "";
-                $lastCampaign = $this->entityManager
-                    ->getConnection()
-                    ->executeQuery("
-                        SELECT * 
-                        FROM campaign
-                        WHERE state = :state
-                        ORDER BY send_date DESC
-                        LIMIT 1;
-                    ", [
-                       'state' => Campaign::SENT_STATE
-                    ])->fetchOne();
-
-                if (false !== $lastCampaign) {
-                    $birthdayChilds = $subscriber->getChilds()->filter(function(Child $child) use ($campaign, $lastCampaign) {
-                        return $child->getBirthDate() > $lastCampaign->getSendingDate()
-                            && $child->getBirthDate() < $campaign->getSendingDate();
-                    })->toArray();
-
-                    foreach ($birthdayChilds as $key => $birthdayChild) {
-                        if ($key < count($birthdayChilds)) {
-                            $params['BIRTHDAYS'] .= ", " . $birthdayChild['firstname'];
-                        } else {
-                            $params['BIRTHDAYS'] .= " et " . $birthdayChild['firstname'];
-                        }
-                    }
-                }
 
                 $result = $this->sendInBlueApiService->sendTransactionalEmail(
                     $template,
@@ -120,8 +113,9 @@ class CampaignService
         }
 
         $campaign->setNumberSent($numberEmailSent);
+        $campaign->setState(Campaign::SENT_STATE);
         $this->entityManager->flush();
-        $io->success("Email(s) sent : $numberEmailSent");
-        $io->success("Email(s) in error : $numberOfErrors");
+        $io->info("Email(s) sent : $numberEmailSent");
+        $io->info("Email(s) in error : $numberOfErrors");
     }
 }

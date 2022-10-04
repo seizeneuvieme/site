@@ -15,7 +15,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 #[AsCommand(
-    name: 'SendEmailCampaignCommand',
+    name: 'app:send:email-campaign',
     description: 'Send scheduled email campaign',
 )]
 class SendEmailCampaignCommand extends Command
@@ -36,9 +36,8 @@ class SendEmailCampaignCommand extends Command
 
         $campaigns = $this->campaignRepository->findBy([
             'state' => Campaign::DRAFT_STATE,
-            'sendingDate' => (new DateTime('now'))->format('Y-m-d')
+            'sendingDate' => new DateTime('now')
         ]);
-
         $nbCampaigns = count($campaigns);
 
         $nbCampaigns === 0 ? $io->info("[OK] 0 campaign to send!") : $io->info("[OK] found $nbCampaigns campaign(s) to send!") ;
@@ -47,7 +46,7 @@ class SendEmailCampaignCommand extends Command
             $io->info("Sending campaign " . $campaign->getName() . "...");
             try {
                 $this->campaignService->processCampaign($campaign, $io);
-                $io->success("[OK] Campaign " . $campaign->getName() . "sent!");
+                $io->success("Campaign " . $campaign->getName() . " sent!");
             } catch (Exception $e) {
                 $io->error("[NOK] Error: " . $e->getMessage());
                 continue;
