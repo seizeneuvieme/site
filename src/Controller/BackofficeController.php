@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\DTO\CampaignCreate;
 use App\DTO\CampaignUpdate;
 use App\Entity\Campaign;
+use App\Entity\Subscriber;
 use App\Repository\CampaignRepository;
 use App\Repository\SubscriberRepository;
 use App\Service\CampaignService;
@@ -186,14 +187,20 @@ class BackofficeController extends AbstractController
         }
 
         $template = $sendInBlueApiService->getTemplate($campaign->getTemplateId());
-        $result   = $sendInBlueApiService->sendTransactionalEmail($template, [
-            'name'  => $this->getUser()->getFirstname(),
-            'email' => $this->getUser()->getEmail(),
-        ]);
-        if ($result === true) {
-            $this->addFlash('success', "La campagne {$campaign->getName()} a bien été envoyée à {$this->getUser()->getEmail()} 🎉");
-        } else {
-            $this->addFlash('error', "La campagne {$campaign->getName()} a bien été envoyée à {$this->getUser()->getEmail()} 🎉");
+        if ($template !== null) {
+            /**
+             * @var Subscriber $subscriber
+             */
+            $subscriber = $this->getUser();
+            $result     = $sendInBlueApiService->sendTransactionalEmail($template, [
+                'name'  => $subscriber->getFirstname(),
+                'email' => $subscriber->getEmail(),
+            ]);
+            if ($result === true) {
+                $this->addFlash('success', "La campagne {$campaign->getName()} a bien été envoyée à {$subscriber->getEmail()} 🎉");
+            } else {
+                $this->addFlash('error', "La campagne {$campaign->getName()} a bien été envoyée à {$subscriber->getEmail()} 🎉");
+            }
         }
 
         return $this->redirectToRoute('app_backoffice');

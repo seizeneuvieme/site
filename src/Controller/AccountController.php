@@ -20,6 +20,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
 
@@ -43,27 +44,32 @@ class AccountController extends AbstractController
     #[Route('/renvoi-code-activation', name: 'app_send_new_activation_code')]
     public function sendNewActivationCode(): Response
     {
+        /**
+         * @var Subscriber $subscriber
+         */
         $subscriber = $this->getUser();
 
         $signatureComponents = $this->verifyEmailHelper->generateSignature(
             'app_verify_email',
-            $subscriber->getId(),
-            $subscriber->getEmail(),
+            "{$subscriber->getId()}",
+            "{$subscriber->getEmail()}",
             ['id' => $subscriber->getId()]
         );
 
         $template = $this->sendInBlueApiService->getTemplate(SendInBlueApiService::ACTIVE_ACCOUNT_TEMPLATE_ID);
-        $this->sendInBlueApiService->sendTransactionalEmail(
-            $template,
-            [
-                'name'  => $subscriber->getFirstname(),
-                'email' => $subscriber->getEmail(),
-            ],
-            [
-                'FIRSTNAME'  => $subscriber->getFirstname(),
-                'SIGNED_URL' => $signatureComponents->getSignedUrl(),
-            ]
-        );
+        if ($template !== null) {
+            $this->sendInBlueApiService->sendTransactionalEmail(
+                $template,
+                [
+                    'name'  => $subscriber->getFirstname(),
+                    'email' => $subscriber->getEmail(),
+                ],
+                [
+                    'FIRSTNAME'  => $subscriber->getFirstname(),
+                    'SIGNED_URL' => $signatureComponents->getSignedUrl(),
+                ]
+            );
+        }
 
         $this->addFlash('send_new_activation_code', '');
 
@@ -120,11 +126,17 @@ class AccountController extends AbstractController
             }
 
             // Encode(hash) the plain password, and set it.
+            /**
+             * @var PasswordAuthenticatedUserInterface $subscriber
+             */
             $encodedPassword = $passwordHasher->hashPassword(
                 $subscriber,
                 $subscriberPasswordUpdate->password
             );
 
+            /**
+             * @var Subscriber $subscriber
+             */
             $subscriber->setPassword($encodedPassword);
             $entityManager->flush();
             $this->addFlash('success', 'Ton mot de passe a bien été modifiée 🎉');
@@ -243,13 +255,16 @@ class AccountController extends AbstractController
         EntityManagerInterface $entityManager,
         int $id
     ): Response {
+        /**
+         * @var Subscriber $subscriber
+         */
         $subscriber = $this->getUser();
 
         $child = $childRepository->findOneBy([
             'id' => $id,
         ]);
 
-        if ($child === null || $subscriber->getId() !== $child->getSubscriber()->getId() || $subscriber->getChilds()->count() < 2) {
+        if ($child === null || $subscriber->getId() !== $child->getSubscriber()?->getId() || $subscriber->getChilds()->count() < 2) {
             return $this->redirectToRoute('app_account');
         }
 
@@ -267,14 +282,23 @@ class AccountController extends AbstractController
         UserPasswordHasherInterface $passwordHasher,
         EntityManagerInterface $entityManager
     ): Response {
+        /**
+         * @var Subscriber $subscriber
+         */
         $subscriber = $this->getUser();
         $password   = $request->request->get('password');
 
+        /**
+         * @var PasswordAuthenticatedUserInterface $subscriber
+         */
         $isPasswordValid = $passwordHasher->isPasswordValid(
             $subscriber,
-            $password
+            (string) $password
         );
 
+        /**
+         * @var Subscriber $subscriber
+         */
         if ($isPasswordValid === true) {
             $entityManager->remove($subscriber);
             $entityManager->flush();

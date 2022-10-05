@@ -2,7 +2,7 @@
 
 namespace App\Service;
 
-use App\DTO\CampaignCreate as CampaignDTO;
+use App\DTO\CampaignCreate;
 use App\Entity\Campaign;
 use App\Entity\Child;
 use App\Entity\Platform;
@@ -20,12 +20,12 @@ class CampaignService
     ) {
     }
 
-    public function createCampaignFromDTO(CampaignDTO $dto): Campaign
+    public function createCampaignFromDTO(CampaignCreate $campaignCreate): Campaign
     {
         $campaign = new Campaign();
-        $campaign->setName($dto->name);
-        $campaign->setTemplateId($dto->templateId);
-        $campaign->setSendingDate($dto->sendingDate);
+        $campaign->setName($campaignCreate->name);
+        $campaign->setTemplateId($campaignCreate->templateId);
+        $campaign->setSendingDate($campaignCreate->sendingDate);
 
         return $campaign;
     }
@@ -65,7 +65,7 @@ class CampaignService
 
                 $params['AGE_GROUP_1'] = '';
                 $ageGroup1Childs       = $subscriber->getChilds()->filter(function (Child $child) {
-                    $age = date_diff($child->getBirthDate(), date_create(date('Y-m-d')));
+                    $age = date_diff($child->getBirthDate(), new \DateTime(date('Y-m-d')));
 
                     return $age->format('%y') >= 3 && $age->format('%y') < 6;
                 })->toArray();
@@ -84,7 +84,7 @@ class CampaignService
 
                 $params['AGE_GROUP_2'] = '';
                 $ageGroup2Childs       = $subscriber->getChilds()->filter(function (Child $child) {
-                    $age = date_diff($child->getBirthDate(), date_create(date('Y-m-d')));
+                    $age = date_diff($child->getBirthDate(), new \DateTime(date('Y-m-d')));
 
                     return $age->format('%y') >= 6 && $age->format('%y') < 12;
                 })->toArray();

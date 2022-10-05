@@ -4,7 +4,6 @@ namespace App\Command;
 
 use App\Entity\Campaign;
 use App\Repository\CampaignRepository;
-use App\Repository\SubscriberRepository;
 use App\Service\CampaignService;
 use DateTime;
 use Doctrine\DBAL\Exception;
@@ -22,7 +21,6 @@ class SendEmailCampaignCommand extends Command
 {
     public function __construct(
         private readonly CampaignRepository $campaignRepository,
-        private readonly SubscriberRepository $subscriberRepository,
         private readonly CampaignService $campaignService
     ) {
         parent::__construct();

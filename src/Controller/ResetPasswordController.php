@@ -15,6 +15,7 @@ use Symfony\Component\Mime\Address;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGenerator;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use SymfonyCasts\Bundle\ResetPassword\Controller\ResetPasswordControllerTrait;
@@ -47,7 +48,7 @@ class ResetPasswordController extends AbstractController
             $email = $request->request->get('_username') ?? '';
 
             return $this->processSendingPasswordResetEmail(
-                $email,
+                "$email",
                 $mailer,
                 $translator
             );
@@ -120,10 +121,10 @@ class ResetPasswordController extends AbstractController
             // A password reset token should be used only once, remove it.
             $this->resetPasswordHelper->removeResetRequest($token);
 
-            $password = new SubscriberPasswordUpdate();
-            $password->hydrateFromData($request->request->all());
+            $subscriberPasswordUpdate = new SubscriberPasswordUpdate();
+            $subscriberPasswordUpdate->hydrateFromData($request->request->all());
 
-            $errors = $validator->validate($password);
+            $errors = $validator->validate($subscriberPasswordUpdate);
             if (0 < $errors->count()) {
                 return $this->render('reset_password/reset.html.twig', [
                     'error' => true,
@@ -131,11 +132,17 @@ class ResetPasswordController extends AbstractController
             }
 
             // Encode(hash) the plain password, and set it.
+            /**
+             * @var PasswordAuthenticatedUserInterface $subscriber
+             */
             $encodedPassword = $passwordHasher->hashPassword(
                 $subscriber,
-                $password->password
+                $subscriberPasswordUpdate->password
             );
 
+            /**
+             * @var Subscriber $subscriber
+             */
             $subscriber->setPassword($encodedPassword);
             $this->entityManager->flush();
 
@@ -178,18 +185,20 @@ class ResetPasswordController extends AbstractController
         }
 
         $template = $this->sendInBlueApiService->getTemplate(SendInBlueApiService::RESET_PASSWORD_TEMPLATE_ID);
-        $this->sendInBlueApiService->sendTransactionalEmail(
-            $template,
-            [
-                'name'  => $user->getFirstname(),
-                'email' => $user->getEmail(),
-            ],
-            [
-                'SIGNED_URL' => $this->generateUrl('app_reset_password', [
-                    'token' => $resetToken->getToken(),
-                ], UrlGenerator::ABSOLUTE_URL),
-            ]
-        );
+        if ($template !== null) {
+            $this->sendInBlueApiService->sendTransactionalEmail(
+                $template,
+                [
+                    'name'  => $user->getFirstname(),
+                    'email' => $user->getEmail(),
+                ],
+                [
+                    'SIGNED_URL' => $this->generateUrl('app_reset_password', [
+                        'token' => $resetToken->getToken(),
+                    ], UrlGenerator::ABSOLUTE_URL),
+                ]
+            );
+        }
 
         // Store the token object in session for retrieval in check-email route.
         $this->setTokenObjectInSession($resetToken);

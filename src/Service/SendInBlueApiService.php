@@ -8,6 +8,8 @@ use SendinBlue\Client\Api\TransactionalEmailsApi;
 use SendinBlue\Client\Configuration;
 use SendinBlue\Client\Model\GetSmtpTemplateOverview;
 use SendinBlue\Client\Model\SendSmtpEmail;
+use SendinBlue\Client\Model\SendSmtpEmailSender;
+use SendinBlue\Client\Model\SendSmtpEmailTo;
 
 class SendInBlueApiService
 {
@@ -42,17 +44,17 @@ class SendInBlueApiService
             $configuration
         );
 
-        $sendSmtpEmail                = new SendSmtpEmail();
-        $sendSmtpEmail['subject']     = $template->getSubject();
-        $sendSmtpEmail['htmlContent'] = $template->getHtmlContent();
-        $sendSmtpEmail['sender']      = [
+        $sendSmtpEmail = new SendSmtpEmail();
+        $sendSmtpEmail->setSubject($template->getSubject());
+        $sendSmtpEmail->setHtmlContent($template->getHtmlContent());
+        $sendSmtpEmail->setSender(new SendSmtpEmailSender([
             'name'  => $template->getSender()->getName(),
             'email' => $template->getSender()->getEmail(),
-        ];
-        $sendSmtpEmail['to']         = [$to];
-        $sendSmtpEmail['templateId'] = $template->getId();
-        $sendSmtpEmail['tags']       = [$template->getTag()];
-        $sendSmtpEmail['params']     = $params;
+        ]));
+        $sendSmtpEmail->setTo([new SendSmtpEmailTo($to)]);
+        $sendSmtpEmail->setTemplateId($template->getId());
+        $sendSmtpEmail->setTags([$template->getTag()]);
+        $sendSmtpEmail->setParams((object) $params);
 
         try {
             $apiInstance->sendTransacEmail($sendSmtpEmail);

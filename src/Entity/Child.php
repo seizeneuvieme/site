@@ -15,10 +15,10 @@ class Child
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $firstname = null;
+    private string $firstname;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $birthDate = null;
+    private \DateTimeInterface $birthDate;
 
     #[ORM\ManyToOne(inversedBy: 'childs')]
     #[ORM\JoinColumn(nullable: false)]
@@ -29,7 +29,7 @@ class Child
         return $this->id;
     }
 
-    public function getFirstname(): ?string
+    public function getFirstname(): string
     {
         return $this->firstname;
     }
@@ -41,7 +41,7 @@ class Child
         return $this;
     }
 
-    public function getBirthDate(): ?\DateTimeInterface
+    public function getBirthDate(): \DateTimeInterface
     {
         return $this->birthDate;
     }
