@@ -11,7 +11,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 class Campaign
 {
     public const DRAFT_STATE = 'DRAFT';
-    public const SENT_STATE = 'SENT';
+    public const SENT_STATE  = 'SENT';
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -34,11 +34,11 @@ class Campaign
     private ?int $numberSent = 0;
 
     #[ORM\Column]
-    #[Gedmo\Timestampable(on:'create')]
+    #[Gedmo\Timestampable(on: 'create')]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column]
-    #[Gedmo\Timestampable(on:'update')]
+    #[Gedmo\Timestampable(on: 'update')]
     private ?\DateTimeImmutable $updateAt = null;
 
     public function getId(): ?int

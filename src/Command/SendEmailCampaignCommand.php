@@ -20,12 +20,11 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 )]
 class SendEmailCampaignCommand extends Command
 {
-
     public function __construct(
         private readonly CampaignRepository $campaignRepository,
         private readonly SubscriberRepository $subscriberRepository,
         private readonly CampaignService $campaignService
-    ){
+    ) {
         parent::__construct();
     }
 
@@ -35,23 +34,24 @@ class SendEmailCampaignCommand extends Command
         $io->info('Searching for campaign to send...');
 
         $campaigns = $this->campaignRepository->findBy([
-            'state' => Campaign::DRAFT_STATE,
-            'sendingDate' => new DateTime('now')
+            'state'       => Campaign::DRAFT_STATE,
+            'sendingDate' => new DateTime('now'),
         ]);
         $nbCampaigns = count($campaigns);
 
-        $nbCampaigns === 0 ? $io->info("[OK] 0 campaign to send!") : $io->info("[OK] found $nbCampaigns campaign(s) to send!") ;
+        $nbCampaigns === 0 ? $io->info('[OK] 0 campaign to send!') : $io->info("[OK] found $nbCampaigns campaign(s) to send!");
 
         foreach ($campaigns as $campaign) {
-            $io->info("Sending campaign " . $campaign->getName() . "...");
+            $io->info('Sending campaign '.$campaign->getName().'...');
             try {
                 $this->campaignService->processCampaign($campaign, $io);
-                $io->success("CampaignCreate " . $campaign->getName() . " sent!");
+                $io->success('CampaignCreate '.$campaign->getName().' sent!');
             } catch (Exception $e) {
-                $io->error("[NOK] Error: " . $e->getMessage());
+                $io->error('[NOK] Error: '.$e->getMessage());
                 continue;
             }
         }
+
         return Command::SUCCESS;
     }
 }

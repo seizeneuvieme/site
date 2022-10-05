@@ -30,10 +30,10 @@ class SubscriberContactInfosUpdate
     #[Assert\NotBlank]
     public ?string $region = null;
 
-    public function hydrateFromData(array $data)
+    public function hydrateFromData(array $data): void
     {
-        $this->firstname = $data['firstname'] ?? null;
-        $this->city = $data['city'];
+        $this->firstname   = $data['firstname'] ?? null;
+        $this->city        = $data['city'];
         $this->cityDetails = $data['city-details'] ?? null;
     }
 }

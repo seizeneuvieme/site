@@ -65,9 +65,9 @@ class SubscriberRepository extends ServiceEntityRepository implements PasswordUp
         return $this->getEntityManager()
             ->getConnection()
             ->executeQuery(
-                "SELECT id 
+                'SELECT id 
                      FROM subscriber
-                     WHERE is_verified = true"
+                     WHERE is_verified = true'
             )
             ->rowCount();
     }
@@ -96,14 +96,14 @@ class SubscriberRepository extends ServiceEntityRepository implements PasswordUp
         return $this->getEntityManager()
             ->getConnection()
             ->executeQuery(
-                "SELECT s.id
+                'SELECT s.id
                      FROM subscriber s 
                      INNER JOIN subscriber_platform sp ON s.id = sp.subscriber_id
                      INNER JOIN platform p ON sp.platform_id = p.id
                      WHERE s.is_verified = true
-                     AND p.name = :platform",
+                     AND p.name = :platform',
                 [
-                    'platform' => Platform::NETFLIX
+                    'platform' => Platform::NETFLIX,
                 ]
             )
             ->rowCount();
@@ -117,14 +117,14 @@ class SubscriberRepository extends ServiceEntityRepository implements PasswordUp
         return $this->getEntityManager()
             ->getConnection()
             ->executeQuery(
-                "SELECT s.id 
+                'SELECT s.id 
                      FROM subscriber s 
                      INNER JOIN subscriber_platform sp ON s.id = sp.subscriber_id
                      INNER JOIN platform p ON sp.platform_id = p.id
                      WHERE s.is_verified = true
-                     AND p.name = :platform",
+                     AND p.name = :platform',
                 [
-                    'platform' => Platform::DISNEY
+                    'platform' => Platform::DISNEY,
                 ]
             )
             ->rowCount();

@@ -14,7 +14,7 @@ class SubscriberChildCreate
     #[AppAssert\HasRightAge]
     public ?\DateTime $childBirthDate;
 
-    public function hydrateFromData(array $data)
+    public function hydrateFromData(array $data): void
     {
         $this->childFirstname = $data['child-firstname'] ?? null;
         $this->childBirthDate = $data['child-birth-date'] ? new \DateTime($data['child-birth-date']) : null;

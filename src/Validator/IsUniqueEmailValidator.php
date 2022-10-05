@@ -11,24 +11,24 @@ class IsUniqueEmailValidator extends ConstraintValidator
 {
     public function __construct(
         private readonly SubscriberRepository $subscriberRepository
-    )
-    {}
+    ) {
+    }
 
-    public function validate($value, Constraint $constraint)
+    public function validate($value, Constraint $constraint): void
     {
         if (!$constraint instanceof IsUniqueEmail) {
             throw new UnexpectedTypeException($constraint, IsUniqueEmail::class);
         }
 
-        if (null === $value || '' === $value) {
+        if ($value === null || $value === '') {
             return;
         }
 
         $subscriber = $this->subscriberRepository->findOneBy([
-            'email' => $value
+            'email' => $value,
         ]);
 
-        if (null !== $subscriber) {
+        if ($subscriber !== null) {
             $this->context->buildViolation($constraint->message)
                 ->setParameter('{{ value }}', $value)
                 ->addViolation();

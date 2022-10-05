@@ -13,13 +13,14 @@ class SubscriberService
 {
     public function __construct(
         private readonly UserPasswordHasherInterface $passwordHasher,
-        private readonly SubscriberRepository        $subscriberRepository
-    ){}
+        private readonly SubscriberRepository $subscriberRepository
+    ) {
+    }
 
     public function doesSubscriberAlreadyExist(SubscriberCreate $subscriberCreate): bool
     {
         $subscriber = $this->subscriberRepository->findOneBy([
-            'email' => $subscriberCreate->email
+            'email' => $subscriberCreate->email,
         ]);
 
         return $subscriber !== null;

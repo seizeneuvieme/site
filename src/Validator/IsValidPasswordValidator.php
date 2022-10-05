@@ -9,13 +9,13 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 
 class IsValidPasswordValidator extends ConstraintValidator
 {
-    public function validate($value, Constraint $constraint)
+    public function validate($value, Constraint $constraint): void
     {
         if (!$constraint instanceof IsValidPassword) {
             throw new UnexpectedTypeException($constraint, IsValidPassword::class);
         }
 
-        if (false === $value instanceof(SubscriberCreate::class)) {
+        if ($value instanceof (SubscriberCreate::class) === false) {
             return;
         }
 

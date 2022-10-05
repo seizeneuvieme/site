@@ -19,10 +19,10 @@ class CampaignCreate
     #[Assert\GreaterThan('today')]
     public ?\DateTime $sendingDate;
 
-    public function hydrateFromData(array $data)
+    public function hydrateFromData(array $data): void
     {
-        $this->name = $data['name'] ?? null;
-        $this->templateId = $data['templateId'] ?? null;
+        $this->name        = $data['name'] ?? null;
+        $this->templateId  = $data['templateId'] ?? null;
         $this->sendingDate = new \DateTime($data['sendingDate']);
     }
 }

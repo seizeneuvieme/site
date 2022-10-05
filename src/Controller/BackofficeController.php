@@ -18,44 +18,43 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 #[Route('/administration')]
-#[IsGranted("ROLE_ADMIN",null,null,Response::HTTP_NOT_FOUND)]
+#[IsGranted('ROLE_ADMIN', null, null, Response::HTTP_NOT_FOUND)]
 class BackofficeController extends AbstractController
 {
-
     public function __construct(
         private SendInBlueApiService $sendInBlueApiService
-    ){}
+    ) {
+    }
 
     /**
      * @throws \Doctrine\DBAL\Exception
      */
     #[Route('/', name: 'app_backoffice')]
-    #[IsGranted("ROLE_ADMIN",null,null,Response::HTTP_NOT_FOUND)]
+    #[IsGranted('ROLE_ADMIN', null, null, Response::HTTP_NOT_FOUND)]
     public function index(
         SubscriberRepository $subscriberRepository,
         CampaignRepository $campaignRepository
-    ): Response
-    {
-        $nbOfSubscribers = $subscriberRepository->getTotalNumberOfSubscribers();
-        $nbOfSubscribersThisMonth = $subscriberRepository->getNumberOfNewSubscribersThisMonth();
+    ): Response {
+        $nbOfSubscribers           = $subscriberRepository->getTotalNumberOfSubscribers();
+        $nbOfSubscribersThisMonth  = $subscriberRepository->getNumberOfNewSubscribersThisMonth();
         $nbOfSubscribersForNetflix = $subscriberRepository->getNumberOfSubscribersForNetflix();
-        $nbOfSubscribersForDisney = $subscriberRepository->getNumberOfSubscribersForDisney();
+        $nbOfSubscribersForDisney  = $subscriberRepository->getNumberOfSubscribersForDisney();
 
         $pendingCampaigns = $campaignRepository->findBy([
-            'state' => Campaign::DRAFT_STATE
+            'state' => Campaign::DRAFT_STATE,
         ]);
 
         $lastSentCampaigns = $campaignRepository->findBy([
-            'state' => Campaign::SENT_STATE
+            'state' => Campaign::SENT_STATE,
         ], ['sendingDate' => 'DESC'], 10);
 
         return $this->render('backoffice/index.html.twig', [
-            'nbOfSubscribers' => $nbOfSubscribers,
-            'nbOfSubscribersThisMonth' => $nbOfSubscribersThisMonth,
+            'nbOfSubscribers'           => $nbOfSubscribers,
+            'nbOfSubscribersThisMonth'  => $nbOfSubscribersThisMonth,
             'nbOfSubscribersForNetflix' => $nbOfSubscribersForNetflix,
-            'nbOfSubscribersForDisney' => $nbOfSubscribersForDisney,
-            'pendingCampaigns' => $pendingCampaigns,
-            'sentCampaigns' => $lastSentCampaigns
+            'nbOfSubscribersForDisney'  => $nbOfSubscribersForDisney,
+            'pendingCampaigns'          => $pendingCampaigns,
+            'sentCampaigns'             => $lastSentCampaigns,
         ]);
     }
 
@@ -68,27 +67,27 @@ class BackofficeController extends AbstractController
         ValidatorInterface $validator,
         EntityManagerInterface $entityManager,
         CampaignService $campaignService
-    ): Response
-    {
+    ): Response {
         if ($request->isMethod('POST')) {
             $templateId = $request->request->get('template-id');
 
-            $template = $this->sendInBlueApiService->getTemplate((int)$templateId);
+            $template = $this->sendInBlueApiService->getTemplate((int) $templateId);
 
-            if (null === $template) {
-                $this->addFlash('invalid_template_id', "Identifiant invalide");
+            if ($template === null) {
+                $this->addFlash('invalid_template_id', 'Identifiant invalide');
             }
 
             $campaign = new CampaignCreate();
             $campaign->hydrateFromData([
-                'name' => $template?->getName(),
-                'templateId' => $template?->getId(),
-                'sendingDate' => $request->request->get('sending-date')
+                'name'        => $template?->getName(),
+                'templateId'  => $template?->getId(),
+                'sendingDate' => $request->request->get('sending-date'),
             ]);
 
             $errors = $validator->validate($campaign);
             if ($errors->count() > 0) {
-                $this->addFlash('invalid_form', "");
+                $this->addFlash('invalid_form', '');
+
                 return $this->render('backoffice/add_campaign.html.twig');
             }
             $campaign = $campaignService->createCampaignFromDTO($campaign);
@@ -97,8 +96,10 @@ class BackofficeController extends AbstractController
             $entityManager->flush();
 
             $this->addFlash('success', "Campagne {$campaign->getName()} créée 🎉");
-            return $this->redirectToRoute("app_backoffice");
+
+            return $this->redirectToRoute('app_backoffice');
         }
+
         return $this->render('backoffice/add_campaign.html.twig');
     }
 
@@ -112,13 +113,12 @@ class BackofficeController extends AbstractController
         EntityManagerInterface $entityManager,
         CampaignRepository $campaignRepository,
         int $id
-    ): Response
-    {
+    ): Response {
         $campaign = $campaignRepository->findOneBy([
-            'id' => $id
+            'id' => $id,
         ]);
 
-        if (null === $campaign) {
+        if ($campaign === null) {
             return $this->redirectToRoute('app_backoffice');
         }
 
@@ -128,17 +128,18 @@ class BackofficeController extends AbstractController
 
             $errors = $validator->validate($campaign);
             if ($errors->count() > 0) {
-                $this->addFlash('invalid_form', "");
+                $this->addFlash('invalid_form', '');
+
                 return $this->render('backoffice/update_campaign.html.twig');
             }
 
             $campaign->setSendingDate($campaignUpdate->sendingDate);
             $entityManager->flush();
-            $this->addFlash("success", "La campagne {$campaign->getName()} a bien été reprogrammée pour le {$campaign->getSendingDate()->format('d/m/Y')} 🎉");
+            $this->addFlash('success', "La campagne {$campaign->getName()} a bien été reprogrammée pour le {$campaign->getSendingDate()->format('d/m/Y')} 🎉");
         }
 
         return $this->render('backoffice/update_campaign.html.twig', [
-            "campaign" => $campaign
+            'campaign' => $campaign,
         ]);
     }
 
@@ -150,21 +151,21 @@ class BackofficeController extends AbstractController
         EntityManagerInterface $entityManager,
         CampaignRepository $campaignRepository,
         int $id
-    ): Response
-    {
+    ): Response {
         $campaign = $campaignRepository->findOneBy([
-            'id' => $id
+            'id' => $id,
         ]);
 
-        if (null === $campaign) {
+        if ($campaign === null) {
             return $this->redirectToRoute('app_backoffice');
         }
 
         $entityManager->remove($campaign);
         $entityManager->flush();
 
-        $this->addFlash("success", "La campagne {$campaign->getName()} a bien été supprimée 🎉");
-        return $this->redirectToRoute("app_backoffice");
+        $this->addFlash('success', "La campagne {$campaign->getName()} a bien été supprimée 🎉");
+
+        return $this->redirectToRoute('app_backoffice');
     }
 
     /**
@@ -175,26 +176,26 @@ class BackofficeController extends AbstractController
         CampaignRepository $campaignRepository,
         SendInBlueApiService $sendInBlueApiService,
         int $id
-    ): Response
-    {
+    ): Response {
         $campaign = $campaignRepository->findOneBy([
-            'id' => $id
+            'id' => $id,
         ]);
 
-        if (null === $campaign) {
+        if ($campaign === null) {
             return $this->redirectToRoute('app_backoffice');
         }
 
         $template = $sendInBlueApiService->getTemplate($campaign->getTemplateId());
-        $result = $sendInBlueApiService->sendTransactionalEmail($template, [
-            'name' => $this->getUser()->getFirstname(),
-            'email' => $this->getUser()->getEmail()
+        $result   = $sendInBlueApiService->sendTransactionalEmail($template, [
+            'name'  => $this->getUser()->getFirstname(),
+            'email' => $this->getUser()->getEmail(),
         ]);
-        if (true === $result) {
-            $this->addFlash("success", "La campagne {$campaign->getName()} a bien été envoyée à {$this->getUser()->getEmail()} 🎉");
+        if ($result === true) {
+            $this->addFlash('success', "La campagne {$campaign->getName()} a bien été envoyée à {$this->getUser()->getEmail()} 🎉");
         } else {
-            $this->addFlash("error", "La campagne {$campaign->getName()} a bien été envoyée à {$this->getUser()->getEmail()} 🎉");
+            $this->addFlash('error', "La campagne {$campaign->getName()} a bien été envoyée à {$this->getUser()->getEmail()} 🎉");
         }
-        return $this->redirectToRoute("app_backoffice");
+
+        return $this->redirectToRoute('app_backoffice');
     }
 }

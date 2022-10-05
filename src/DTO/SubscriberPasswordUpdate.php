@@ -14,9 +14,9 @@ class SubscriberPasswordUpdate
 
     public ?string $confirmPassword;
 
-    public function hydrateFromData(array $data)
+    public function hydrateFromData(array $data): void
     {
-        $this->password = $data['password'] ?? null;
+        $this->password        = $data['password'] ?? null;
         $this->confirmPassword = $data['confirm-password'] ?? null;
     }
 }

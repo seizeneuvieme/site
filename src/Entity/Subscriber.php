@@ -45,26 +45,26 @@ class Subscriber implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $region = null;
 
-    #[ORM\OneToMany(mappedBy: 'subscriber', targetEntity: Child::class, cascade: ["persist", "remove"])]
+    #[ORM\OneToMany(mappedBy: 'subscriber', targetEntity: Child::class, cascade: ['persist', 'remove'])]
     private Collection $childs;
 
-    #[ORM\ManyToMany(targetEntity: Platform::class, inversedBy: 'subscribers', cascade: ["persist", "remove"])]
+    #[ORM\ManyToMany(targetEntity: Platform::class, inversedBy: 'subscribers', cascade: ['persist', 'remove'])]
     private Collection $platforms;
 
-    #[ORM\Column(type: 'boolean', options: ["default" => false])]
+    #[ORM\Column(type: 'boolean', options: ['default' => false])]
     private $isVerified = false;
 
     #[ORM\Column]
-    #[Gedmo\Timestampable(on:'create')]
+    #[Gedmo\Timestampable(on: 'create')]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column]
-    #[Gedmo\Timestampable(on:'update')]
+    #[Gedmo\Timestampable(on: 'update')]
     private ?\DateTimeImmutable $updatedAt = null;
 
     public function __construct()
     {
-        $this->childs = new ArrayCollection();
+        $this->childs    = new ArrayCollection();
         $this->platforms = new ArrayCollection();
     }
 
@@ -132,7 +132,7 @@ class Subscriber implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @see UserInterface
      */
-    public function eraseCredentials()
+    public function eraseCredentials(): void
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;

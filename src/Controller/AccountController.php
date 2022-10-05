@@ -3,10 +3,10 @@
 namespace App\Controller;
 
 use App\DTO\SubscriberChildCreate;
+use App\DTO\SubscriberContactInfosUpdate;
 use App\DTO\SubscriberEmailUpdate;
 use App\DTO\SubscriberPasswordUpdate;
 use App\DTO\SubscriberStreamingPlatformsUpdate;
-use App\DTO\SubscriberContactInfosUpdate;
 use App\Entity\Child;
 use App\Entity\Platform;
 use App\Entity\Subscriber;
@@ -29,13 +29,14 @@ class AccountController extends AbstractController
     public function __construct(
         private readonly SendInBlueApiService $sendInBlueApiService,
         private readonly VerifyEmailHelperInterface $verifyEmailHelper
-    ){}
+    ) {
+    }
 
     #[Route('/', name: 'app_account')]
     public function index(): Response
     {
         return $this->render('subscriber/index.html.twig', [
-            'subscriber' => $this->getUser()
+            'subscriber' => $this->getUser(),
         ]);
     }
 
@@ -55,16 +56,16 @@ class AccountController extends AbstractController
         $this->sendInBlueApiService->sendTransactionalEmail(
             $template,
             [
-                'name' => $subscriber->getFirstname(),
-                'email' => $subscriber->getEmail()
+                'name'  => $subscriber->getFirstname(),
+                'email' => $subscriber->getEmail(),
             ],
             [
-                "FIRSTNAME" => $subscriber->getFirstname(),
-                "SIGNED_URL" => $signatureComponents->getSignedUrl()
+                'FIRSTNAME'  => $subscriber->getFirstname(),
+                'SIGNED_URL' => $signatureComponents->getSignedUrl(),
             ]
         );
 
-        $this->addFlash('send_new_activation_code', "");
+        $this->addFlash('send_new_activation_code', '');
 
         return $this->redirectToRoute('app_account');
     }
@@ -74,16 +75,15 @@ class AccountController extends AbstractController
         Request $request,
         ValidatorInterface $validator,
         EntityManagerInterface $entityManager
-    ): Response
-    {
-        if($request->isMethod('POST')) {
-
+    ): Response {
+        if ($request->isMethod('POST')) {
             $subscriberEmailUpdate = new SubscriberEmailUpdate();
             $subscriberEmailUpdate->hydrateFromData($request->request->all());
 
             $errors = $validator->validate($subscriberEmailUpdate);
             if (0 < $errors->count()) {
-                $this->addFlash('error', "");
+                $this->addFlash('error', '');
+
                 return $this->render('subscriber/update_email.html.twig');
             }
 
@@ -93,7 +93,7 @@ class AccountController extends AbstractController
              */
             $subscriber->setEmail($subscriberEmailUpdate->email);
             $entityManager->flush();
-            $this->addFlash('success', "Ton adresse email a bien été modifiée 🎉");
+            $this->addFlash('success', 'Ton adresse email a bien été modifiée 🎉');
         }
 
         return $this->render('subscriber/update_email.html.twig');
@@ -105,10 +105,8 @@ class AccountController extends AbstractController
         ValidatorInterface $validator,
         UserPasswordHasherInterface $passwordHasher,
         EntityManagerInterface $entityManager
-    ): Response
-    {
+    ): Response {
         if ($request->isMethod('POST')) {
-
             $subscriber = $this->getUser();
 
             $subscriberPasswordUpdate = new SubscriberPasswordUpdate();
@@ -116,7 +114,8 @@ class AccountController extends AbstractController
 
             $errors = $validator->validate($subscriberPasswordUpdate);
             if (0 < $errors->count()) {
-                $this->addFlash('error', "");
+                $this->addFlash('error', '');
+
                 return $this->render('subscriber/update_password.html.twig');
             }
 
@@ -128,7 +127,7 @@ class AccountController extends AbstractController
 
             $subscriber->setPassword($encodedPassword);
             $entityManager->flush();
-            $this->addFlash('success', "Ton mot de passe a bien été modifiée 🎉");
+            $this->addFlash('success', 'Ton mot de passe a bien été modifiée 🎉');
         }
 
         return $this->render('subscriber/update_password.html.twig');
@@ -140,16 +139,16 @@ class AccountController extends AbstractController
         ValidatorInterface $validator,
         CityService $cityService,
         EntityManagerInterface $entityManager
-    ): Response
-    {
-        if($request->isMethod('POST')) {
+    ): Response {
+        if ($request->isMethod('POST')) {
             $subscriberContactInfosUpdate = new SubscriberContactInfosUpdate();
             $subscriberContactInfosUpdate->hydrateFromData($request->request->all());
             $cityService->processCityDetails($subscriberContactInfosUpdate);
 
             $errors = $validator->validate($subscriberContactInfosUpdate);
             if (0 < $errors->count()) {
-                $this->addFlash('error', "");
+                $this->addFlash('error', '');
+
                 return $this->render('subscriber/update_user_infos.html.twig');
             }
 
@@ -164,7 +163,7 @@ class AccountController extends AbstractController
             $subscriber->setRegion($subscriberContactInfosUpdate->region);
 
             $entityManager->flush();
-            $this->addFlash('success', "Tes coordonnées ont bien été modifiées 🎉");
+            $this->addFlash('success', 'Tes coordonnées ont bien été modifiées 🎉');
         }
 
         return $this->render('subscriber/update_user_infos.html.twig');
@@ -175,15 +174,15 @@ class AccountController extends AbstractController
         Request $request,
         ValidatorInterface $validator,
         EntityManagerInterface $entityManager
-    ): Response
-    {
-        if($request->isMethod('POST')) {
+    ): Response {
+        if ($request->isMethod('POST')) {
             $subscriberStreamingPlatformsUpdate = new SubscriberStreamingPlatformsUpdate();
             $subscriberStreamingPlatformsUpdate->hydrateFromData($request->request->all());
 
             $errors = $validator->validate($subscriberStreamingPlatformsUpdate);
             if (0 < $errors->count()) {
-                $this->addFlash('error', "");
+                $this->addFlash('error', '');
+
                 return $this->render('subscriber/update_platforms.html.twig');
             }
 
@@ -199,7 +198,7 @@ class AccountController extends AbstractController
             }
 
             $entityManager->flush();
-            $this->addFlash('success', "Tes plateformes de streaming payantes ont bien été modifiées 🎉");
+            $this->addFlash('success', 'Tes plateformes de streaming payantes ont bien été modifiées 🎉');
         }
 
         return $this->render('subscriber/update_platforms.html.twig');
@@ -210,15 +209,15 @@ class AccountController extends AbstractController
         Request $request,
         ValidatorInterface $validator,
         EntityManagerInterface $entityManager
-    ): Response
-    {
-        if($request->isMethod('POST')) {
+    ): Response {
+        if ($request->isMethod('POST')) {
             $subscriberChildCreate = new SubscriberChildCreate();
             $subscriberChildCreate->hydrateFromData($request->request->all());
 
             $errors = $validator->validate($subscriberChildCreate);
             if (0 < $errors->count()) {
-                $this->addFlash('error', "");
+                $this->addFlash('error', '');
+
                 return $this->render('subscriber/add_child.html.twig');
             }
 
@@ -226,7 +225,7 @@ class AccountController extends AbstractController
              * @var Subscriber $subscriber
              */
             $subscriber = $this->getUser();
-            $child = new Child();
+            $child      = new Child();
             $child->setFirstname($subscriberChildCreate->childFirstname);
             $child->setBirthDate($subscriberChildCreate->childBirthDate);
             $subscriber->addChild($child);
@@ -243,15 +242,14 @@ class AccountController extends AbstractController
         ChildRepository $childRepository,
         EntityManagerInterface $entityManager,
         int $id
-    ): Response
-    {
+    ): Response {
         $subscriber = $this->getUser();
 
         $child = $childRepository->findOneBy([
-            'id' => $id
+            'id' => $id,
         ]);
 
-        if (null === $child || $subscriber->getId() !== $child->getSubscriber()->getId() || $subscriber->getChilds()->count() < 2) {
+        if ($child === null || $subscriber->getId() !== $child->getSubscriber()->getId() || $subscriber->getChilds()->count() < 2) {
             return $this->redirectToRoute('app_account');
         }
 
@@ -268,25 +266,25 @@ class AccountController extends AbstractController
         Request $request,
         UserPasswordHasherInterface $passwordHasher,
         EntityManagerInterface $entityManager
-    ): Response
-    {
+    ): Response {
         $subscriber = $this->getUser();
-        $password = $request->request->get("password");
+        $password   = $request->request->get('password');
 
         $isPasswordValid = $passwordHasher->isPasswordValid(
             $subscriber,
             $password
         );
 
-        if (true === $isPasswordValid) {
+        if ($isPasswordValid === true) {
             $entityManager->remove($subscriber);
             $entityManager->flush();
             $session = new Session();
             $session->invalidate();
-            return $this->redirectToRoute( 'app_logout');
-        } else {
-            $this->addFlash('cant_remove_account', "");
-            return $this->redirectToRoute('app_account');
+
+            return $this->redirectToRoute('app_logout');
         }
+        $this->addFlash('cant_remove_account', '');
+
+        return $this->redirectToRoute('app_account');
     }
 }

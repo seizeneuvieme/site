@@ -10,8 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: PlatformsRepository::class)]
 class Platform
 {
-    public const NETFLIX = 'Netflix';
-    public const DISNEY = 'Disney';
+    public const NETFLIX             = 'Netflix';
+    public const DISNEY              = 'Disney';
     public const AVAILABLE_PLATFORMS = [self::NETFLIX, self::DISNEY];
 
     #[ORM\Id]

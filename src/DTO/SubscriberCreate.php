@@ -53,16 +53,16 @@ class SubscriberCreate
     #[AppAssert\IsValidPlatform]
     public array $streamingPlatforms;
 
-    public function hydrateFromData(array $data)
+    public function hydrateFromData(array $data): void
     {
-        $this->email = $data['email'] ?? null;
-        $this->password = $data['password'] ?? null;
-        $this->confirmPassword = $data['confirm-password'] ?? null;
-        $this->firstname = $data['firstname'] ?? null;
-        $this->city = $data['city'];
-        $this->cityDetails = $data['city-details'] ?? null;
-        $this->childFirstname = $data['child-firstname'] ?? null;
-        $this->childBirthDate = $data['child-birth-date'] ? new \DateTime($data['child-birth-date']) : null;
+        $this->email              = $data['email'] ?? null;
+        $this->password           = $data['password'] ?? null;
+        $this->confirmPassword    = $data['confirm-password'] ?? null;
+        $this->firstname          = $data['firstname'] ?? null;
+        $this->city               = $data['city'];
+        $this->cityDetails        = $data['city-details'] ?? null;
+        $this->childFirstname     = $data['child-firstname'] ?? null;
+        $this->childBirthDate     = $data['child-birth-date'] ? new \DateTime($data['child-birth-date']) : null;
         $this->streamingPlatforms = $data['streaming'] ?? [];
     }
 }

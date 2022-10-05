@@ -12,7 +12,7 @@ class SubscriberEmailUpdate
     #[AppAssert\IsUniqueEmail]
     public ?string $email;
 
-    public function hydrateFromData(array $data)
+    public function hydrateFromData(array $data): void
     {
         $this->email = $data['email'] ?? null;
     }

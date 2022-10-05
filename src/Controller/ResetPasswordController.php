@@ -6,7 +6,6 @@ use App\DTO\SubscriberPasswordUpdate;
 use App\Entity\Subscriber;
 use App\Service\SendInBlueApiService;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -40,12 +39,13 @@ class ResetPasswordController extends AbstractController
     #[Route('/', name: 'app_forgot_password_request')]
     public function request(Request $request, MailerInterface $mailer, TranslatorInterface $translator): Response
     {
-        if (true === $this->isGranted('ROLE_USER')) {
-            return $this->redirectToRoute("app_account");
+        if ($this->isGranted('ROLE_USER') === true) {
+            return $this->redirectToRoute('app_account');
         }
 
         if ($request->isMethod('POST')) {
-            $email = $request->request->get('_username') ?? "";
+            $email = $request->request->get('_username') ?? '';
+
             return $this->processSendingPasswordResetEmail(
                 $email,
                 $mailer,
@@ -62,8 +62,8 @@ class ResetPasswordController extends AbstractController
     #[Route('/confirmation', name: 'app_check_email')]
     public function checkEmail(): Response
     {
-        if (true === $this->isGranted('ROLE_USER')) {
-            return $this->redirectToRoute("app_account");
+        if ($this->isGranted('ROLE_USER') === true) {
+            return $this->redirectToRoute('app_account');
         }
 
         // Generate a fake token if the user does not exist or someone hit this page directly.
@@ -83,8 +83,8 @@ class ResetPasswordController extends AbstractController
     #[Route('/reinitialisation/{token}', name: 'app_reset_password')]
     public function reset(Request $request, ValidatorInterface $validator, UserPasswordHasherInterface $passwordHasher, TranslatorInterface $translator, string $token = null): Response
     {
-        if (true === $this->isGranted('ROLE_USER')) {
-            return $this->redirectToRoute("app_account");
+        if ($this->isGranted('ROLE_USER') === true) {
+            return $this->redirectToRoute('app_account');
         }
 
         if ($token) {
@@ -96,9 +96,9 @@ class ResetPasswordController extends AbstractController
         }
 
         $token = $this->getTokenFromSession();
-        if (null === $token) {
+        if ($token === null) {
             return $this->render('reset_password/reset.html.twig', [
-                'error' => true
+                'error' => true,
             ]);
         }
 
@@ -112,10 +112,9 @@ class ResetPasswordController extends AbstractController
             ));
 
             return $this->render('reset_password/reset.html.twig', [
-                'error' => true
+                'error' => true,
             ]);
         }
-
 
         if ($request->isMethod('POST')) {
             // A password reset token should be used only once, remove it.
@@ -127,7 +126,7 @@ class ResetPasswordController extends AbstractController
             $errors = $validator->validate($password);
             if (0 < $errors->count()) {
                 return $this->render('reset_password/reset.html.twig', [
-                    'error' => true
+                    'error' => true,
                 ]);
             }
 
@@ -144,7 +143,7 @@ class ResetPasswordController extends AbstractController
             $this->cleanSessionAfterReset();
 
             return $this->render('reset_password/password_resetted.html.twig', [
-                'resetPassword' => true
+                'resetPassword' => true,
             ]);
         }
 
@@ -182,13 +181,13 @@ class ResetPasswordController extends AbstractController
         $this->sendInBlueApiService->sendTransactionalEmail(
             $template,
             [
-                'name' => $user->getFirstname(),
-                'email' => $user->getEmail()
+                'name'  => $user->getFirstname(),
+                'email' => $user->getEmail(),
             ],
             [
-                "SIGNED_URL" => $this->generateUrl('app_reset_password', [
-                    'token' => $resetToken->getToken()
-                ], UrlGenerator::ABSOLUTE_URL)
+                'SIGNED_URL' => $this->generateUrl('app_reset_password', [
+                    'token' => $resetToken->getToken(),
+                ], UrlGenerator::ABSOLUTE_URL),
             ]
         );
 

@@ -6,8 +6,8 @@ use App\DTO\SubscriberCreate;
 use App\Repository\SubscriberRepository;
 use App\Security\EmailVerifier;
 use App\Service\CityService;
-use App\Service\SubscriberService;
 use App\Service\SendInBlueApiService;
+use App\Service\SubscriberService;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -26,28 +26,28 @@ class SignUpController extends AbstractController
         private EmailVerifier $emailVerifier,
         private AuthenticatorInterface $loginAuthenticator,
         private SendInBlueApiService $sendInBlueApiService
-    ){}
+    ) {
+    }
 
     #[Route('/inscription', name: 'app_sign_up')]
     public function index(
-        Request                    $request,
-        SubscriberService          $subscriberService,
-        CityService                $cityService,
-        ValidatorInterface         $validator,
-        EntityManagerInterface     $entityManager,
+        Request $request,
+        SubscriberService $subscriberService,
+        CityService $cityService,
+        ValidatorInterface $validator,
+        EntityManagerInterface $entityManager,
         UserAuthenticatorInterface $userAuthenticator
-    ): Response
-    {
-        if (true === $this->isGranted('ROLE_USER')) {
-            return $this->redirectToRoute("app_account");
+    ): Response {
+        if ($this->isGranted('ROLE_USER') === true) {
+            return $this->redirectToRoute('app_account');
         }
 
-        if($request->isMethod('POST')) {
+        if ($request->isMethod('POST')) {
             $subscriberCreate = new SubscriberCreate();
             $subscriberCreate->hydrateFromData($request->request->all());
-            if (true === $subscriberService->doesSubscriberAlreadyExist($subscriberCreate)) {
+            if ($subscriberService->doesSubscriberAlreadyExist($subscriberCreate) === true) {
                 return $this->render('sign_up/index.html.twig', [
-                    'user_already_exist' => $subscriberCreate->email
+                    'user_already_exist' => $subscriberCreate->email,
                 ]);
             }
 
@@ -55,7 +55,7 @@ class SignUpController extends AbstractController
             $errors = $validator->validate($subscriberCreate);
             if ($errors->count() > 0) {
                 return $this->render('sign_up/index.html.twig', [
-                    'error' => true
+                    'error' => true,
                 ]);
             }
 
@@ -74,12 +74,12 @@ class SignUpController extends AbstractController
             $this->sendInBlueApiService->sendTransactionalEmail(
                 $template,
                 [
-                    'name' => $subscriber->getFirstname(),
-                    'email' => $subscriber->getEmail()
+                    'name'  => $subscriber->getFirstname(),
+                    'email' => $subscriber->getEmail(),
                 ],
                 [
-                    "FIRSTNAME" => $subscriber->getFirstname(),
-                    "SIGNED_URL" => $signatureComponents->getSignedUrl()
+                    'FIRSTNAME'  => $subscriber->getFirstname(),
+                    'SIGNED_URL' => $signatureComponents->getSignedUrl(),
                 ]
             );
 
@@ -93,7 +93,7 @@ class SignUpController extends AbstractController
         }
 
         return $this->render('sign_up/index.html.twig', [
-            'email' => $request->query->get('email')
+            'email' => $request->query->get('email'),
         ]);
     }
 
@@ -101,25 +101,24 @@ class SignUpController extends AbstractController
     public function verifyUserEmail(
         Request $request,
         SubscriberRepository $subscriberRepository,
-    ): Response
-    {
+    ): Response {
         $id = $request->get('id');
 
-        if (null === $id) {
+        if ($id === null) {
             return $this->redirectToRoute('app_sign_up');
         }
 
         $subscriber = $subscriberRepository->find($id);
 
-        if (null === $subscriber) {
+        if ($subscriber === null) {
             return $this->redirectToRoute('app_sign_up');
         }
 
         try {
             $this->emailVerifier->handleEmailConfirmation($request, $subscriber);
-            $this->addFlash('account_activated', "");
+            $this->addFlash('account_activated', '');
         } catch (Exception $exception) {
-            $this->addFlash('verify_email_error', "");
+            $this->addFlash('verify_email_error', '');
         }
 
         return $this->redirectToRoute('app_account');
