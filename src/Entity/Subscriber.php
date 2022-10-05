@@ -19,7 +19,7 @@ class Subscriber implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
-    private ?string $email = null;
+    private string $email;
 
     #[ORM\Column]
     private array $roles = [];
@@ -28,22 +28,22 @@ class Subscriber implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      */
     #[ORM\Column]
-    private ?string $password = null;
+    private string $password;
 
     #[ORM\Column(length: 255)]
-    private ?string $firstname = null;
+    private string $firstname;
 
     #[ORM\Column(length: 255)]
-    private ?string $city = null;
+    private string $city;
 
     #[ORM\Column]
-    private ?string $departmentNumber = null;
+    private string $departmentNumber;
 
     #[ORM\Column]
-    private ?string $departmentName = null;
+    private string $departmentName;
 
     #[ORM\Column]
-    private ?string $region = null;
+    private string $region;
 
     #[ORM\OneToMany(mappedBy: 'subscriber', targetEntity: Child::class, cascade: ['persist', 'remove'])]
     private Collection $childs;
@@ -52,7 +52,7 @@ class Subscriber implements UserInterface, PasswordAuthenticatedUserInterface
     private Collection $platforms;
 
     #[ORM\Column(type: 'boolean', options: ['default' => false])]
-    private $isVerified = false;
+    private bool $isVerified = false;
 
     #[ORM\Column]
     #[Gedmo\Timestampable(on: 'create')]
@@ -73,7 +73,7 @@ class Subscriber implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->id;
     }
 
-    public function getEmail(): ?string
+    public function getEmail(): string
     {
         return $this->email;
     }
@@ -138,7 +138,7 @@ class Subscriber implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->plainPassword = null;
     }
 
-    public function getFirstname(): ?string
+    public function getFirstname(): string
     {
         return $this->firstname;
     }
@@ -150,7 +150,7 @@ class Subscriber implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getCity(): ?string
+    public function getCity(): string
     {
         return $this->city;
     }
@@ -162,7 +162,7 @@ class Subscriber implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getDepartmentNumber(): ?string
+    public function getDepartmentNumber(): string
     {
         return $this->departmentNumber;
     }
@@ -174,7 +174,7 @@ class Subscriber implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getDepartmentName(): ?string
+    public function getDepartmentName(): string
     {
         return $this->departmentName;
     }
@@ -186,7 +186,7 @@ class Subscriber implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getRegion(): ?string
+    public function getRegion(): string
     {
         return $this->region;
     }

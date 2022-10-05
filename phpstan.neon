@@ -1,0 +1,11 @@
+parameters:
+    featureToggles:
+        disableRuntimeReflectionProvider: true
+    level: 8
+    paths:
+        - src
+        - tests
+    checkGenericClassInNonGenericObjectType: false
+    checkMissingIterableValueType: false
+    ignoreErrors:
+            - '#Method App\\Validator\\.*::validate\(\) has parameter \$value with no type specified.#'

@@ -19,34 +19,34 @@ class Campaign
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $name = null;
+    private string $name;
 
     #[ORM\Column]
-    private ?int $templateId = null;
+    private int $templateId;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $sendingDate = null;
+    private \DateTimeInterface $sendingDate;
 
     #[ORM\Column(length: 255)]
-    private ?string $state = self::DRAFT_STATE;
+    private string $state = self::DRAFT_STATE;
 
     #[ORM\Column]
-    private ?int $numberSent = 0;
+    private int $numberSent = 0;
 
     #[ORM\Column]
     #[Gedmo\Timestampable(on: 'create')]
-    private ?\DateTimeImmutable $createdAt = null;
+    private \DateTimeImmutable $createdAt;
 
     #[ORM\Column]
     #[Gedmo\Timestampable(on: 'update')]
-    private ?\DateTimeImmutable $updateAt = null;
+    private \DateTimeImmutable $updateAt;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->name;
     }
@@ -58,7 +58,7 @@ class Campaign
         return $this;
     }
 
-    public function getTemplateId(): ?int
+    public function getTemplateId(): int
     {
         return $this->templateId;
     }
@@ -70,7 +70,7 @@ class Campaign
         return $this;
     }
 
-    public function getSendingDate(): ?\DateTimeInterface
+    public function getSendingDate(): \DateTimeInterface
     {
         return $this->sendingDate;
     }
@@ -82,7 +82,7 @@ class Campaign
         return $this;
     }
 
-    public function getState(): ?string
+    public function getState(): string
     {
         return $this->state;
     }
@@ -94,7 +94,7 @@ class Campaign
         return $this;
     }
 
-    public function getNumberSent(): ?int
+    public function getNumberSent(): int
     {
         return $this->numberSent;
     }
@@ -106,7 +106,7 @@ class Campaign
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeImmutable
+    public function getCreatedAt(): \DateTimeImmutable
     {
         return $this->createdAt;
     }
@@ -118,7 +118,7 @@ class Campaign
         return $this;
     }
 
-    public function getUpdateAt(): ?\DateTimeImmutable
+    public function getUpdateAt(): \DateTimeImmutable
     {
         return $this->updateAt;
     }

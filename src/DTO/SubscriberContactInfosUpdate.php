@@ -8,32 +8,32 @@ class SubscriberContactInfosUpdate
 {
     #[Assert\NotNull]
     #[Assert\Length(min: 3)]
-    public ?string $firstname;
+    public string $firstname;
 
     #[Assert\NotNull]
     #[Assert\NotBlank]
-    public ?string $city;
+    public string $city;
 
     #[Assert\NotNull]
     #[Assert\NotBlank]
-    public ?string $cityDetails;
+    public string $cityDetails;
 
     #[Assert\NotNull]
     #[Assert\NotBlank]
-    public ?string $departmentNumber = null;
+    public string $departmentNumber = '';
 
     #[Assert\NotNull]
     #[Assert\NotBlank]
-    public ?string $departmentName = null;
+    public string $departmentName = '';
 
     #[Assert\NotNull]
     #[Assert\NotBlank]
-    public ?string $region = null;
+    public string $region = '';
 
     public function hydrateFromData(array $data): void
     {
-        $this->firstname   = $data['firstname'] ?? null;
+        $this->firstname   = $data['firstname'] ?? '';
         $this->city        = $data['city'];
-        $this->cityDetails = $data['city-details'] ?? null;
+        $this->cityDetails = $data['city-details'] ?? '';
     }
 }

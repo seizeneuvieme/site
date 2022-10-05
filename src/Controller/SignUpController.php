@@ -66,22 +66,24 @@ class SignUpController extends AbstractController
 
             $signatureComponents = $this->verifyEmailHelper->generateSignature(
                 'app_verify_email',
-                $subscriber->getId(),
-                $subscriber->getEmail(),
+                "{$subscriber->getId()}",
+                "{$subscriber->getEmail()}",
                 ['id' => $subscriber->getId()]
             );
             $template = $this->sendInBlueApiService->getTemplate(SendInBlueApiService::ACTIVE_ACCOUNT_TEMPLATE_ID);
-            $this->sendInBlueApiService->sendTransactionalEmail(
-                $template,
-                [
-                    'name'  => $subscriber->getFirstname(),
-                    'email' => $subscriber->getEmail(),
-                ],
-                [
-                    'FIRSTNAME'  => $subscriber->getFirstname(),
-                    'SIGNED_URL' => $signatureComponents->getSignedUrl(),
-                ]
-            );
+            if ($template !== null) {
+                $this->sendInBlueApiService->sendTransactionalEmail(
+                    $template,
+                    [
+                        'name'  => $subscriber->getFirstname(),
+                        'email' => $subscriber->getEmail(),
+                    ],
+                    [
+                        'FIRSTNAME'  => $subscriber->getFirstname(),
+                        'SIGNED_URL' => $signatureComponents->getSignedUrl(),
+                    ]
+                );
+            }
 
             $userAuthenticator->authenticateUser(
                 $subscriber,
