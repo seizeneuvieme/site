@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\DTO\Password;
 use App\Entity\Subscriber;
+use App\Service\SendInBlueApiService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,6 +15,7 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use SymfonyCasts\Bundle\ResetPassword\Controller\ResetPasswordControllerTrait;
@@ -27,7 +29,8 @@ class ResetPasswordController extends AbstractController
 
     public function __construct(
         private ResetPasswordHelperInterface $resetPasswordHelper,
-        private EntityManagerInterface $entityManager
+        private EntityManagerInterface $entityManager,
+        private SendInBlueApiService $sendInBlueApiService
     ) {
     }
 
@@ -175,17 +178,19 @@ class ResetPasswordController extends AbstractController
             return $this->redirectToRoute('app_check_email');
         }
 
-        $email = (new TemplatedEmail())
-            ->from(new Address('fanny@lerehausseur.fr', 'Le Réhausseur'))
-            ->to($user->getEmail())
-            ->subject('Réinitialise ton mot de passe 👀')
-            ->htmlTemplate('reset_password/email.html.twig')
-            ->context([
-                'resetToken' => $resetToken,
-            ])
-        ;
-
-        $mailer->send($email);
+        $template = $this->sendInBlueApiService->getTemplate(SendInBlueApiService::RESET_PASSWORD_TEMPLATE_ID);
+        $this->sendInBlueApiService->sendTransactionalEmail(
+            $template,
+            [
+                'name' => $user->getFirstname(),
+                'email' => $user->getEmail()
+            ],
+            [
+                "SIGNED_URL" => $this->generateUrl('app_reset_password', [
+                    'token' => $resetToken->getToken()
+                ], UrlGenerator::ABSOLUTE_URL)
+            ]
+        );
 
         // Store the token object in session for retrieval in check-email route.
         $this->setTokenObjectInSession($resetToken);

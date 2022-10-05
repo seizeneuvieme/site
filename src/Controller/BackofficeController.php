@@ -45,9 +45,9 @@ class BackofficeController extends AbstractController
             'state' => Campaign::DRAFT_STATE
         ]);
 
-        $sentCampaigns = $campaignRepository->findBy([
+        $lastSentCampaigns = $campaignRepository->findBy([
             'state' => Campaign::SENT_STATE
-        ]);
+        ], ['sendingDate' => 'DESC'], 10);
 
         return $this->render('backoffice/index.html.twig', [
             'nbOfSubscribers' => $nbOfSubscribers,
@@ -55,7 +55,7 @@ class BackofficeController extends AbstractController
             'nbOfSubscribersForNetflix' => $nbOfSubscribersForNetflix,
             'nbOfSubscribersForDisney' => $nbOfSubscribersForDisney,
             'pendingCampaigns' => $pendingCampaigns,
-            'sentCampaigns' => $sentCampaigns
+            'sentCampaigns' => $lastSentCampaigns
         ]);
     }
 

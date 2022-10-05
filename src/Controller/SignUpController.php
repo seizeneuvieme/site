@@ -7,23 +7,25 @@ use App\Repository\SubscriberRepository;
 use App\Security\EmailVerifier;
 use App\Service\CityService;
 use App\Service\RegistrationService;
+use App\Service\SendInBlueApiService;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Mime\Address;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 use Symfony\Component\Security\Http\Authenticator\AuthenticatorInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
 
 class SignUpController extends AbstractController
 {
     public function __construct(
+        private VerifyEmailHelperInterface $verifyEmailHelper,
         private EmailVerifier $emailVerifier,
-        private AuthenticatorInterface $loginAuthenticator
+        private AuthenticatorInterface $loginAuthenticator,
+        private SendInBlueApiService $sendInBlueApiService
     ){}
 
     #[Route('/inscription', name: 'app_sign_up')]
@@ -62,16 +64,23 @@ class SignUpController extends AbstractController
             $entityManager->persist($subscriber);
             $entityManager->flush();
 
-            // generate a signed url and email it to the user
-            $this->emailVerifier->sendEmailConfirmation('app_verify_email', $subscriber,
-                (new TemplatedEmail())
-                    ->from(new Address('fanny@lerehausseur.fr', 'Fanny - Le Réhausseur'))
-                    ->to($subscriber->getEmail())
-                    ->subject('Le Réhausseur débarque dans ta boîte mail 📽️⚡')
-                    ->htmlTemplate('sign_up/confirmation_email.html.twig')
-                    ->context([
-                        'subscriber' => $subscriber
-                    ])
+            $signatureComponents = $this->verifyEmailHelper->generateSignature(
+                'app_verify_email',
+                $user->getId(),
+                $user->getEmail(),
+                ['id' => $user->getId()]
+            );
+            $template = $this->sendInBlueApiService->getTemplate(SendInBlueApiService::ACTIVE_ACCOUNT_TEMPLATE_ID);
+            $this->sendInBlueApiService->sendTransactionalEmail(
+                $template,
+                [
+                    'name' => $user->getFirstname(),
+                    'email' => $user->getEmail()
+                ],
+                [
+                    "FIRSTNAME" => $user->getFirstname(),
+                    "SIGNED_URL" => $signatureComponents->getSignedUrl()
+                ]
             );
 
             $userAuthenticator->authenticateUser(

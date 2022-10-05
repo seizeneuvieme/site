@@ -10,26 +10,25 @@ use App\DTO\UserInfos;
 use App\Entity\Platform;
 use App\Entity\Subscriber;
 use App\Repository\ChildRepository;
-use App\Security\EmailVerifier;
 use App\Service\CityService;
+use App\Service\SendInBlueApiService;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
-use Symfony\Component\Mime\Address;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
 
 #[Route('/mon-compte')]
 class DashboardController extends AbstractController
 {
 
     public function __construct(
-        private EmailVerifier $emailVerifier
+        private readonly SendInBlueApiService $sendInBlueApiService,
+        private readonly VerifyEmailHelperInterface $verifyEmailHelper
     ){}
 
     #[Route('/', name: 'app_dashboard')]
@@ -45,15 +44,24 @@ class DashboardController extends AbstractController
     {
         $subscriber = $this->getUser();
 
-        $this->emailVerifier->sendEmailConfirmation('app_verify_email', $subscriber,
-            (new TemplatedEmail())
-                ->from(new Address('fanny@lerehausseur.fr', 'Fanny - Le Réhausseur'))
-                ->to($subscriber->getEmail())
-                ->subject('Confirme ton email pour valider ton inscription')
-                ->htmlTemplate('sign_up/confirmation_email.html.twig')
-                ->context([
-                    'subscriber' => $subscriber
-                ])
+        $signatureComponents = $this->verifyEmailHelper->generateSignature(
+            'app_verify_email',
+            $subscriber->getId(),
+            $subscriber->getEmail(),
+            ['id' => $subscriber->getId()]
+        );
+
+        $template = $this->sendInBlueApiService->getTemplate(SendInBlueApiService::ACTIVE_ACCOUNT_TEMPLATE_ID);
+        $this->sendInBlueApiService->sendTransactionalEmail(
+            $template,
+            [
+                'name' => $subscriber->getFirstname(),
+                'email' => $subscriber->getEmail()
+            ],
+            [
+                "FIRSTNAME" => $subscriber->getFirstname(),
+                "SIGNED_URL" => $signatureComponents->getSignedUrl()
+            ]
         );
 
         $this->addFlash('send_new_activation_code', "");

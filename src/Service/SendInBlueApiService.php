@@ -11,6 +11,9 @@ use SendinBlue\Client\Model\SendSmtpEmail;
 
 class SendInBlueApiService
 {
+    public CONST ACTIVE_ACCOUNT_TEMPLATE_ID = 4;
+    public CONST RESET_PASSWORD_TEMPLATE_ID = 5;
+
     public function __construct(
         private readonly string        $apiKey
     ){}

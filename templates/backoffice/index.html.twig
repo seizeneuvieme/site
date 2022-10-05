@@ -174,14 +174,14 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr>
                                         {% for sentCampaign in sentCampaigns %}
-                                            <td>{{ sentCampaign.name }}</td>
-                                            <td class="text-left">{{ sentCampaign.sendingDate|date("d/m/Y") }}</td>
-                                            <td class="text-left">{{ sentCampaign.numberSent }}</td>
-                                            <td><a href="https://app-smtp.sendinblue.com/statistics" target="_blank"><img class="icon" src="{{ asset('build/images/icons/theme/shopping/chart-line-1.svg') }}" alt="decoration" data-inject-svg /></a></td>
+                                            <tr>
+                                                <td>{{ sentCampaign.name }}</td>
+                                                <td class="text-left">{{ sentCampaign.sendingDate|date("d/m/Y") }}</td>
+                                                <td class="text-left">{{ sentCampaign.numberSent }}</td>
+                                                <td><a href="https://app-smtp.sendinblue.com/statistics" target="_blank"><img class="icon" src="{{ asset('build/images/icons/theme/shopping/chart-line-1.svg') }}" alt="decoration" data-inject-svg /></a></td>
+                                            </tr>
                                         {% endfor %}
-                                    </tr>
                                     </tbody>
                                 </table>
                             {% else %}
