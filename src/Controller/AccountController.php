@@ -2,11 +2,12 @@
 
 namespace App\Controller;
 
-use App\DTO\Child;
-use App\DTO\Email;
-use App\DTO\Password;
-use App\DTO\StreamingPlatforms;
-use App\DTO\UserInfos;
+use App\DTO\SubscriberChildCreate;
+use App\DTO\SubscriberEmailUpdate;
+use App\DTO\SubscriberPasswordUpdate;
+use App\DTO\SubscriberStreamingPlatformsUpdate;
+use App\DTO\SubscriberContactInfosUpdate;
+use App\Entity\Child;
 use App\Entity\Platform;
 use App\Entity\Subscriber;
 use App\Repository\ChildRepository;
@@ -23,15 +24,14 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
 
 #[Route('/mon-compte')]
-class DashboardController extends AbstractController
+class AccountController extends AbstractController
 {
-
     public function __construct(
         private readonly SendInBlueApiService $sendInBlueApiService,
         private readonly VerifyEmailHelperInterface $verifyEmailHelper
     ){}
 
-    #[Route('/', name: 'app_dashboard')]
+    #[Route('/', name: 'app_account')]
     public function index(): Response
     {
         return $this->render('subscriber/index.html.twig', [
@@ -66,7 +66,7 @@ class DashboardController extends AbstractController
 
         $this->addFlash('send_new_activation_code', "");
 
-        return $this->redirectToRoute('app_dashboard');
+        return $this->redirectToRoute('app_account');
     }
 
     #[Route('/modifier/email', name: 'app_update_email')]
@@ -78,25 +78,25 @@ class DashboardController extends AbstractController
     {
         if($request->isMethod('POST')) {
 
-            $email = new Email();
-            $email->hydrateFromData($request->request->all());
+            $subscriberEmailUpdate = new SubscriberEmailUpdate();
+            $subscriberEmailUpdate->hydrateFromData($request->request->all());
 
-            $errors = $validator->validate($email);
+            $errors = $validator->validate($subscriberEmailUpdate);
             if (0 < $errors->count()) {
                 $this->addFlash('error', "");
-                return $this->render('subscriber/update-email.html.twig');
+                return $this->render('subscriber/update_email.html.twig');
             }
 
             $subscriber = $this->getUser();
             /**
              * @var Subscriber $subscriber
              */
-            $subscriber->setEmail($email->email);
+            $subscriber->setEmail($subscriberEmailUpdate->email);
             $entityManager->flush();
             $this->addFlash('success', "Ton adresse email a bien été modifiée 🎉");
         }
 
-        return $this->render('subscriber/update-email.html.twig');
+        return $this->render('subscriber/update_email.html.twig');
     }
 
     #[Route('/modifier/mot-de-passe', name: 'app_update_password')]
@@ -111,19 +111,19 @@ class DashboardController extends AbstractController
 
             $subscriber = $this->getUser();
 
-            $password = new Password();
-            $password->hydrateFromData($request->request->all());
+            $subscriberPasswordUpdate = new SubscriberPasswordUpdate();
+            $subscriberPasswordUpdate->hydrateFromData($request->request->all());
 
-            $errors = $validator->validate($password);
+            $errors = $validator->validate($subscriberPasswordUpdate);
             if (0 < $errors->count()) {
                 $this->addFlash('error', "");
-                return $this->render('subscriber/update-password.html.twig');
+                return $this->render('subscriber/update_password.html.twig');
             }
 
             // Encode(hash) the plain password, and set it.
             $encodedPassword = $passwordHasher->hashPassword(
                 $subscriber,
-                $password->password
+                $subscriberPasswordUpdate->password
             );
 
             $subscriber->setPassword($encodedPassword);
@@ -131,7 +131,7 @@ class DashboardController extends AbstractController
             $this->addFlash('success', "Ton mot de passe a bien été modifiée 🎉");
         }
 
-        return $this->render('subscriber/update-password.html.twig');
+        return $this->render('subscriber/update_password.html.twig');
     }
 
     #[Route('/modifier/coordonnees', name: 'app_update_user_infos')]
@@ -143,31 +143,31 @@ class DashboardController extends AbstractController
     ): Response
     {
         if($request->isMethod('POST')) {
-            $userInfos = new UserInfos();
-            $userInfos->hydrateFromData($request->request->all());
-            $cityService->processCityDetails($userInfos);
+            $subscriberContactInfosUpdate = new SubscriberContactInfosUpdate();
+            $subscriberContactInfosUpdate->hydrateFromData($request->request->all());
+            $cityService->processCityDetails($subscriberContactInfosUpdate);
 
-            $errors = $validator->validate($userInfos);
+            $errors = $validator->validate($subscriberContactInfosUpdate);
             if (0 < $errors->count()) {
                 $this->addFlash('error', "");
-                return $this->render('subscriber/update-user-infos.html.twig');
+                return $this->render('subscriber/update_user_infos.html.twig');
             }
 
             /**
              * @var Subscriber $subscriber
              */
             $subscriber = $this->getUser();
-            $subscriber->setFirstname($userInfos->firstname);
-            $subscriber->setCity($userInfos->city);
-            $subscriber->setDepartmentNumber($userInfos->departmentNumber);
-            $subscriber->setDepartmentName($userInfos->departmentName);
-            $subscriber->setRegion($userInfos->region);
+            $subscriber->setFirstname($subscriberContactInfosUpdate->firstname);
+            $subscriber->setCity($subscriberContactInfosUpdate->city);
+            $subscriber->setDepartmentNumber($subscriberContactInfosUpdate->departmentNumber);
+            $subscriber->setDepartmentName($subscriberContactInfosUpdate->departmentName);
+            $subscriber->setRegion($subscriberContactInfosUpdate->region);
 
             $entityManager->flush();
             $this->addFlash('success', "Tes coordonnées ont bien été modifiées 🎉");
         }
 
-        return $this->render('subscriber/update-user-infos.html.twig');
+        return $this->render('subscriber/update_user_infos.html.twig');
     }
 
     #[Route('/modifier/plateformes', name: 'app_update_platforms')]
@@ -178,13 +178,13 @@ class DashboardController extends AbstractController
     ): Response
     {
         if($request->isMethod('POST')) {
-            $streamingPlatforms = new StreamingPlatforms();
-            $streamingPlatforms->hydrateFromData($request->request->all());
+            $subscriberStreamingPlatformsUpdate = new SubscriberStreamingPlatformsUpdate();
+            $subscriberStreamingPlatformsUpdate->hydrateFromData($request->request->all());
 
-            $errors = $validator->validate($streamingPlatforms);
+            $errors = $validator->validate($subscriberStreamingPlatformsUpdate);
             if (0 < $errors->count()) {
                 $this->addFlash('error', "");
-                return $this->render('subscriber/update-platforms.html.twig');
+                return $this->render('subscriber/update_platforms.html.twig');
             }
 
             /**
@@ -192,7 +192,7 @@ class DashboardController extends AbstractController
              */
             $subscriber = $this->getUser();
             $subscriber->getPlatforms()->clear();
-            foreach ($streamingPlatforms->streamingPlatforms as $streamingPlatform) {
+            foreach ($subscriberStreamingPlatformsUpdate->streamingPlatforms as $streamingPlatform) {
                 $platform = new Platform();
                 $platform->setName($streamingPlatform);
                 $subscriber->addPlatform($platform);
@@ -202,7 +202,7 @@ class DashboardController extends AbstractController
             $this->addFlash('success', "Tes plateformes de streaming payantes ont bien été modifiées 🎉");
         }
 
-        return $this->render('subscriber/update-platforms.html.twig');
+        return $this->render('subscriber/update_platforms.html.twig');
     }
 
     #[Route('/ajouter/enfant', name: 'app_add_child')]
@@ -213,28 +213,28 @@ class DashboardController extends AbstractController
     ): Response
     {
         if($request->isMethod('POST')) {
-            $newChild = new Child();
-            $newChild->hydrateFromData($request->request->all());
+            $subscriberChildCreate = new SubscriberChildCreate();
+            $subscriberChildCreate->hydrateFromData($request->request->all());
 
-            $errors = $validator->validate($newChild);
+            $errors = $validator->validate($subscriberChildCreate);
             if (0 < $errors->count()) {
                 $this->addFlash('error', "");
-                return $this->render('subscriber/add-child.html.twig');
+                return $this->render('subscriber/add_child.html.twig');
             }
 
             /**
              * @var Subscriber $subscriber
              */
             $subscriber = $this->getUser();
-            $child = new \App\Entity\Child();
-            $child->setFirstname($newChild->childFirstname);
-            $child->setBirthDate($newChild->childBirthDate);
+            $child = new Child();
+            $child->setFirstname($subscriberChildCreate->childFirstname);
+            $child->setBirthDate($subscriberChildCreate->childBirthDate);
             $subscriber->addChild($child);
             $entityManager->flush();
             $this->addFlash('success', "✅ C'est noté ! Tu recevras désormais aussi des recommandations de films pour {$child->getFirstname()}");
         }
 
-        return $this->render('subscriber/add-child.html.twig');
+        return $this->render('subscriber/add_child.html.twig');
     }
 
     #[Route('/supprimer/enfant/{id}', name: 'app_remove_child')]
@@ -252,7 +252,7 @@ class DashboardController extends AbstractController
         ]);
 
         if (null === $child || $subscriber->getId() !== $child->getSubscriber()->getId() || $subscriber->getChilds()->count() < 2) {
-            return $this->redirectToRoute('app_dashboard');
+            return $this->redirectToRoute('app_account');
         }
 
         $subscriber->removeChild($child);
@@ -260,7 +260,7 @@ class DashboardController extends AbstractController
         $entityManager->flush();
         $this->addFlash('success', "✅ C'est noté ! Tu recevras plus de recommandations de films pour {$child->getFirstname()}");
 
-        return $this->redirectToRoute('app_dashboard');
+        return $this->redirectToRoute('app_account');
     }
 
     #[Route('/supprimer/compte', name: 'app_remove_account', methods: ['POST'])]
@@ -286,7 +286,7 @@ class DashboardController extends AbstractController
             return $this->redirectToRoute( 'app_logout');
         } else {
             $this->addFlash('cant_remove_account', "");
-            return $this->redirectToRoute('app_dashboard');
+            return $this->redirectToRoute('app_account');
         }
     }
 }

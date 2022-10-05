@@ -13,7 +13,7 @@ class SignInController extends AbstractController
     public function index(AuthenticationUtils $authenticationUtils): Response
     {
         if (true === $this->isGranted('ROLE_USER')) {
-            return $this->redirectToRoute("app_dashboard");
+            return $this->redirectToRoute("app_account");
         }
 
         // get the login error if there is one

@@ -5,7 +5,7 @@ namespace App\DTO;
 use App\Validator as AppAssert;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class Child
+class SubscriberChildCreate
 {
     #[Assert\NotNull]
     #[Assert\Length(min: 3)]

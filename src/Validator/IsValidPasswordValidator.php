@@ -2,7 +2,7 @@
 
 namespace App\Validator;
 
-use App\DTO\Registration;
+use App\DTO\SubscriberCreate;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
@@ -15,7 +15,7 @@ class IsValidPasswordValidator extends ConstraintValidator
             throw new UnexpectedTypeException($constraint, IsValidPassword::class);
         }
 
-        if (false === $value instanceof(Registration::class)) {
+        if (false === $value instanceof(SubscriberCreate::class)) {
             return;
         }
 

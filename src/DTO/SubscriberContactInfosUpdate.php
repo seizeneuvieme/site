@@ -4,7 +4,7 @@ namespace App\DTO;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
-class UserInfos
+class SubscriberContactInfosUpdate
 {
     #[Assert\NotNull]
     #[Assert\Length(min: 3)]

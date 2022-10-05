@@ -21,7 +21,6 @@ Encore
    * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
    */
   .addEntry("app", "./assets/app.js")
-  .addEntry("home", "./assets/js/leap/theme/home.js")
   .addEntry("sign-up", "./assets/js/leap/theme/signUp.js")
   .addEntry("sign-in", "./assets/js/leap/theme/signIn.js")
   .addEntry("request-reset", "./assets/js/leap/theme/requestReset.js")

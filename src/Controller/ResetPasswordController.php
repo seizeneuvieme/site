@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\DTO\Password;
+use App\DTO\SubscriberPasswordUpdate;
 use App\Entity\Subscriber;
 use App\Service\SendInBlueApiService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -41,7 +41,7 @@ class ResetPasswordController extends AbstractController
     public function request(Request $request, MailerInterface $mailer, TranslatorInterface $translator): Response
     {
         if (true === $this->isGranted('ROLE_USER')) {
-            return $this->redirectToRoute("app_dashboard");
+            return $this->redirectToRoute("app_account");
         }
 
         if ($request->isMethod('POST')) {
@@ -63,7 +63,7 @@ class ResetPasswordController extends AbstractController
     public function checkEmail(): Response
     {
         if (true === $this->isGranted('ROLE_USER')) {
-            return $this->redirectToRoute("app_dashboard");
+            return $this->redirectToRoute("app_account");
         }
 
         // Generate a fake token if the user does not exist or someone hit this page directly.
@@ -84,7 +84,7 @@ class ResetPasswordController extends AbstractController
     public function reset(Request $request, ValidatorInterface $validator, UserPasswordHasherInterface $passwordHasher, TranslatorInterface $translator, string $token = null): Response
     {
         if (true === $this->isGranted('ROLE_USER')) {
-            return $this->redirectToRoute("app_dashboard");
+            return $this->redirectToRoute("app_account");
         }
 
         if ($token) {
@@ -121,7 +121,7 @@ class ResetPasswordController extends AbstractController
             // A password reset token should be used only once, remove it.
             $this->resetPasswordHelper->removeResetRequest($token);
 
-            $password = new Password();
+            $password = new SubscriberPasswordUpdate();
             $password->hydrateFromData($request->request->all());
 
             $errors = $validator->validate($password);

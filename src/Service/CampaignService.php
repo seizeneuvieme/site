@@ -2,7 +2,7 @@
 
 namespace App\Service;
 
-use App\DTO\Campaign AS CampaignDTO;
+use App\DTO\CampaignCreate AS CampaignDTO;
 use App\Entity\Campaign;
 use App\Entity\Child;
 use App\Entity\Platform;
@@ -115,7 +115,7 @@ class CampaignService
         $campaign->setNumberSent($numberEmailSent);
         $campaign->setState(Campaign::SENT_STATE);
         $this->entityManager->flush();
-        $io->info("Email(s) sent : $numberEmailSent");
-        $io->info("Email(s) in error : $numberOfErrors");
+        $io->info("SubscriberEmailUpdate(s) sent : $numberEmailSent");
+        $io->info("SubscriberEmailUpdate(s) in error : $numberOfErrors");
     }
 }

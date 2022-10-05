@@ -40,7 +40,7 @@ class ChildRepository extends ServiceEntityRepository
     }
 
 //    /**
-//     * @return Child[] Returns an array of Child objects
+//     * @return SubscriberChildCreate[] Returns an array of SubscriberChildCreate objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -54,7 +54,7 @@ class ChildRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Child
+//    public function findOneBySomeField($value): ?SubscriberChildCreate
 //    {
 //        return $this->createQueryBuilder('c')
 //            ->andWhere('c.exampleField = :val')

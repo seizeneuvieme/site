@@ -2,19 +2,19 @@
 
 namespace App\Service;
 
-use App\DTO\Registration;
-use App\DTO\UserInfos;
+use App\DTO\SubscriberCreate;
+use App\DTO\SubscriberContactInfosUpdate;
 
 class CityService
 {
-    public function processCityDetails(Registration|UserInfos $details): void
+    public function processCityDetails(SubscriberCreate|SubscriberContactInfosUpdate $subscriber): void
     {
-        if (null !== $details->cityDetails) {
-            $cityDetails = explode(',', $details->cityDetails);
+        if (null !== $subscriber->cityDetails) {
+            $cityDetails = explode(',', $subscriber->cityDetails);
             if (count($cityDetails) === 3) {
-                $details->departmentNumber = trim($cityDetails[0]);
-                $details->departmentName = trim($cityDetails[1]);
-                $details->region = trim($cityDetails[2]);
+                $subscriber->departmentNumber = trim($cityDetails[0]);
+                $subscriber->departmentName = trim($cityDetails[1]);
+                $subscriber->region = trim($cityDetails[2]);
             }
         }
     }

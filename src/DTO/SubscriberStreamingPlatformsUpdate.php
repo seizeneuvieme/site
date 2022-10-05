@@ -4,7 +4,7 @@ namespace App\DTO;
 
 use App\Validator as AppAssert;
 
-class StreamingPlatforms
+class SubscriberStreamingPlatformsUpdate
 {
     #[AppAssert\IsValidPlatform]
     public array $streamingPlatforms;

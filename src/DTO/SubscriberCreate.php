@@ -6,7 +6,7 @@ use App\Validator as AppAssert;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[AppAssert\IsValidPassword]
-class Registration
+class SubscriberCreate
 {
     #[Assert\NotNull]
     #[Assert\Email]

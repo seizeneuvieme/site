@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\DTO\Campaign AS CampaignDTO;
+use App\DTO\CampaignCreate;
 use App\DTO\CampaignUpdate;
 use App\Entity\Campaign;
 use App\Repository\CampaignRepository;
@@ -79,7 +79,7 @@ class BackofficeController extends AbstractController
                 $this->addFlash('invalid_template_id', "Identifiant invalide");
             }
 
-            $campaign = new CampaignDTO();
+            $campaign = new CampaignCreate();
             $campaign->hydrateFromData([
                 'name' => $template?->getName(),
                 'templateId' => $template?->getId(),
@@ -89,7 +89,7 @@ class BackofficeController extends AbstractController
             $errors = $validator->validate($campaign);
             if ($errors->count() > 0) {
                 $this->addFlash('invalid_form', "");
-                return $this->render('backoffice/add-campaign.html.twig');
+                return $this->render('backoffice/add_campaign.html.twig');
             }
             $campaign = $campaignService->createCampaignFromDTO($campaign);
 
@@ -99,7 +99,7 @@ class BackofficeController extends AbstractController
             $this->addFlash('success', "Campagne {$campaign->getName()} créée 🎉");
             return $this->redirectToRoute("app_backoffice");
         }
-        return $this->render('backoffice/add-campaign.html.twig');
+        return $this->render('backoffice/add_campaign.html.twig');
     }
 
     /**
@@ -129,7 +129,7 @@ class BackofficeController extends AbstractController
             $errors = $validator->validate($campaign);
             if ($errors->count() > 0) {
                 $this->addFlash('invalid_form', "");
-                return $this->render('backoffice/update-campaign.html.twig');
+                return $this->render('backoffice/update_campaign.html.twig');
             }
 
             $campaign->setSendingDate($campaignUpdate->sendingDate);
@@ -137,7 +137,7 @@ class BackofficeController extends AbstractController
             $this->addFlash("success", "La campagne {$campaign->getName()} a bien été reprogrammée pour le {$campaign->getSendingDate()->format('d/m/Y')} 🎉");
         }
 
-        return $this->render('backoffice/update-campaign.html.twig', [
+        return $this->render('backoffice/update_campaign.html.twig', [
             "campaign" => $campaign
         ]);
     }
