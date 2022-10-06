@@ -80,7 +80,16 @@ Pour démarrer le projet en local, exécutez la commande suivante :
 make start
 ```
 
-Le site sera alors accessible sur [http://localhost:8000/](http://localhost:8000/)
+**5°) Lancer la commande d'envoi de campagne**
+
+Pour envoyer une campagne, lancez la commande suivante :
+```
+symfony console app:send:email-campaign
+```
+
+Si une campagne est programmée le même jour que celui de l'exécution de la commande, les envois d'emails seront automatiquement déclenchés via Sendinblue.
+
+En `production`, cette commande est automatiquement exécutée par un CRON, tous les jours à 11h45. 
 
 **⚙️ WORKFLOW**
 
