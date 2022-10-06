@@ -14,7 +14,7 @@ class CityServiceTest extends TestCase
     public function it_converts_city_details(): void
     {
         // Arrange
-        $subscriberContactInfosUpdate = new SubscriberContactInfosUpdate();
+        $subscriberContactInfosUpdate              = new SubscriberContactInfosUpdate();
         $subscriberContactInfosUpdate->cityDetails = '34, Hérault, Occitanie';
 
         // Act

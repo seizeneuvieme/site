@@ -84,7 +84,6 @@ class SignUpController extends AbstractController
                     ]
                 );
             }
-
             $userAuthenticator->authenticateUser(
                 $subscriber,
                 $this->loginAuthenticator,

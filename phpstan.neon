@@ -9,3 +9,5 @@ parameters:
     checkMissingIterableValueType: false
     ignoreErrors:
             - '#Method App\\Validator\\.*::validate\(\) has parameter \$value with no type specified.#'
+            - '#Call to an undefined method .*PHPUnit\\Framework\\MockObject\\MockObject.*::method\(\)#'
+

@@ -15,8 +15,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class SubscriberServiceTest extends TestCase
 {
-
-    private UserPasswordHasherInterface $userPasswordHasher;
+    private UserPasswordHasherInterface|MockObject $userPasswordHasher;
     private SubscriberRepository|MockObject $subscriberRepository;
     private SubscriberService $subscriberService;
     private SubscriberCreate $subscriberCreate;
@@ -38,20 +37,20 @@ class SubscriberServiceTest extends TestCase
 
         $this->cityService = new CityService();
 
-        $faker = Factory::create();
-        $this->subscriberCreate = new SubscriberCreate();
-        $this->subscriberCreate->email = $faker->email;
-        $password = $faker->password;
-        $this->subscriberCreate->password = $password;
-        $this->subscriberCreate->confirmPassword = $password;
-        $this->subscriberCreate->firstname = $faker->firstName;
-        $this->subscriberCreate->city = $faker->city;
-        $departmentNumber = $faker->numberBetween(10, 95);
-        $departmentName = $faker->word;
-        $region = $faker->word;
-        $this->subscriberCreate->cityDetails = $departmentNumber . ", " . $departmentName . ", " . $region;
-        $this->subscriberCreate->childFirstname = $faker->word;
-        $this->subscriberCreate->childBirthDate = $faker->dateTime;
+        $faker                                      = Factory::create();
+        $this->subscriberCreate                     = new SubscriberCreate();
+        $this->subscriberCreate->email              = $faker->email;
+        $password                                   = $faker->password;
+        $this->subscriberCreate->password           = $password;
+        $this->subscriberCreate->confirmPassword    = $password;
+        $this->subscriberCreate->firstname          = $faker->firstName;
+        $this->subscriberCreate->city               = $faker->city;
+        $departmentNumber                           = $faker->numberBetween(10, 95);
+        $departmentName                             = $faker->word;
+        $region                                     = $faker->word;
+        $this->subscriberCreate->cityDetails        = $departmentNumber.', '.$departmentName.', '.$region;
+        $this->subscriberCreate->childFirstname     = $faker->word;
+        $this->subscriberCreate->childBirthDate     = $faker->dateTime;
         $this->subscriberCreate->streamingPlatforms = [Platform::NETFLIX];
     }
 
@@ -95,7 +94,7 @@ class SubscriberServiceTest extends TestCase
     public function it_creates_subscriber_from_dto(): void
     {
         // Arrange
-        $faker = Factory::create();
+        $faker                    = Factory::create();
         $this->fakeHashedPassword = $faker->password;
 
         $this->userPasswordHasher
@@ -110,7 +109,7 @@ class SubscriberServiceTest extends TestCase
         $this->assertCreatedSubscriber();
     }
 
-    private function assertCreatedSubscriber()
+    private function assertCreatedSubscriber(): void
     {
         $this->assertEquals($this->subscriber->getEmail(), $this->subscriberCreate->email);
         $this->assertEquals($this->subscriber->getPassword(), $this->fakeHashedPassword);
@@ -120,9 +119,9 @@ class SubscriberServiceTest extends TestCase
         $this->assertEquals($this->subscriber->getDepartmentName(), $this->subscriberCreate->departmentName);
         $this->assertEquals($this->subscriber->getRegion(), $this->subscriberCreate->region);
         $this->assertEquals(1, $this->subscriber->getChilds()->count());
-        $this->assertEquals($this->subscriber->getChilds()->first()->getFirstname(), $this->subscriberCreate->childFirstname);
-        $this->assertEquals($this->subscriber->getChilds()->first()->getBirthDate(), $this->subscriberCreate->childBirthDate);
+        $this->assertEquals($this->subscriber->getChilds()->toArray()[0]->getFirstname(), $this->subscriberCreate->childFirstname);
+        $this->assertEquals($this->subscriber->getChilds()->toArray()[0]->getBirthDate(), $this->subscriberCreate->childBirthDate);
         $this->assertEquals(1, $this->subscriber->getPlatforms()->count());
-        $this->assertEquals($this->subscriber->getPlatforms()->first()->getName(), $this->subscriberCreate->streamingPlatforms[0]);
+        $this->assertEquals($this->subscriber->getPlatforms()->toArray()[0]->getName(), $this->subscriberCreate->streamingPlatforms[0]);
     }
 }
