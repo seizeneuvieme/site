@@ -3368,9 +3368,9 @@ schema-utils@^4.0.0:
     ajv-formats "^2.1.1"
     ajv-keywords "^5.0.0"
 
-scrollmonitor@^1.2.9:
-  version "1.2.9"
-  resolved "https://registry.npmjs.org/scrollmonitor/-/scrollmonitor-1.2.9.tgz"
+scrollmonitor@^1.2.11:
+  version "1.2.11"
+  resolved "https://registry.yarnpkg.com/scrollmonitor/-/scrollmonitor-1.2.11.tgz#fdb53d78871a3c04ae8938796873ec399e5addb8"
 
 select-hose@^2.0.0:
   version "2.0.0"
