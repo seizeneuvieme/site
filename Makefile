@@ -1,5 +1,5 @@
 .DEFAULT_GOAL: help
-.PHONY: install code-analysis test unit-test functional-test php-cs-fixer-dry-run php-cs-fixer php-stan vendor start
+.PHONY: install code-analysis test unit-test functional-test php-cs-fixer-dry-run php-cs-fixer php-stan vendor init-db start
 
 -include .env
 
@@ -11,15 +11,16 @@ help: ## Display this help
 install: vendor ## Install all necessary things
 
 start: install ## Run project locally
-	yarn watch
-	symfony server:start
+	symfony server:start -d
 	docker-compose up -d
+	yarn watch
 
 vendor: composer.lock ## Run composer install
 	composer install --no-scripts
 	yarn install
 
-init-db: start## Create database (to run once)
+init-database: ## Create database (to run once)
+	docker-compose up -d
 	symfony console doctrine:database:create
 	symfony console doctrine:migrations:migrate
 
