@@ -24,6 +24,15 @@
                                 </div>
                             {% endfor %}
                         {% endif %}
+                        {% if app.session.flashBag.has('error') %}
+                            {% for flashMessage in app.session.flashbag.get('error') %}
+                                <div class="alert alert-danger" role="alert">
+                                    <p>
+                                        {{ flashMessage }}
+                                    </p>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
                     </div>
                 </div>
                 <div class="row justify-content-center">

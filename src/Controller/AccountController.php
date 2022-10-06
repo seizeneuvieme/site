@@ -36,7 +36,7 @@ class AccountController extends AbstractController
     #[Route('/', name: 'app_account')]
     public function index(): Response
     {
-        return $this->render('subscriber/index.html.twig', [
+        return $this->render('account/index.html.twig', [
             'subscriber' => $this->getUser(),
         ]);
     }
@@ -90,7 +90,7 @@ class AccountController extends AbstractController
             if (0 < $errors->count()) {
                 $this->addFlash('error', '');
 
-                return $this->render('subscriber/update_email.html.twig');
+                return $this->render('account/update_email.html.twig');
             }
 
             $subscriber = $this->getUser();
@@ -102,7 +102,7 @@ class AccountController extends AbstractController
             $this->addFlash('success', 'Ton adresse email a bien été modifiée 🎉');
         }
 
-        return $this->render('subscriber/update_email.html.twig');
+        return $this->render('account/update_email.html.twig');
     }
 
     #[Route('/modifier/mot-de-passe', name: 'app_update_password')]
@@ -122,7 +122,7 @@ class AccountController extends AbstractController
             if (0 < $errors->count()) {
                 $this->addFlash('error', '');
 
-                return $this->render('subscriber/update_password.html.twig');
+                return $this->render('account/update_password.html.twig');
             }
 
             // Encode(hash) the plain password, and set it.
@@ -142,7 +142,7 @@ class AccountController extends AbstractController
             $this->addFlash('success', 'Ton mot de passe a bien été modifiée 🎉');
         }
 
-        return $this->render('subscriber/update_password.html.twig');
+        return $this->render('account/update_password.html.twig');
     }
 
     #[Route('/modifier/coordonnees', name: 'app_update_user_infos')]
@@ -161,7 +161,7 @@ class AccountController extends AbstractController
             if (0 < $errors->count()) {
                 $this->addFlash('error', '');
 
-                return $this->render('subscriber/update_user_infos.html.twig');
+                return $this->render('account/update_user_infos.html.twig');
             }
 
             /**
@@ -178,7 +178,7 @@ class AccountController extends AbstractController
             $this->addFlash('success', 'Tes coordonnées ont bien été modifiées 🎉');
         }
 
-        return $this->render('subscriber/update_user_infos.html.twig');
+        return $this->render('account/update_user_infos.html.twig');
     }
 
     #[Route('/modifier/plateformes', name: 'app_update_platforms')]
@@ -195,7 +195,7 @@ class AccountController extends AbstractController
             if (0 < $errors->count()) {
                 $this->addFlash('error', '');
 
-                return $this->render('subscriber/update_platforms.html.twig');
+                return $this->render('account/update_platforms.html.twig');
             }
 
             /**
@@ -213,7 +213,7 @@ class AccountController extends AbstractController
             $this->addFlash('success', 'Tes plateformes de streaming payantes ont bien été modifiées 🎉');
         }
 
-        return $this->render('subscriber/update_platforms.html.twig');
+        return $this->render('account/update_platforms.html.twig');
     }
 
     #[Route('/ajouter/enfant', name: 'app_add_child')]
@@ -230,7 +230,7 @@ class AccountController extends AbstractController
             if (0 < $errors->count()) {
                 $this->addFlash('error', '');
 
-                return $this->render('subscriber/add_child.html.twig');
+                return $this->render('account/add_child.html.twig');
             }
 
             /**
@@ -245,7 +245,7 @@ class AccountController extends AbstractController
             $this->addFlash('success', "✅ C'est noté ! Tu recevras désormais aussi des recommandations de films pour {$child->getFirstname()}");
         }
 
-        return $this->render('subscriber/add_child.html.twig');
+        return $this->render('account/add_child.html.twig');
     }
 
     #[Route('/supprimer/enfant/{id}', name: 'app_remove_child')]

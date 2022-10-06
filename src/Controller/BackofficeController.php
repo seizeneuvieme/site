@@ -176,6 +176,7 @@ class BackofficeController extends AbstractController
     public function sendCampaignMailTest(
         CampaignRepository $campaignRepository,
         SendInBlueApiService $sendInBlueApiService,
+        CampaignService $campaignService,
         int $id
     ): Response {
         $campaign = $campaignRepository->findOneBy([
@@ -192,14 +193,15 @@ class BackofficeController extends AbstractController
              * @var Subscriber $subscriber
              */
             $subscriber = $this->getUser();
+            $params     = $campaignService->createParams($subscriber);
             $result     = $sendInBlueApiService->sendTransactionalEmail($template, [
                 'name'  => $subscriber->getFirstname(),
                 'email' => $subscriber->getEmail(),
-            ]);
+            ], $params);
             if ($result === true) {
                 $this->addFlash('success', "La campagne {$campaign->getName()} a bien été envoyée à {$subscriber->getEmail()} 🎉");
             } else {
-                $this->addFlash('error', "La campagne {$campaign->getName()} a bien été envoyée à {$subscriber->getEmail()} 🎉");
+                $this->addFlash('error', "La campagne n'a pas pu être envoyée");
             }
         }
 

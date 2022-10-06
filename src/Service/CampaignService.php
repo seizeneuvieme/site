@@ -6,6 +6,7 @@ use App\DTO\CampaignCreate;
 use App\Entity\Campaign;
 use App\Entity\Child;
 use App\Entity\Platform;
+use App\Entity\Subscriber;
 use App\Repository\SubscriberRepository;
 use Doctrine\DBAL\Exception;
 use Doctrine\ORM\EntityManagerInterface;
@@ -50,58 +51,7 @@ class CampaignService
 
         foreach ($subscribers as $subscriber) {
             try {
-                $params                      = [];
-                $params['FIRSTNAME']         = $subscriber->getFirstname();
-                $params['CITY']              = $subscriber->getCity();
-                $params['DEPARTMENT_NAME']   = $subscriber->getDepartmentName();
-                $params['DEPARTMENT_NUMBER'] = $subscriber->getDepartmentNumber();
-                $params['REGION']            = $subscriber->getRegion();
-                $params['DISNEY']            = $subscriber->getPlatforms()->filter(function (Platform $platform) {
-                    return $platform->getName() === Platform::DISNEY;
-                })->count() > 0;
-                $params['NETFLIX'] = $subscriber->getPlatforms()->filter(function (Platform $platform) {
-                    return $platform->getName() === Platform::NETFLIX;
-                })->count() > 0;
-
-                $params['AGE_GROUP_1'] = '';
-                $ageGroup1Childs       = $subscriber->getChilds()->filter(function (Child $child) {
-                    $age = date_diff($child->getBirthDate(), new \DateTime(date('Y-m-d')));
-
-                    return $age->format('%y') >= 3 && $age->format('%y') < 6;
-                })->toArray();
-
-                $index = 1;
-                foreach ($ageGroup1Childs as $ageGroup1Child) {
-                    if ($index === 1) {
-                        $params['AGE_GROUP_1'] = $ageGroup1Child->getFirstname();
-                    } elseif ($index < count($ageGroup1Childs)) {
-                        $params['AGE_GROUP_1'] .= ', '.$ageGroup1Child->getFirstname();
-                    } else {
-                        $params['AGE_GROUP_1'] .= ' et '.$ageGroup1Child->getFirstname();
-                    }
-                    ++$index;
-                }
-
-                $params['AGE_GROUP_2'] = '';
-                $ageGroup2Childs       = $subscriber->getChilds()->filter(function (Child $child) {
-                    $age = date_diff($child->getBirthDate(), new \DateTime(date('Y-m-d')));
-
-                    return $age->format('%y') >= 6 && $age->format('%y') < 12;
-                })->toArray();
-
-                $index = 1;
-                foreach ($ageGroup2Childs as $key => $ageGroup2Child) {
-                    if ($index === 1) {
-                        $params['AGE_GROUP_2'] = $ageGroup2Child->getFirstname();
-                    } elseif ($key < count($ageGroup1Childs)) {
-                        $params['AGE_GROUP_2'] .= ', '.$ageGroup2Child->getFirstname();
-                    } else {
-                        $params['AGE_GROUP_2'] .= ' et '.$ageGroup2Child->getFirstname();
-                    }
-                    ++$index;
-                }
-
-                // TODO: same for each group
+                $params = $this->createParams($subscriber);
 
                 $result = $this->sendInBlueApiService->sendTransactionalEmail(
                     $template,
@@ -124,5 +74,61 @@ class CampaignService
         $this->entityManager->flush();
         $io->info("SubscriberEmailUpdate(s) sent : $numberEmailSent");
         $io->info("SubscriberEmailUpdate(s) in error : $numberOfErrors");
+    }
+
+    public function createParams(Subscriber $subscriber): array
+    {
+        $params                      = [];
+        $params['FIRSTNAME']         = $subscriber->getFirstname();
+        $params['CITY']              = $subscriber->getCity();
+        $params['DEPARTMENT_NAME']   = $subscriber->getDepartmentName();
+        $params['DEPARTMENT_NUMBER'] = $subscriber->getDepartmentNumber();
+        $params['REGION']            = $subscriber->getRegion();
+        $params['DISNEY']            = $subscriber->getPlatforms()->filter(function (Platform $platform) {
+            return $platform->getName() === Platform::DISNEY;
+        })->count() > 0;
+        $params['NETFLIX'] = $subscriber->getPlatforms()->filter(function (Platform $platform) {
+            return $platform->getName() === Platform::NETFLIX;
+        })->count() > 0;
+
+        $params['AGE_GROUP_1'] = '';
+        $ageGroup1Childs       = $subscriber->getChilds()->filter(function (Child $child) {
+            $age = date_diff($child->getBirthDate(), new \DateTime(date('Y-m-d')));
+
+            return $age->format('%y') >= 3 && $age->format('%y') < 6;
+        })->toArray();
+
+        $index = 1;
+        foreach ($ageGroup1Childs as $ageGroup1Child) {
+            if ($index === 1) {
+                $params['AGE_GROUP_1'] = $ageGroup1Child->getFirstname();
+            } elseif ($index < count($ageGroup1Childs)) {
+                $params['AGE_GROUP_1'] .= ', '.$ageGroup1Child->getFirstname();
+            } else {
+                $params['AGE_GROUP_1'] .= ' et '.$ageGroup1Child->getFirstname();
+            }
+            ++$index;
+        }
+
+        $params['AGE_GROUP_2'] = '';
+        $ageGroup2Childs       = $subscriber->getChilds()->filter(function (Child $child) {
+            $age = date_diff($child->getBirthDate(), new \DateTime(date('Y-m-d')));
+
+            return $age->format('%y') >= 6 && $age->format('%y') < 12;
+        })->toArray();
+
+        $index = 1;
+        foreach ($ageGroup2Childs as $key => $ageGroup2Child) {
+            if ($index === 1) {
+                $params['AGE_GROUP_2'] = $ageGroup2Child->getFirstname();
+            } elseif ($key < count($ageGroup1Childs)) {
+                $params['AGE_GROUP_2'] .= ', '.$ageGroup2Child->getFirstname();
+            } else {
+                $params['AGE_GROUP_2'] .= ' et '.$ageGroup2Child->getFirstname();
+            }
+            ++$index;
+        }
+
+        return $params;
     }
 }

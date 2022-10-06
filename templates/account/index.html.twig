@@ -67,7 +67,7 @@
                         {% endif %}
                         {% if subscriber.isVerified == true and app.session.flashBag.has('account_activated') %}
                             {% for flashMessage in app.session.flashbag.get('account_activated') %}
-                                <div class="alert alert-success" role="alert">
+                                <div class="alert alert-success account-activated" role="alert">
                                     <p>
                                         Ton compte a bien été activé 🎉 <br /> Tu recevras très bientôt la prochaine newsletter Le Réhausseur 👀
                                     </p>

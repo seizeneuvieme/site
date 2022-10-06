@@ -20,11 +20,11 @@
             </div>
             <div class="text-center mb-4">
               {% if user_already_exist is defined %}
-                <div class="alert alert-primary" role="alert">
+                <div class="alert alert-primary invalid-form" role="alert">
                   L'adresse email {{ user_already_exist }} est déjà abonnée au Réhausseur 👉 <a href="{{ path('app_sign_in', {'email': user_already_exist }) }}" alt="Connexion">Je me connecte</a>
                 </div>
               {% elseif error is defined %}
-                <div class="alert alert-primary" role="alert">
+                <div class="alert alert-primary invalid-form" role="alert">
                   Formulaire invalide. <br/>En cas de problème, <a href="mailto:contact@lerehausseur.fr" alt="Contacter Le Réhausseur">contacte-nous</a> :)
                 </div>
               {% endif %}
