@@ -110,4 +110,11 @@ class SubscriberBuilder
 
         return $this;
     }
+
+    public function withRoles(array $roles): self
+    {
+        $this->roles = json_encode($roles);
+
+        return $this;
+    }
 }

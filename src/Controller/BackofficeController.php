@@ -18,7 +18,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-#[Route('/administration')]
+#[Route('/passage34')]
 #[IsGranted('ROLE_ADMIN', null, null, Response::HTTP_NOT_FOUND)]
 class BackofficeController extends AbstractController
 {
@@ -126,14 +126,14 @@ class BackofficeController extends AbstractController
         if ($request->isMethod('POST') && $this->isCsrfTokenValid('update-campaign', (string) $request->request->get('token'))) {
             $campaignUpdate = new CampaignUpdate();
             $campaignUpdate->hydrateFromData($request->request->all());
-
-            $errors = $validator->validate($campaign);
+            $errors = $validator->validate($campaignUpdate);
             if ($errors->count() > 0) {
                 $this->addFlash('invalid_form', '');
 
-                return $this->render('backoffice/update_campaign.html.twig');
+                return $this->render('backoffice/update_campaign.html.twig', [
+                    'campaign' => $campaign,
+                ]);
             }
-
             $campaign->setSendingDate($campaignUpdate->sendingDate);
             $entityManager->flush();
             $this->addFlash('success', "La campagne {$campaign->getName()} a bien été reprogrammée pour le {$campaign->getSendingDate()->format('d/m/Y')} 🎉");

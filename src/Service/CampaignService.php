@@ -72,8 +72,8 @@ class CampaignService
         $campaign->setNumberSent($numberEmailSent);
         $campaign->setState(Campaign::SENT_STATE);
         $this->entityManager->flush();
-        $io->info("SubscriberEmailUpdate(s) sent : $numberEmailSent");
-        $io->info("SubscriberEmailUpdate(s) in error : $numberOfErrors");
+        $io->info("Email(s) sent : $numberEmailSent");
+        $io->info("Email(s) in error : $numberOfErrors");
     }
 
     public function createParams(Subscriber $subscriber): array
@@ -91,44 +91,34 @@ class CampaignService
             return $platform->getName() === Platform::NETFLIX;
         })->count() > 0;
 
-        $params['AGE_GROUP_1'] = '';
-        $ageGroup1Childs       = $subscriber->getChilds()->filter(function (Child $child) {
-            $age = date_diff($child->getBirthDate(), new \DateTime(date('Y-m-d')));
-
-            return $age->format('%y') >= 3 && $age->format('%y') < 6;
-        })->toArray();
-
-        $index = 1;
-        foreach ($ageGroup1Childs as $ageGroup1Child) {
-            if ($index === 1) {
-                $params['AGE_GROUP_1'] = $ageGroup1Child->getFirstname();
-            } elseif ($index < count($ageGroup1Childs)) {
-                $params['AGE_GROUP_1'] .= ', '.$ageGroup1Child->getFirstname();
-            } else {
-                $params['AGE_GROUP_1'] .= ' et '.$ageGroup1Child->getFirstname();
-            }
-            ++$index;
-        }
-
-        $params['AGE_GROUP_2'] = '';
-        $ageGroup2Childs       = $subscriber->getChilds()->filter(function (Child $child) {
-            $age = date_diff($child->getBirthDate(), new \DateTime(date('Y-m-d')));
-
-            return $age->format('%y') >= 6 && $age->format('%y') < 12;
-        })->toArray();
-
-        $index = 1;
-        foreach ($ageGroup2Childs as $key => $ageGroup2Child) {
-            if ($index === 1) {
-                $params['AGE_GROUP_2'] = $ageGroup2Child->getFirstname();
-            } elseif ($key < count($ageGroup1Childs)) {
-                $params['AGE_GROUP_2'] .= ', '.$ageGroup2Child->getFirstname();
-            } else {
-                $params['AGE_GROUP_2'] .= ' et '.$ageGroup2Child->getFirstname();
-            }
-            ++$index;
+        for ($age = 3; $age <= 12; ++$age) {
+            $params["AGE_$age"] = $this->createGroup($age, $subscriber);
         }
 
         return $params;
+    }
+
+    private function createGroup(int $age, Subscriber $subscriber): string
+    {
+        $ageGroupChilds = $subscriber->getChilds()->filter(function (Child $child) use ($age) {
+            $childAge = date_diff($child->getBirthDate(), new \DateTime(date('Y-m-d')));
+
+            return $childAge->format('%y') == $age;
+        })->toArray();
+
+        $index = 1;
+        $names = '';
+        foreach ($ageGroupChilds as $ageGroupChild) {
+            if ($index === 1) {
+                $names = $ageGroupChild->getFirstname();
+            } elseif ($index < count($ageGroupChilds)) {
+                $names .= ', '.$ageGroupChild->getFirstname();
+            } else {
+                $names .= ' et '.$ageGroupChild->getFirstname();
+            }
+            ++$index;
+        }
+
+        return $names;
     }
 }
