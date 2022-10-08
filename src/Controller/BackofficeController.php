@@ -69,7 +69,7 @@ class BackofficeController extends AbstractController
         EntityManagerInterface $entityManager,
         CampaignService $campaignService
     ): Response {
-        if ($request->isMethod('POST') && $this->isCsrfTokenValid('add-campaign', $request->request->get('token'))) {
+        if ($request->isMethod('POST') && $this->isCsrfTokenValid('add-campaign', (string) $request->request->get('token'))) {
             $templateId = $request->request->get('template-id');
 
             $template = $this->sendInBlueApiService->getTemplate((int) $templateId);
@@ -123,7 +123,7 @@ class BackofficeController extends AbstractController
             return $this->redirectToRoute('app_backoffice');
         }
 
-        if ($request->isMethod('POST') && $this->isCsrfTokenValid('update-campaign', $request->request->get('token'))) {
+        if ($request->isMethod('POST') && $this->isCsrfTokenValid('update-campaign', (string) $request->request->get('token'))) {
             $campaignUpdate = new CampaignUpdate();
             $campaignUpdate->hydrateFromData($request->request->all());
 
@@ -152,10 +152,8 @@ class BackofficeController extends AbstractController
         Request $request,
         EntityManagerInterface $entityManager,
         CampaignRepository $campaignRepository,
-    ): Response
-    {
-
-        if ($request->isMethod('POST') && $this->isCsrfTokenValid('remove-campaign', $request->request->get('token'))) {
+    ): Response {
+        if ($request->isMethod('POST') && $this->isCsrfTokenValid('remove-campaign', (string) $request->request->get('token'))) {
             $campaign = $campaignRepository->findOneBy([
                 'id' => $request->request->get('campaign_id'),
             ]);
@@ -183,9 +181,7 @@ class BackofficeController extends AbstractController
         SendInBlueApiService $sendInBlueApiService,
         CampaignService $campaignService
     ): Response {
-
-        if ($request->isMethod('POST') && $this->isCsrfTokenValid('test-campaign', $request->request->get('token'))) {
-
+        if ($request->isMethod('POST') && $this->isCsrfTokenValid('test-campaign', (string) $request->request->get('token'))) {
             $campaign = $campaignRepository->findOneBy([
                 'id' => $request->request->get('campaign_id'),
             ]);
@@ -200,9 +196,9 @@ class BackofficeController extends AbstractController
                  * @var Subscriber $subscriber
                  */
                 $subscriber = $this->getUser();
-                $params = $campaignService->createParams($subscriber);
-                $result = $sendInBlueApiService->sendTransactionalEmail($template, [
-                    'name' => $subscriber->getFirstname(),
+                $params     = $campaignService->createParams($subscriber);
+                $result     = $sendInBlueApiService->sendTransactionalEmail($template, [
+                    'name'  => $subscriber->getFirstname(),
                     'email' => $subscriber->getEmail(),
                 ], $params);
                 if ($result === true) {

@@ -82,7 +82,7 @@ class AccountController extends AbstractController
         ValidatorInterface $validator,
         EntityManagerInterface $entityManager
     ): Response {
-        if ($request->isMethod('POST') && $this->isCsrfTokenValid('update-email', $request->request->get('token'))) {
+        if ($request->isMethod('POST') && $this->isCsrfTokenValid('update-email', (string) $request->request->get('token'))) {
             $subscriberEmailUpdate = new SubscriberEmailUpdate();
             $subscriberEmailUpdate->hydrateFromData($request->request->all());
 
@@ -112,7 +112,7 @@ class AccountController extends AbstractController
         UserPasswordHasherInterface $passwordHasher,
         EntityManagerInterface $entityManager
     ): Response {
-        if ($request->isMethod('POST') && $this->isCsrfTokenValid('update-password', $request->request->get('token'))) {
+        if ($request->isMethod('POST') && $this->isCsrfTokenValid('update-password', (string) $request->request->get('token'))) {
             $subscriber = $this->getUser();
 
             $subscriberPasswordUpdate = new SubscriberPasswordUpdate();
@@ -152,7 +152,7 @@ class AccountController extends AbstractController
         CityService $cityService,
         EntityManagerInterface $entityManager
     ): Response {
-        if ($request->isMethod('POST') && $this->isCsrfTokenValid('update-user-infos', $request->request->get('token'))) {
+        if ($request->isMethod('POST') && $this->isCsrfTokenValid('update-user-infos', (string) $request->request->get('token'))) {
             $subscriberContactInfosUpdate = new SubscriberContactInfosUpdate();
             $subscriberContactInfosUpdate->hydrateFromData($request->request->all());
             $cityService->processCityDetails($subscriberContactInfosUpdate);
@@ -187,7 +187,7 @@ class AccountController extends AbstractController
         ValidatorInterface $validator,
         EntityManagerInterface $entityManager
     ): Response {
-        if ($request->isMethod('POST') && $this->isCsrfTokenValid('update-platforms', $request->request->get('token'))) {
+        if ($request->isMethod('POST') && $this->isCsrfTokenValid('update-platforms', (string) $request->request->get('token'))) {
             $subscriberStreamingPlatformsUpdate = new SubscriberStreamingPlatformsUpdate();
             $subscriberStreamingPlatformsUpdate->hydrateFromData($request->request->all());
 
@@ -222,7 +222,7 @@ class AccountController extends AbstractController
         ValidatorInterface $validator,
         EntityManagerInterface $entityManager
     ): Response {
-        if ($request->isMethod('POST') && $this->isCsrfTokenValid('add-child', $request->request->get('token'))) {
+        if ($request->isMethod('POST') && $this->isCsrfTokenValid('add-child', (string) $request->request->get('token'))) {
             $subscriberChildCreate = new SubscriberChildCreate();
             $subscriberChildCreate->hydrateFromData($request->request->all());
 
@@ -254,8 +254,7 @@ class AccountController extends AbstractController
         ChildRepository $childRepository,
         EntityManagerInterface $entityManager,
     ): Response {
-
-        if ($request->isMethod('POST') && $this->isCsrfTokenValid('remove-child', $request->request->get('token'))) {
+        if ($request->isMethod('POST') && $this->isCsrfTokenValid('remove-child', (string) $request->request->get('token'))) {
             /**
              * @var Subscriber $subscriber
              */
@@ -264,7 +263,6 @@ class AccountController extends AbstractController
             $child = $childRepository->findOneBy([
                 'id' => $request->request->get('child_id'),
             ]);
-
 
             if ($child === null || $subscriber->getId() !== $child->getSubscriber()?->getId() || $subscriber->getChilds()->count() < 2) {
                 return $this->redirectToRoute('app_account');
@@ -285,8 +283,7 @@ class AccountController extends AbstractController
         UserPasswordHasherInterface $passwordHasher,
         EntityManagerInterface $entityManager
     ): Response {
-
-        if ($request->isMethod('POST') && $this->isCsrfTokenValid('remove-account', $request->request->get('token'))) {
+        if ($request->isMethod('POST') && $this->isCsrfTokenValid('remove-account', (string) $request->request->get('token'))) {
             /**
              * @var Subscriber $subscriber
              */
