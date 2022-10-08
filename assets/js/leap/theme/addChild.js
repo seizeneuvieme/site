@@ -46,11 +46,11 @@ function validateAddChild() {
 }
 
 $("input.add-child-form#child-firstname").on("change", function () {
-  validateAddChild();
+  validateChildFirstname($(this).val());
 });
 
 $("input.add-child-form#child-birth-date").on("change", function () {
-  validateAddChild();
+  validateChildBirthdayDate($(this).val());
 });
 
 

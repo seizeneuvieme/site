@@ -62,14 +62,14 @@ class BackofficeController extends AbstractController
     /**
      * @throws \Doctrine\DBAL\Exception
      */
-    #[Route('/ajouter/campagne', name: 'app_add_campaign')]
+    #[Route('/ajouter/campagne/', name: 'app_add_campaign')]
     public function addCampaign(
         Request $request,
         ValidatorInterface $validator,
         EntityManagerInterface $entityManager,
         CampaignService $campaignService
     ): Response {
-        if ($request->isMethod('POST')) {
+        if ($request->isMethod('POST') && $this->isCsrfTokenValid('add-campaign', $request->request->get('token'))) {
             $templateId = $request->request->get('template-id');
 
             $template = $this->sendInBlueApiService->getTemplate((int) $templateId);
@@ -123,7 +123,7 @@ class BackofficeController extends AbstractController
             return $this->redirectToRoute('app_backoffice');
         }
 
-        if ($request->isMethod('POST')) {
+        if ($request->isMethod('POST') && $this->isCsrfTokenValid('update-campaign', $request->request->get('token'))) {
             $campaignUpdate = new CampaignUpdate();
             $campaignUpdate->hydrateFromData($request->request->all());
 
@@ -147,24 +147,28 @@ class BackofficeController extends AbstractController
     /**
      * @throws \Doctrine\DBAL\Exception
      */
-    #[Route('/supprimer/campagne/{id}', name: 'app_remove_campaign')]
+    #[Route('/supprimer/campagne/', name: 'app_remove_campaign')]
     public function removeCampaign(
+        Request $request,
         EntityManagerInterface $entityManager,
         CampaignRepository $campaignRepository,
-        int $id
-    ): Response {
-        $campaign = $campaignRepository->findOneBy([
-            'id' => $id,
-        ]);
+    ): Response
+    {
 
-        if ($campaign === null) {
-            return $this->redirectToRoute('app_backoffice');
+        if ($request->isMethod('POST') && $this->isCsrfTokenValid('remove-campaign', $request->request->get('token'))) {
+            $campaign = $campaignRepository->findOneBy([
+                'id' => $request->request->get('campaign_id'),
+            ]);
+
+            if ($campaign === null) {
+                return $this->redirectToRoute('app_backoffice');
+            }
+
+            $entityManager->remove($campaign);
+            $entityManager->flush();
+
+            $this->addFlash('success', "La campagne {$campaign->getName()} a bien été supprimée 🎉");
         }
-
-        $entityManager->remove($campaign);
-        $entityManager->flush();
-
-        $this->addFlash('success', "La campagne {$campaign->getName()} a bien été supprimée 🎉");
 
         return $this->redirectToRoute('app_backoffice');
     }
@@ -172,36 +176,40 @@ class BackofficeController extends AbstractController
     /**
      * @throws \Doctrine\DBAL\Exception
      */
-    #[Route('/test/campagne/{id}', name: 'app_send_campaign_mail_test')]
+    #[Route('/test/campagne/', name: 'app_send_campaign_mail_test')]
     public function sendCampaignMailTest(
+        Request $request,
         CampaignRepository $campaignRepository,
         SendInBlueApiService $sendInBlueApiService,
-        CampaignService $campaignService,
-        int $id
+        CampaignService $campaignService
     ): Response {
-        $campaign = $campaignRepository->findOneBy([
-            'id' => $id,
-        ]);
 
-        if ($campaign === null) {
-            return $this->redirectToRoute('app_backoffice');
-        }
+        if ($request->isMethod('POST') && $this->isCsrfTokenValid('test-campaign', $request->request->get('token'))) {
 
-        $template = $sendInBlueApiService->getTemplate($campaign->getTemplateId());
-        if ($template !== null) {
-            /**
-             * @var Subscriber $subscriber
-             */
-            $subscriber = $this->getUser();
-            $params     = $campaignService->createParams($subscriber);
-            $result     = $sendInBlueApiService->sendTransactionalEmail($template, [
-                'name'  => $subscriber->getFirstname(),
-                'email' => $subscriber->getEmail(),
-            ], $params);
-            if ($result === true) {
-                $this->addFlash('success', "La campagne {$campaign->getName()} a bien été envoyée à {$subscriber->getEmail()} 🎉");
-            } else {
-                $this->addFlash('error', "La campagne n'a pas pu être envoyée");
+            $campaign = $campaignRepository->findOneBy([
+                'id' => $request->request->get('campaign_id'),
+            ]);
+
+            if ($campaign === null) {
+                return $this->redirectToRoute('app_backoffice');
+            }
+
+            $template = $sendInBlueApiService->getTemplate($campaign->getTemplateId());
+            if ($template !== null) {
+                /**
+                 * @var Subscriber $subscriber
+                 */
+                $subscriber = $this->getUser();
+                $params = $campaignService->createParams($subscriber);
+                $result = $sendInBlueApiService->sendTransactionalEmail($template, [
+                    'name' => $subscriber->getFirstname(),
+                    'email' => $subscriber->getEmail(),
+                ], $params);
+                if ($result === true) {
+                    $this->addFlash('success', "La campagne {$campaign->getName()} a bien été envoyée à {$subscriber->getEmail()} 🎉");
+                } else {
+                    $this->addFlash('error', "La campagne n'a pas pu être envoyée");
+                }
             }
         }
 

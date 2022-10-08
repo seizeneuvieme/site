@@ -115,9 +115,13 @@
                                                                 <p>ℹ️ Envoyer un email test de la campagne {{ pendingCampaign.name }} ?</p>
                                                                 <p>L'email sera envoyé à {{ app.user.email }} ?</p>
                                                             </div>
-                                                            <a href="{{ path('app_send_campaign_mail_test', {'id': pendingCampaign.id}) }}" class="btn btn-primary text-white">
-                                                                Envoyer
-                                                            </a>
+                                                            <form action="{{ path('app_send_campaign_mail_test') }}" method="POST">
+                                                                <input name="campaign_id" value="{{ pendingCampaign.id }}" hidden>
+                                                                <input type="hidden" name="token" value="{{ csrf_token('test-campaign') }}"/>
+                                                                <button class="btn btn-primary text-white" type="submit">
+                                                                    Envoyer
+                                                                </button>
+                                                            </form>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -139,9 +143,13 @@
                                                                 <h5 class="mb-1">Confirmation</h5>
                                                                 <p>ℹ️ Supprimer la campagne {{ pendingCampaign.name }} ?</p>
                                                             </div>
-                                                            <a href="{{ path('app_remove_campaign', {'id': pendingCampaign.id}) }}" class="btn btn-primary text-white">
-                                                                Supprimer
-                                                            </a>
+                                                            <form action="{{ path('app_remove_campaign') }}" method="POST">
+                                                                <input name="campaign_id" value="{{ pendingCampaign.id }}" hidden>
+                                                                <input type="hidden" name="token" value="{{ csrf_token('remove-campaign') }}"/>
+                                                                <button class="btn btn-primary text-white" type="submit">
+                                                                    Supprimer
+                                                                </button>
+                                                            </form>
                                                         </div>
                                                     </div>
                                                 </div>

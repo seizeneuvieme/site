@@ -72,6 +72,7 @@
                                 <div class="form-group">
                                     <button class="btn-block btn btn-primary text-white" id="btn-update-platforms">Modifier mes plateformes de streaming</button>
                                 </div>
+                                <input type="hidden" name="token" value="{{ csrf_token('update-platforms') }}"/>
                             </form>
                         </div>
                         <a class="text-primary text-center mt-3" href="{{ path('app_account') }}">Retour à mon compte</a>

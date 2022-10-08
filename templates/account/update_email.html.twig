@@ -51,6 +51,7 @@
                                 <div class="form-group">
                                     <button id="update-email-btn" class="btn-block btn btn-primary text-white" type="button">Modifier mon adresse email</button>
                                 </div>
+                                <input type="hidden" name="token" value="{{ csrf_token('update-email') }}"/>
                             </form>
                         </div>
                         <a class="text-primary mt-3 text-center" href="{{ path('app_account') }}">Retour à mon compte</a>
