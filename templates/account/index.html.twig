@@ -58,7 +58,7 @@
                         {% endif %}
                         {% if app.session.flashBag.has('send_new_activation_code') and subscriber.isVerified == false  %}
                             {% for flashMessage in app.session.flashbag.get('send_new_activation_code') %}
-                                <div class="alert alert-success" role="alert">
+                                <div class="alert alert-success send-new-activation-code" role="alert">
                                     <p>
                                         Un nouveau code d'activatation a été envoyé sur ton adresse {{ subscriber.email }} 🎉
                                     </p>
@@ -206,7 +206,7 @@
                                                                 <p>ℹ️ Tu ne recevras plus de recommandation de films pour {{ child.firstname }}</p>
                                                             </div>
                                                             <form action="{{ path('app_remove_child') }}" method="POST">
-                                                                <input name="child_id" value="{{ child.id }}" hidden>
+                                                                <input name="child-id" value="{{ child.id }}" hidden>
                                                                 <input type="hidden" name="token" value="{{ csrf_token('remove-child') }}"/>
                                                                 <button class="btn btn-primary text-white" type="submit">
                                                                     Supprimer

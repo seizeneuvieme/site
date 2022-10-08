@@ -47,11 +47,7 @@ class ResetPasswordController extends AbstractController
         if ($request->isMethod('POST')) {
             $email = $request->request->get('_username') ?? '';
 
-            return $this->processSendingPasswordResetEmail(
-                "$email",
-                $mailer,
-                $translator
-            );
+            return $this->processSendingPasswordResetEmail("$email");
         }
 
         return $this->render('reset_password/request.html.twig');
@@ -157,7 +153,7 @@ class ResetPasswordController extends AbstractController
         return $this->render('reset_password/reset.html.twig');
     }
 
-    private function processSendingPasswordResetEmail(string $emailFormData, MailerInterface $mailer, TranslatorInterface $translator): RedirectResponse
+    private function processSendingPasswordResetEmail(string $emailFormData): RedirectResponse
     {
         $user = $this->entityManager->getRepository(Subscriber::class)->findOneBy([
             'email' => $emailFormData,

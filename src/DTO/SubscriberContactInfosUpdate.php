@@ -7,7 +7,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class SubscriberContactInfosUpdate
 {
     #[Assert\NotNull]
-    #[Assert\Length(min: 3)]
+    #[Assert\Length(min: 3, max: 255)]
     public string $firstname;
 
     #[Assert\NotNull]
@@ -33,7 +33,7 @@ class SubscriberContactInfosUpdate
     public function hydrateFromData(array $data): void
     {
         $this->firstname   = $data['firstname'] ?? '';
-        $this->city        = $data['city'];
+        $this->city        = $data['city'] ?? '';
         $this->cityDetails = $data['city-details'] ?? '';
     }
 }

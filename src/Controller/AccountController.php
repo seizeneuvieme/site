@@ -248,7 +248,7 @@ class AccountController extends AbstractController
         return $this->render('account/add_child.html.twig');
     }
 
-    #[Route('/supprimer/enfant/', name: 'app_remove_child')]
+    #[Route('/supprimer/enfant', name: 'app_remove_child')]
     public function removeChild(
         Request $request,
         ChildRepository $childRepository,
@@ -261,7 +261,7 @@ class AccountController extends AbstractController
             $subscriber = $this->getUser();
 
             $child = $childRepository->findOneBy([
-                'id' => $request->request->get('child_id'),
+                'id' => $request->request->get('child-id'),
             ]);
 
             if ($child === null || $subscriber->getId() !== $child->getSubscriber()?->getId() || $subscriber->getChilds()->count() < 2) {

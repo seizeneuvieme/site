@@ -62,7 +62,7 @@ class BackofficeController extends AbstractController
     /**
      * @throws \Doctrine\DBAL\Exception
      */
-    #[Route('/ajouter/campagne/', name: 'app_add_campaign')]
+    #[Route('/ajouter/campagne', name: 'app_add_campaign')]
     public function addCampaign(
         Request $request,
         ValidatorInterface $validator,
@@ -147,7 +147,7 @@ class BackofficeController extends AbstractController
     /**
      * @throws \Doctrine\DBAL\Exception
      */
-    #[Route('/supprimer/campagne/', name: 'app_remove_campaign')]
+    #[Route('/supprimer/campagne', name: 'app_remove_campaign')]
     public function removeCampaign(
         Request $request,
         EntityManagerInterface $entityManager,
@@ -174,7 +174,7 @@ class BackofficeController extends AbstractController
     /**
      * @throws \Doctrine\DBAL\Exception
      */
-    #[Route('/test/campagne/', name: 'app_send_campaign_mail_test')]
+    #[Route('/test/campagne', name: 'app_send_campaign_mail_test')]
     public function sendCampaignMailTest(
         Request $request,
         CampaignRepository $campaignRepository,

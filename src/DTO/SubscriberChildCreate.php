@@ -8,7 +8,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class SubscriberChildCreate
 {
     #[Assert\NotNull]
-    #[Assert\Length(min: 3)]
+    #[Assert\Length(min: 3, max: 255)]
     public string $childFirstname;
 
     #[AppAssert\HasRightAge]

@@ -60,7 +60,7 @@ class SubscriberCreate
         $this->password           = $data['password'] ?? '';
         $this->confirmPassword    = $data['confirm-password'] ?? '';
         $this->firstname          = $data['firstname'] ?? '';
-        $this->city               = $data['city'];
+        $this->city               = $data['city'] ?? '';
         $this->cityDetails        = $data['city-details'] ?? '';
         $this->childFirstname     = $data['child-firstname'] ?? '';
         $this->childBirthDate     = $data['child-birth-date'] ? new \DateTime($data['child-birth-date']) : new \DateTime('NOW');
