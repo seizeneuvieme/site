@@ -9,6 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class SubscriberCreate
 {
     #[Assert\NotNull]
+    #[Assert\NotBlank]
     #[Assert\Email]
     #[AppAssert\IsUniqueEmail]
     public string $email;
@@ -20,7 +21,7 @@ class SubscriberCreate
     public string $confirmPassword;
 
     #[Assert\NotNull]
-    #[Assert\Length(min: 3)]
+    #[Assert\Length(min: 3, max: 255)]
     public string $firstname;
 
     #[Assert\NotNull]
@@ -44,7 +45,7 @@ class SubscriberCreate
     public string $region;
 
     #[Assert\NotNull]
-    #[Assert\Length(min: 3)]
+    #[Assert\Length(min: 3, max: 255)]
     public string $childFirstname;
 
     #[AppAssert\HasRightAge]
@@ -55,13 +56,13 @@ class SubscriberCreate
 
     public function hydrateFromData(array $data): void
     {
-        $this->email              = $data['email'] ?? null;
-        $this->password           = $data['password'] ?? null;
-        $this->confirmPassword    = $data['confirm-password'] ?? null;
-        $this->firstname          = $data['firstname'] ?? null;
-        $this->city               = $data['city'];
-        $this->cityDetails        = $data['city-details'] ?? null;
-        $this->childFirstname     = $data['child-firstname'] ?? null;
+        $this->email              = $data['email'] ?? '';
+        $this->password           = $data['password'] ?? '';
+        $this->confirmPassword    = $data['confirm-password'] ?? '';
+        $this->firstname          = $data['firstname'] ?? '';
+        $this->city               = $data['city'] ?? '';
+        $this->cityDetails        = $data['city-details'] ?? '';
+        $this->childFirstname     = $data['child-firstname'] ?? '';
         $this->childBirthDate     = $data['child-birth-date'] ? new \DateTime($data['child-birth-date']) : new \DateTime('NOW');
         $this->streamingPlatforms = $data['streaming'] ?? [];
     }

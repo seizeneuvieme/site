@@ -8,7 +8,7 @@ class CampaignUpdate
 {
     #[Assert\NotNull]
     #[Assert\NotBlank]
-    #[Assert\GreaterThan('today')]
+    #[Assert\GreaterThanOrEqual('today')]
     public \DateTimeInterface $sendingDate;
 
     public function hydrateFromData(array $data): void

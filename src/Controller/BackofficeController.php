@@ -18,7 +18,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-#[Route('/administration')]
+#[Route('/passage34')]
 #[IsGranted('ROLE_ADMIN', null, null, Response::HTTP_NOT_FOUND)]
 class BackofficeController extends AbstractController
 {
@@ -69,7 +69,7 @@ class BackofficeController extends AbstractController
         EntityManagerInterface $entityManager,
         CampaignService $campaignService
     ): Response {
-        if ($request->isMethod('POST')) {
+        if ($request->isMethod('POST') && $this->isCsrfTokenValid('add-campaign', (string) $request->request->get('token'))) {
             $templateId = $request->request->get('template-id');
 
             $template = $this->sendInBlueApiService->getTemplate((int) $templateId);
@@ -123,17 +123,17 @@ class BackofficeController extends AbstractController
             return $this->redirectToRoute('app_backoffice');
         }
 
-        if ($request->isMethod('POST')) {
+        if ($request->isMethod('POST') && $this->isCsrfTokenValid('update-campaign', (string) $request->request->get('token'))) {
             $campaignUpdate = new CampaignUpdate();
             $campaignUpdate->hydrateFromData($request->request->all());
-
-            $errors = $validator->validate($campaign);
+            $errors = $validator->validate($campaignUpdate);
             if ($errors->count() > 0) {
                 $this->addFlash('invalid_form', '');
 
-                return $this->render('backoffice/update_campaign.html.twig');
+                return $this->render('backoffice/update_campaign.html.twig', [
+                    'campaign' => $campaign,
+                ]);
             }
-
             $campaign->setSendingDate($campaignUpdate->sendingDate);
             $entityManager->flush();
             $this->addFlash('success', "La campagne {$campaign->getName()} a bien été reprogrammée pour le {$campaign->getSendingDate()->format('d/m/Y')} 🎉");
@@ -147,24 +147,26 @@ class BackofficeController extends AbstractController
     /**
      * @throws \Doctrine\DBAL\Exception
      */
-    #[Route('/supprimer/campagne/{id}', name: 'app_remove_campaign')]
+    #[Route('/supprimer/campagne', name: 'app_remove_campaign')]
     public function removeCampaign(
+        Request $request,
         EntityManagerInterface $entityManager,
         CampaignRepository $campaignRepository,
-        int $id
     ): Response {
-        $campaign = $campaignRepository->findOneBy([
-            'id' => $id,
-        ]);
+        if ($request->isMethod('POST') && $this->isCsrfTokenValid('remove-campaign', (string) $request->request->get('token'))) {
+            $campaign = $campaignRepository->findOneBy([
+                'id' => $request->request->get('campaign_id'),
+            ]);
 
-        if ($campaign === null) {
-            return $this->redirectToRoute('app_backoffice');
+            if ($campaign === null) {
+                return $this->redirectToRoute('app_backoffice');
+            }
+
+            $entityManager->remove($campaign);
+            $entityManager->flush();
+
+            $this->addFlash('success', "La campagne {$campaign->getName()} a bien été supprimée 🎉");
         }
-
-        $entityManager->remove($campaign);
-        $entityManager->flush();
-
-        $this->addFlash('success', "La campagne {$campaign->getName()} a bien été supprimée 🎉");
 
         return $this->redirectToRoute('app_backoffice');
     }
@@ -172,34 +174,38 @@ class BackofficeController extends AbstractController
     /**
      * @throws \Doctrine\DBAL\Exception
      */
-    #[Route('/test/campagne/{id}', name: 'app_send_campaign_mail_test')]
+    #[Route('/test/campagne', name: 'app_send_campaign_mail_test')]
     public function sendCampaignMailTest(
+        Request $request,
         CampaignRepository $campaignRepository,
         SendInBlueApiService $sendInBlueApiService,
-        int $id
+        CampaignService $campaignService
     ): Response {
-        $campaign = $campaignRepository->findOneBy([
-            'id' => $id,
-        ]);
-
-        if ($campaign === null) {
-            return $this->redirectToRoute('app_backoffice');
-        }
-
-        $template = $sendInBlueApiService->getTemplate($campaign->getTemplateId());
-        if ($template !== null) {
-            /**
-             * @var Subscriber $subscriber
-             */
-            $subscriber = $this->getUser();
-            $result     = $sendInBlueApiService->sendTransactionalEmail($template, [
-                'name'  => $subscriber->getFirstname(),
-                'email' => $subscriber->getEmail(),
+        if ($request->isMethod('POST') && $this->isCsrfTokenValid('test-campaign', (string) $request->request->get('token'))) {
+            $campaign = $campaignRepository->findOneBy([
+                'id' => $request->request->get('campaign_id'),
             ]);
-            if ($result === true) {
-                $this->addFlash('success', "La campagne {$campaign->getName()} a bien été envoyée à {$subscriber->getEmail()} 🎉");
-            } else {
-                $this->addFlash('error', "La campagne {$campaign->getName()} a bien été envoyée à {$subscriber->getEmail()} 🎉");
+
+            if ($campaign === null) {
+                return $this->redirectToRoute('app_backoffice');
+            }
+
+            $template = $sendInBlueApiService->getTemplate($campaign->getTemplateId());
+            if ($template !== null) {
+                /**
+                 * @var Subscriber $subscriber
+                 */
+                $subscriber = $this->getUser();
+                $params     = $campaignService->createParams($subscriber);
+                $result     = $sendInBlueApiService->sendTransactionalEmail($template, [
+                    'name'  => $subscriber->getFirstname(),
+                    'email' => $subscriber->getEmail(),
+                ], $params);
+                if ($result === true) {
+                    $this->addFlash('success', "La campagne {$campaign->getName()} a bien été envoyée à {$subscriber->getEmail()} 🎉");
+                } else {
+                    $this->addFlash('error', "La campagne n'a pas pu être envoyée");
+                }
             }
         }
 

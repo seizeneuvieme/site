@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Modifier mon mot de passe Le Réhausseur{% endblock %}
+{% block title %}Modifier mon adresse email Le Réhausseur{% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
-    {{ encore_entry_script_tags('update-password') }}
+    {{ encore_entry_script_tags('update-email') }}
 {% endblock %}
 
 {% block body %}
@@ -15,7 +15,7 @@
             <div class="row justify-content-center pt-6">
                 <div class="col-lg-4 col-md-6">
                     <div class="text-center mb-4">
-                        <h1 class="mb-2">Modifier mon <span style="color: #ff2e3d">mot de passe</span></h1>
+                        <h1 class="mb-2">Modifier mon <span style="color: #ff2e3d">adresse email</span></h1>
                         <div class="text-center mb-4">
                             {% if app.session.flashBag.has('error') %}
                                 {% for flashMessage in app.session.flashbag.get('error') %}
@@ -43,23 +43,18 @@
                 <div class="col">
                     <div class="row justify-content-center pt-2">
                         <div class="col-xl-4 col-lg-5 col-md-6">
-                            <form action="{{ path('app_update_password') }}" method="POST" class="form">
+                            <form action="{{ path('app_update_email') }}" method="POST" class="form">
                                 <div class="form-group">
-                                    <div class="form-group">
-                                        <input name="password" id="password" type="password" class="update-password form-control" placeholder="Ton nouveau mot de passe">
-                                        <small id="password-control-label" class="text-primary" style="display:none;">Le mot de passe doit faire au moins 8 caractères</small>
-                                    </div>
-                                    <div class="form-group">
-                                        <input name="confirm-password" id="confirm-password" type="password" class="update-password form-control" placeholder="Confirme ton mon de passe">
-                                        <small id="confirm-password-control-label" class="text-primary" style="display:none;">Le mot de passe doit être identique</small>
-                                    </div>
+                                    <input id="email" type="email" name="email" placeholder="Ta nouvelle adresse email" class="form-control update-email">
+                                    <small id="email-control-label" class="text-primary" style="display:none;">Adresse email invalide</small>
                                 </div>
                                 <div class="form-group">
-                                    <button id="btn-update-password-form" class="btn-block btn btn-primary text-white" type="button">Modifier mon mot de passe</button>
+                                    <button id="update-email-btn" class="btn-block btn btn-primary text-white" type="button">Modifier mon adresse email</button>
                                 </div>
+                                <input type="hidden" name="token" value="{{ csrf_token('update-email') }}"/>
                             </form>
                         </div>
-                        <a class="text-primary text-center mt-3" href="{{ path('app_account') }}">Retour à mon compte</a>
+                        <a class="text-primary mt-3 text-center" href="{{ path('app_account') }}">Retour à mon compte</a>
                     </div>
                 </div>
             </div>

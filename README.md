@@ -49,7 +49,7 @@ Le MVP doit permetttre :
 
 **1°) Pré-requis**
 
-Pour faire tourner la stack en local, vous devrez installer :
+Pour faire tourner la stack en local, installer :
 - [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 - [PHP 8.1](https://www.php.net/releases/8.1/en.php)
 - [Composer](https://getcomposer.org/)
@@ -67,7 +67,7 @@ git clone git@github.com:lerehausseur/site.git
 
 **3°) Initialiser le projet**
 
-Pour initialiser le projet, exécutez la commande suivante :
+Pour initialiser le projet, exécuter la commande suivante :
 ```
 make install
 make init-db # à lancer une seule fois lors de l'initialisation du projet
@@ -75,14 +75,21 @@ make init-db # à lancer une seule fois lors de l'initialisation du projet
 
 **4°) Démarrer le projet en local**
 
-Pour démarrer le projet en local, exécutez la commande suivante :
+Pour démarrer le projet en local, exécuter la commande suivante :
 ```
 make start
 ```
 
-**5°) Lancer la commande d'envoi de campagne**
+**5°) Lancer les tests**
 
-Pour envoyer une campagne, lancez la commande suivante :
+Pour lancer les tests unitaires et fonctionnels, exécuter la commande suivante :
+```
+make test
+```
+
+**6°) Lancer la commande d'envoi de campagne**
+
+Pour envoyer une campagne, lancer la commande suivante :
 ```
 symfony console app:send:email-campaign
 ```
@@ -93,7 +100,7 @@ En `production`, cette commande est automatiquement exécutée par un CRON, tous
 
 **⚙️ WORKFLOW**
 
-Pour chaque modification de code, on prendra soin de :
+Workflow à suivre pour chaque modification de code :
 
 - Ouvrir une issue sur le board du projet
 - Ouvrir une PR dédiée associée à l'issue

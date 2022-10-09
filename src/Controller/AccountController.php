@@ -36,7 +36,7 @@ class AccountController extends AbstractController
     #[Route('/', name: 'app_account')]
     public function index(): Response
     {
-        return $this->render('subscriber/index.html.twig', [
+        return $this->render('account/index.html.twig', [
             'subscriber' => $this->getUser(),
         ]);
     }
@@ -82,7 +82,7 @@ class AccountController extends AbstractController
         ValidatorInterface $validator,
         EntityManagerInterface $entityManager
     ): Response {
-        if ($request->isMethod('POST')) {
+        if ($request->isMethod('POST') && $this->isCsrfTokenValid('update-email', (string) $request->request->get('token'))) {
             $subscriberEmailUpdate = new SubscriberEmailUpdate();
             $subscriberEmailUpdate->hydrateFromData($request->request->all());
 
@@ -90,7 +90,7 @@ class AccountController extends AbstractController
             if (0 < $errors->count()) {
                 $this->addFlash('error', '');
 
-                return $this->render('subscriber/update_email.html.twig');
+                return $this->render('account/update_email.html.twig');
             }
 
             $subscriber = $this->getUser();
@@ -102,7 +102,7 @@ class AccountController extends AbstractController
             $this->addFlash('success', 'Ton adresse email a bien été modifiée 🎉');
         }
 
-        return $this->render('subscriber/update_email.html.twig');
+        return $this->render('account/update_email.html.twig');
     }
 
     #[Route('/modifier/mot-de-passe', name: 'app_update_password')]
@@ -112,7 +112,7 @@ class AccountController extends AbstractController
         UserPasswordHasherInterface $passwordHasher,
         EntityManagerInterface $entityManager
     ): Response {
-        if ($request->isMethod('POST')) {
+        if ($request->isMethod('POST') && $this->isCsrfTokenValid('update-password', (string) $request->request->get('token'))) {
             $subscriber = $this->getUser();
 
             $subscriberPasswordUpdate = new SubscriberPasswordUpdate();
@@ -122,7 +122,7 @@ class AccountController extends AbstractController
             if (0 < $errors->count()) {
                 $this->addFlash('error', '');
 
-                return $this->render('subscriber/update_password.html.twig');
+                return $this->render('account/update_password.html.twig');
             }
 
             // Encode(hash) the plain password, and set it.
@@ -142,7 +142,7 @@ class AccountController extends AbstractController
             $this->addFlash('success', 'Ton mot de passe a bien été modifiée 🎉');
         }
 
-        return $this->render('subscriber/update_password.html.twig');
+        return $this->render('account/update_password.html.twig');
     }
 
     #[Route('/modifier/coordonnees', name: 'app_update_user_infos')]
@@ -152,7 +152,7 @@ class AccountController extends AbstractController
         CityService $cityService,
         EntityManagerInterface $entityManager
     ): Response {
-        if ($request->isMethod('POST')) {
+        if ($request->isMethod('POST') && $this->isCsrfTokenValid('update-user-infos', (string) $request->request->get('token'))) {
             $subscriberContactInfosUpdate = new SubscriberContactInfosUpdate();
             $subscriberContactInfosUpdate->hydrateFromData($request->request->all());
             $cityService->processCityDetails($subscriberContactInfosUpdate);
@@ -161,7 +161,7 @@ class AccountController extends AbstractController
             if (0 < $errors->count()) {
                 $this->addFlash('error', '');
 
-                return $this->render('subscriber/update_user_infos.html.twig');
+                return $this->render('account/update_user_infos.html.twig');
             }
 
             /**
@@ -178,7 +178,7 @@ class AccountController extends AbstractController
             $this->addFlash('success', 'Tes coordonnées ont bien été modifiées 🎉');
         }
 
-        return $this->render('subscriber/update_user_infos.html.twig');
+        return $this->render('account/update_user_infos.html.twig');
     }
 
     #[Route('/modifier/plateformes', name: 'app_update_platforms')]
@@ -187,7 +187,7 @@ class AccountController extends AbstractController
         ValidatorInterface $validator,
         EntityManagerInterface $entityManager
     ): Response {
-        if ($request->isMethod('POST')) {
+        if ($request->isMethod('POST') && $this->isCsrfTokenValid('update-platforms', (string) $request->request->get('token'))) {
             $subscriberStreamingPlatformsUpdate = new SubscriberStreamingPlatformsUpdate();
             $subscriberStreamingPlatformsUpdate->hydrateFromData($request->request->all());
 
@@ -195,7 +195,7 @@ class AccountController extends AbstractController
             if (0 < $errors->count()) {
                 $this->addFlash('error', '');
 
-                return $this->render('subscriber/update_platforms.html.twig');
+                return $this->render('account/update_platforms.html.twig');
             }
 
             /**
@@ -213,7 +213,7 @@ class AccountController extends AbstractController
             $this->addFlash('success', 'Tes plateformes de streaming payantes ont bien été modifiées 🎉');
         }
 
-        return $this->render('subscriber/update_platforms.html.twig');
+        return $this->render('account/update_platforms.html.twig');
     }
 
     #[Route('/ajouter/enfant', name: 'app_add_child')]
@@ -222,7 +222,7 @@ class AccountController extends AbstractController
         ValidatorInterface $validator,
         EntityManagerInterface $entityManager
     ): Response {
-        if ($request->isMethod('POST')) {
+        if ($request->isMethod('POST') && $this->isCsrfTokenValid('add-child', (string) $request->request->get('token'))) {
             $subscriberChildCreate = new SubscriberChildCreate();
             $subscriberChildCreate->hydrateFromData($request->request->all());
 
@@ -230,7 +230,7 @@ class AccountController extends AbstractController
             if (0 < $errors->count()) {
                 $this->addFlash('error', '');
 
-                return $this->render('subscriber/add_child.html.twig');
+                return $this->render('account/add_child.html.twig');
             }
 
             /**
@@ -245,69 +245,72 @@ class AccountController extends AbstractController
             $this->addFlash('success', "✅ C'est noté ! Tu recevras désormais aussi des recommandations de films pour {$child->getFirstname()}");
         }
 
-        return $this->render('subscriber/add_child.html.twig');
+        return $this->render('account/add_child.html.twig');
     }
 
-    #[Route('/supprimer/enfant/{id}', name: 'app_remove_child')]
+    #[Route('/supprimer/enfant', name: 'app_remove_child')]
     public function removeChild(
         Request $request,
         ChildRepository $childRepository,
         EntityManagerInterface $entityManager,
-        int $id
     ): Response {
-        /**
-         * @var Subscriber $subscriber
-         */
-        $subscriber = $this->getUser();
+        if ($request->isMethod('POST') && $this->isCsrfTokenValid('remove-child', (string) $request->request->get('token'))) {
+            /**
+             * @var Subscriber $subscriber
+             */
+            $subscriber = $this->getUser();
 
-        $child = $childRepository->findOneBy([
-            'id' => $id,
-        ]);
+            $child = $childRepository->findOneBy([
+                'id' => $request->request->get('child-id'),
+            ]);
 
-        if ($child === null || $subscriber->getId() !== $child->getSubscriber()?->getId() || $subscriber->getChilds()->count() < 2) {
-            return $this->redirectToRoute('app_account');
+            if ($child === null || $subscriber->getId() !== $child->getSubscriber()?->getId() || $subscriber->getChilds()->count() < 2) {
+                return $this->redirectToRoute('app_account');
+            }
+
+            $subscriber->removeChild($child);
+            $entityManager->remove($child);
+            $entityManager->flush();
+            $this->addFlash('success', "✅ C'est noté ! Tu recevras plus de recommandations de films pour {$child->getFirstname()}");
         }
-
-        $subscriber->removeChild($child);
-        $entityManager->remove($child);
-        $entityManager->flush();
-        $this->addFlash('success', "✅ C'est noté ! Tu recevras plus de recommandations de films pour {$child->getFirstname()}");
 
         return $this->redirectToRoute('app_account');
     }
 
-    #[Route('/supprimer/compte', name: 'app_remove_account', methods: ['POST'])]
+    #[Route('/supprimer/compte', name: 'app_remove_account')]
     public function removeAccount(
         Request $request,
         UserPasswordHasherInterface $passwordHasher,
         EntityManagerInterface $entityManager
     ): Response {
-        /**
-         * @var Subscriber $subscriber
-         */
-        $subscriber = $this->getUser();
-        $password   = $request->request->get('password');
+        if ($request->isMethod('POST') && $this->isCsrfTokenValid('remove-account', (string) $request->request->get('token'))) {
+            /**
+             * @var Subscriber $subscriber
+             */
+            $subscriber = $this->getUser();
+            $password   = $request->request->get('password');
 
-        /**
-         * @var PasswordAuthenticatedUserInterface $subscriber
-         */
-        $isPasswordValid = $passwordHasher->isPasswordValid(
-            $subscriber,
-            (string) $password
-        );
+            /**
+             * @var PasswordAuthenticatedUserInterface $subscriber
+             */
+            $isPasswordValid = $passwordHasher->isPasswordValid(
+                $subscriber,
+                (string) $password
+            );
 
-        /**
-         * @var Subscriber $subscriber
-         */
-        if ($isPasswordValid === true) {
-            $entityManager->remove($subscriber);
-            $entityManager->flush();
-            $session = new Session();
-            $session->invalidate();
+            /**
+             * @var Subscriber $subscriber
+             */
+            if ($isPasswordValid === true) {
+                $entityManager->remove($subscriber);
+                $entityManager->flush();
+                $session = new Session();
+                $session->invalidate();
 
-            return $this->redirectToRoute('app_logout');
+                return $this->redirectToRoute('app_logout');
+            }
+            $this->addFlash('cant_remove_account', '');
         }
-        $this->addFlash('cant_remove_account', '');
 
         return $this->redirectToRoute('app_account');
     }

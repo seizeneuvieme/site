@@ -43,7 +43,7 @@ class SendEmailCampaignCommand extends Command
             $io->info('Sending campaign '.$campaign->getName().'...');
             try {
                 $this->campaignService->processCampaign($campaign, $io);
-                $io->success('CampaignCreate '.$campaign->getName().' sent!');
+                $io->success('Campaign '.$campaign->getName().' sent!');
             } catch (Exception $e) {
                 $io->error('[NOK] Error: '.$e->getMessage());
                 continue;

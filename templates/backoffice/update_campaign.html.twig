@@ -29,7 +29,7 @@
                             {% endif %}
                             {% if app.session.flashBag.has('success') %}
                                 {% for flashMessage in app.session.flashbag.get('success') %}
-                                    <div class="alert alert-success" role="alert">
+                                    <div class="alert alert-success alert-success" role="alert">
                                         <p>
                                             {{ flashMessage }}
                                         </p>
@@ -53,6 +53,7 @@
                                 <div class="form-group">
                                     <button class="btn-block btn btn-primary text-white" id="btn-update-campaign-form" type="button">Reprogrammer la campagne</button>
                                 </div>
+                                <input type="hidden" name="token" value="{{ csrf_token('update-campaign') }}"/>
                             </form>
                         </div>
                         <a class="text-primary mt-3 text-center" href="{{ path('app_backoffice') }}">Retour au backoffice</a>

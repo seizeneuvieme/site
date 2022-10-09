@@ -58,7 +58,7 @@
                         {% endif %}
                         {% if app.session.flashBag.has('send_new_activation_code') and subscriber.isVerified == false  %}
                             {% for flashMessage in app.session.flashbag.get('send_new_activation_code') %}
-                                <div class="alert alert-success" role="alert">
+                                <div class="alert alert-success send-new-activation-code" role="alert">
                                     <p>
                                         Un nouveau code d'activatation a été envoyé sur ton adresse {{ subscriber.email }} 🎉
                                     </p>
@@ -67,7 +67,7 @@
                         {% endif %}
                         {% if subscriber.isVerified == true and app.session.flashBag.has('account_activated') %}
                             {% for flashMessage in app.session.flashbag.get('account_activated') %}
-                                <div class="alert alert-success" role="alert">
+                                <div class="alert alert-success account-activated" role="alert">
                                     <p>
                                         Ton compte a bien été activé 🎉 <br /> Tu recevras très bientôt la prochaine newsletter Le Réhausseur 👀
                                     </p>
@@ -205,9 +205,13 @@
                                                                 <h5 class="mb-1">Confirmation</h5>
                                                                 <p>ℹ️ Tu ne recevras plus de recommandation de films pour {{ child.firstname }}</p>
                                                             </div>
-                                                            <a href="{{ path('app_remove_child', {'id': child.id}) }}" class="btn btn-primary text-white">
-                                                                Supprimer
-                                                            </a>
+                                                            <form action="{{ path('app_remove_child') }}" method="POST">
+                                                                <input name="child-id" value="{{ child.id }}" hidden>
+                                                                <input type="hidden" name="token" value="{{ csrf_token('remove-child') }}"/>
+                                                                <button class="btn btn-primary text-white" type="submit">
+                                                                    Supprimer
+                                                                </button>
+                                                            </form>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -307,7 +311,8 @@
                                                                 <input type="password" name="password" placeholder="Entre ton mot de passe" class="form-control" />
                                                             </div>
                                                             <div class="form-group">
-                                                                <button type="submit" href="{{ path('app_remove_account') }}" class="btn btn-primary text-white">
+                                                                <input type="hidden" name="token" value="{{ csrf_token('remove-account') }}"/>
+                                                                <button type="submit" class="btn btn-primary text-white">
                                                                    Me désabonner et supprimer mon compte
                                                                 </button>
                                                             </div>
