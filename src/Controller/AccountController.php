@@ -407,6 +407,21 @@ class AccountController extends AbstractController
                         'user' => $subscriber->getEmail(),
                     ]
                 );
+
+                $template = $this->sendInBlueApiService->getTemplate(SendInBlueApiService::CONFIRM_ACCOUNT_REMOVED);
+                if ($template !== null) {
+                    $this->sendInBlueApiService->sendTransactionalEmail(
+                        $template,
+                        [
+                            'name'  => $subscriber->getFirstname(),
+                            'email' => $subscriber->getEmail(),
+                        ],
+                        [
+                            'FIRSTNAME'  => $subscriber->getFirstname(),
+                        ]
+                    );
+                }
+
                 $session = new Session();
                 $session->invalidate();
 

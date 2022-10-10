@@ -820,6 +820,8 @@ class AccountControllerTest extends AbstractWebTestCase
         $csrfToken = static::getContainer()->get('security.csrf.token_generator')->generateToken();
         $this->setLoginSessionValue(SessionTokenStorage::SESSION_NAMESPACE."/$tokenId", $csrfToken);
 
+
+
         // Act
         $this->client->request(
             'POST',
@@ -830,6 +832,22 @@ class AccountControllerTest extends AbstractWebTestCase
                 'token'            => $csrfToken,
             ]
         );
+
+        // Reboot kernel manually
+        $this->client->getKernel()->shutdown();
+        $this->client->getKernel()->boot();
+        // Prevent client from rebooting the kernel
+        $this->client->disableReboot();
+
+        $sendInBlueApiService = $this->createMock(SendInBlueApiService::class);
+        $sendInBlueApiService->expects(self::once())
+            ->method('getTemplate')
+            ->willReturn(new GetSmtpTemplateOverview())
+        ;
+        $sendInBlueApiService->expects(self::once())
+            ->method('sendTransactionalEmail')
+        ;
+        $container->set(SendInBlueApiService::class, $sendInBlueApiService);
 
         $tokenId   = 'remove-account';
         $csrfToken = static::getContainer()->get('security.csrf.token_generator')->generateToken();
