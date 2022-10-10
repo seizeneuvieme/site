@@ -11,6 +11,7 @@ use App\Repository\SubscriberRepository;
 use App\Service\CampaignService;
 use App\Service\SendInBlueApiService;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,7 +24,8 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class BackofficeController extends AbstractController
 {
     public function __construct(
-        private SendInBlueApiService $sendInBlueApiService
+        private readonly SendInBlueApiService $sendInBlueApiService,
+        private readonly LoggerInterface $logger
     ) {
     }
 
@@ -85,8 +87,18 @@ class BackofficeController extends AbstractController
                 'sendingDate' => $request->request->get('sending-date'),
             ]);
 
-            $errors = $validator->validate($campaign);
+            /**
+             * @var Subscriber $subscriber
+             */
+            $subscriber = $this->getUser();
+            $errors     = $validator->validate($campaign);
             if ($errors->count() > 0) {
+                $this->logger->error(
+                    'CAMPAIGN_INVALID',
+                    [
+                        'user' => $subscriber->getEmail(),
+                    ]
+                );
                 $this->addFlash('invalid_form', '');
 
                 return $this->render('backoffice/add_campaign.html.twig');
@@ -95,6 +107,14 @@ class BackofficeController extends AbstractController
 
             $entityManager->persist($campaign);
             $entityManager->flush();
+
+            $this->logger->info(
+                'CAMPAIGN_CREATED',
+                [
+                    'campaign' => $campaign,
+                    'user'     => $subscriber->getEmail(),
+                ]
+            );
 
             $this->addFlash('success', "Campagne {$campaign->getName()} créée 🎉");
 
@@ -126,8 +146,19 @@ class BackofficeController extends AbstractController
         if ($request->isMethod('POST') && $this->isCsrfTokenValid('update-campaign', (string) $request->request->get('token'))) {
             $campaignUpdate = new CampaignUpdate();
             $campaignUpdate->hydrateFromData($request->request->all());
-            $errors = $validator->validate($campaignUpdate);
+
+            /**
+             * @var Subscriber $subscriber
+             */
+            $subscriber = $this->getUser();
+            $errors     = $validator->validate($campaignUpdate);
             if ($errors->count() > 0) {
+                $this->logger->error(
+                    'CAMPAIGN_INVALID',
+                    [
+                        'user' => $subscriber->getEmail(),
+                    ]
+                );
                 $this->addFlash('invalid_form', '');
 
                 return $this->render('backoffice/update_campaign.html.twig', [
@@ -136,6 +167,13 @@ class BackofficeController extends AbstractController
             }
             $campaign->setSendingDate($campaignUpdate->sendingDate);
             $entityManager->flush();
+            $this->logger->info(
+                'CAMPAIGN_UPDATED',
+                [
+                    'campaign' => $campaign,
+                    'user'     => $subscriber->getEmail(),
+                ]
+            );
             $this->addFlash('success', "La campagne {$campaign->getName()} a bien été reprogrammée pour le {$campaign->getSendingDate()->format('d/m/Y')} 🎉");
         }
 
@@ -164,6 +202,18 @@ class BackofficeController extends AbstractController
 
             $entityManager->remove($campaign);
             $entityManager->flush();
+
+            /**
+             * @var Subscriber $subscriber
+             */
+            $subscriber = $this->getUser();
+            $this->logger->info(
+                'CAMPAIGN_REMOVED',
+                [
+                    'campaign' => $campaign,
+                    'user'     => $subscriber->getEmail(),
+                ]
+            );
 
             $this->addFlash('success', "La campagne {$campaign->getName()} a bien été supprimée 🎉");
         }

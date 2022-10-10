@@ -10,14 +10,15 @@ use App\Entity\Subscriber;
 use App\Repository\SubscriberRepository;
 use Doctrine\DBAL\Exception;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
+use Psr\Log\LoggerInterface;
 
 class CampaignService
 {
     public function __construct(
         private readonly SubscriberRepository $subscriberRepository,
         private readonly EntityManagerInterface $entityManager,
-        private readonly SendInBlueApiService $sendInBlueApiService
+        private readonly SendInBlueApiService $sendInBlueApiService,
+        private readonly LoggerInterface $logger
     ) {
     }
 
@@ -34,7 +35,7 @@ class CampaignService
     /**
      * @throws \Doctrine\DBAL\Exception
      */
-    public function processCampaign(Campaign $campaign, SymfonyStyle $io): void
+    public function processCampaign(Campaign $campaign): void
     {
         $template = $this->sendInBlueApiService->getTemplate($campaign->getTemplateId());
 
@@ -64,7 +65,12 @@ class CampaignService
 
                 $result === true ? $numberEmailSent++ : $numberOfErrors++;
             } catch (Exception $e) {
-                $io->error('Error: '.$e->getMessage());
+                $this->logger->error('EMAIL_SEND_ERROR', [
+                    'campaignId'   => $campaign->getId(),
+                    'campaignName' => $campaign->getName(),
+                    'user'         => $subscriber->getId(),
+                    'exception'    => $e,
+                ]);
                 continue;
             }
         }
@@ -72,8 +78,12 @@ class CampaignService
         $campaign->setNumberSent($numberEmailSent);
         $campaign->setState(Campaign::SENT_STATE);
         $this->entityManager->flush();
-        $io->info("Email(s) sent : $numberEmailSent");
-        $io->info("Email(s) in error : $numberOfErrors");
+        $this->logger->info('CAMPAIGN_SENT', [
+            'campaignId'   => $campaign->getId(),
+            'campaignName' => $campaign->getName(),
+            'emailSent'    => $numberEmailSent,
+            'emailError'   => $numberOfErrors,
+        ]);
     }
 
     public function createParams(Subscriber $subscriber): array

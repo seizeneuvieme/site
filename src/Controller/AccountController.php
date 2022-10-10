@@ -14,6 +14,7 @@ use App\Repository\ChildRepository;
 use App\Service\CityService;
 use App\Service\SendInBlueApiService;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -29,7 +30,8 @@ class AccountController extends AbstractController
 {
     public function __construct(
         private readonly SendInBlueApiService $sendInBlueApiService,
-        private readonly VerifyEmailHelperInterface $verifyEmailHelper
+        private readonly VerifyEmailHelperInterface $verifyEmailHelper,
+        private readonly LoggerInterface $logger
     ) {
     }
 
@@ -87,7 +89,20 @@ class AccountController extends AbstractController
             $subscriberEmailUpdate->hydrateFromData($request->request->all());
 
             $errors = $validator->validate($subscriberEmailUpdate);
+
+            /**
+             * @var Subscriber $subscriber
+             */
+            $subscriber = $this->getUser();
             if (0 < $errors->count()) {
+                $this->logger->error(
+                    'EMAIL_INVALID',
+                    [
+                        'email' => $subscriberEmailUpdate->email,
+                        'user'  => $subscriber->getEmail(),
+                    ]
+                );
+
                 $this->addFlash('error', '');
 
                 return $this->render('account/update_email.html.twig');
@@ -99,6 +114,12 @@ class AccountController extends AbstractController
              */
             $subscriber->setEmail($subscriberEmailUpdate->email);
             $entityManager->flush();
+            $this->logger->info(
+                'EMAIL_UPDATED',
+                [
+                    'user' => $subscriber->getEmail(),
+                ]
+            );
             $this->addFlash('success', 'Ton adresse email a bien été modifiée 🎉');
         }
 
@@ -113,6 +134,9 @@ class AccountController extends AbstractController
         EntityManagerInterface $entityManager
     ): Response {
         if ($request->isMethod('POST') && $this->isCsrfTokenValid('update-password', (string) $request->request->get('token'))) {
+            /**
+             * @var Subscriber $subscriber
+             */
             $subscriber = $this->getUser();
 
             $subscriberPasswordUpdate = new SubscriberPasswordUpdate();
@@ -120,6 +144,13 @@ class AccountController extends AbstractController
 
             $errors = $validator->validate($subscriberPasswordUpdate);
             if (0 < $errors->count()) {
+                $this->logger->error(
+                    'PASSWORD_INVALID',
+                    [
+                        'user' => $subscriber->getEmail(),
+                    ]
+                );
+
                 $this->addFlash('error', '');
 
                 return $this->render('account/update_password.html.twig');
@@ -139,6 +170,12 @@ class AccountController extends AbstractController
              */
             $subscriber->setPassword($encodedPassword);
             $entityManager->flush();
+            $this->logger->info(
+                'PASSWORD_UPDATED',
+                [
+                    'user' => $subscriber->getEmail(),
+                ]
+            );
             $this->addFlash('success', 'Ton mot de passe a bien été modifiée 🎉');
         }
 
@@ -159,6 +196,18 @@ class AccountController extends AbstractController
 
             $errors = $validator->validate($subscriberContactInfosUpdate);
             if (0 < $errors->count()) {
+                /**
+                 * @var Subscriber $subscriber
+                 */
+                $subscriber = $this->getUser();
+                $this->logger->error(
+                    'USER_INFOS_INVALID',
+                    [
+                        'infos' => $subscriberContactInfosUpdate,
+                        'user'  => $subscriber->getEmail(),
+                    ]
+                );
+
                 $this->addFlash('error', '');
 
                 return $this->render('account/update_user_infos.html.twig');
@@ -175,6 +224,12 @@ class AccountController extends AbstractController
             $subscriber->setRegion($subscriberContactInfosUpdate->region);
 
             $entityManager->flush();
+            $this->logger->info(
+                'USER_INFOS_UPDATED',
+                [
+                    'user' => $subscriber->getEmail(),
+                ]
+            );
             $this->addFlash('success', 'Tes coordonnées ont bien été modifiées 🎉');
         }
 
@@ -193,6 +248,18 @@ class AccountController extends AbstractController
 
             $errors = $validator->validate($subscriberStreamingPlatformsUpdate);
             if (0 < $errors->count()) {
+                /**
+                 * @var Subscriber $subscriber
+                 */
+                $subscriber = $this->getUser();
+                $this->logger->error(
+                    'PLATFORMS_INVALID',
+                    [
+                        'platforms' => $subscriberStreamingPlatformsUpdate,
+                        'user'      => $subscriber->getEmail(),
+                    ]
+                );
+
                 $this->addFlash('error', '');
 
                 return $this->render('account/update_platforms.html.twig');
@@ -210,6 +277,12 @@ class AccountController extends AbstractController
             }
 
             $entityManager->flush();
+            $this->logger->info(
+                'PLATFORMS_UPDATED',
+                [
+                    'user' => $subscriber->getEmail(),
+                ]
+            );
             $this->addFlash('success', 'Tes plateformes de streaming payantes ont bien été modifiées 🎉');
         }
 
@@ -228,6 +301,17 @@ class AccountController extends AbstractController
 
             $errors = $validator->validate($subscriberChildCreate);
             if (0 < $errors->count()) {
+                /**
+                 * @var Subscriber $subscriber
+                 */
+                $subscriber = $this->getUser();
+                $this->logger->error(
+                    'CHILD_INVALID',
+                    [
+                        'child' => $subscriberChildCreate,
+                        'user'  => $subscriber->getEmail(),
+                    ]
+                );
                 $this->addFlash('error', '');
 
                 return $this->render('account/add_child.html.twig');
@@ -242,6 +326,12 @@ class AccountController extends AbstractController
             $child->setBirthDate($subscriberChildCreate->childBirthDate);
             $subscriber->addChild($child);
             $entityManager->flush();
+            $this->logger->info(
+                'CHILD_ADDED',
+                [
+                    'user' => $subscriber->getEmail(),
+                ]
+            );
             $this->addFlash('success', "✅ C'est noté ! Tu recevras désormais aussi des recommandations de films pour {$child->getFirstname()}");
         }
 
@@ -271,6 +361,13 @@ class AccountController extends AbstractController
             $subscriber->removeChild($child);
             $entityManager->remove($child);
             $entityManager->flush();
+            $this->logger->info(
+                'CHILD_REMOVED',
+                [
+                    'child' => $child,
+                    'user'  => $subscriber->getEmail(),
+                ]
+            );
             $this->addFlash('success', "✅ C'est noté ! Tu recevras plus de recommandations de films pour {$child->getFirstname()}");
         }
 
@@ -304,6 +401,12 @@ class AccountController extends AbstractController
             if ($isPasswordValid === true) {
                 $entityManager->remove($subscriber);
                 $entityManager->flush();
+                $this->logger->info(
+                    'ACCOUNT_DELETED',
+                    [
+                        'user' => $subscriber->getEmail(),
+                    ]
+                );
                 $session = new Session();
                 $session->invalidate();
 

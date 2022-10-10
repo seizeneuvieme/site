@@ -13,8 +13,8 @@ use App\Service\SendInBlueApiService;
 use Doctrine\ORM\EntityManagerInterface;
 use Faker\Factory;
 use PHPUnit\Framework\TestCase;
+use Psr\Log\LoggerInterface;
 use SendinBlue\Client\Model\GetSmtpTemplateOverview;
-use Symfony\Component\Console\Style\SymfonyStyle;
 
 class CampaignServiceTest extends TestCase
 {
@@ -31,10 +31,14 @@ class CampaignServiceTest extends TestCase
         $sendInBlueApiService = $this->getMockBuilder(SendInBlueApiService::class)
             ->disableOriginalConstructor()
             ->getMock();
+        $loggerInterface = $this->getMockBuilder(LoggerInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
         $this->campaignService = new CampaignService(
             $subscriberRepository,
             $entityManager,
-            $sendInBlueApiService
+            $sendInBlueApiService,
+            $loggerInterface
         );
     }
 
@@ -145,6 +149,7 @@ class CampaignServiceTest extends TestCase
         $subscriber->addPlatform($platform);
 
         $campaign = new Campaign();
+        $campaign->setName($faker->word);
         $campaign->setTemplateId($faker->randomNumber());
         $campaign->setState(Campaign::DRAFT_STATE);
         $campaign->setNumberSent(0);
@@ -158,10 +163,14 @@ class CampaignServiceTest extends TestCase
         $sendInBlueApiService = $this->getMockBuilder(SendInBlueApiService::class)
             ->disableOriginalConstructor()
             ->getMock();
+        $loggerInterface = $this->getMockBuilder(LoggerInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
         $this->campaignService = new CampaignService(
             $subscriberRepository,
             $entityManager,
-            $sendInBlueApiService
+            $sendInBlueApiService,
+            $loggerInterface
         );
 
         $sendInBlueApiService
@@ -183,12 +192,8 @@ class CampaignServiceTest extends TestCase
             ->expects(self::once())
             ->method('flush');
 
-        $io = $this->getMockBuilder(SymfonyStyle::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
         // Act
-        $this->campaignService->processCampaign($campaign, $io);
+        $this->campaignService->processCampaign($campaign);
 
         // Assert
         $this->assertEquals(Campaign::SENT_STATE, $campaign->getState());
