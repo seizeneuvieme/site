@@ -54,6 +54,21 @@ class CampaignService
             try {
                 $params = $this->createParams($subscriber);
 
+                if (
+                    $params['AGE_3'] === '' &&
+                    $params['AGE_4'] === '' &&
+                    $params['AGE_5'] === '' &&
+                    $params['AGE_6'] === '' &&
+                    $params['AGE_7'] === '' &&
+                    $params['AGE_8'] === '' &&
+                    $params['AGE_9'] === '' &&
+                    $params['AGE_10'] === '' &&
+                    $params['AGE_11'] === '' &&
+                    $params['AGE_12'] === ''
+                ) {
+                    continue;
+                }
+
                 $result = $this->sendInBlueApiService->sendTransactionalEmail(
                     $template,
                     [
@@ -116,17 +131,9 @@ class CampaignService
             return $childAge->format('%y') == $age;
         })->toArray();
 
-        $index = 1;
         $names = '';
         foreach ($ageGroupChilds as $ageGroupChild) {
-            if ($index === 1) {
-                $names = $ageGroupChild->getFirstname();
-            } elseif ($index < count($ageGroupChilds)) {
-                $names .= ', '.$ageGroupChild->getFirstname();
-            } else {
-                $names .= ' et '.$ageGroupChild->getFirstname();
-            }
-            ++$index;
+            $names .= ' ✅ '.$ageGroupChild->getFirstname();
         }
 
         return $names;

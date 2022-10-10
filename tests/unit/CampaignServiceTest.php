@@ -105,7 +105,7 @@ class CampaignServiceTest extends TestCase
         $this->assertEquals($subscriber->getRegion(), $params['REGION']);
         $this->assertEquals(true, $params['NETFLIX']);
         $this->assertEquals(false, $params['DISNEY']);
-        $this->assertEquals("{$childOne->getFirstname()} et {$childTwo->getFirstname()}", $params['AGE_3']);
+        $this->assertEquals(" ✅ {$childOne->getFirstname()} ✅ {$childTwo->getFirstname()}", $params['AGE_3']);
         $this->assertEquals('', $params['AGE_4']);
         $this->assertEquals('', $params['AGE_5']);
         $this->assertEquals('', $params['AGE_6']);
@@ -114,7 +114,7 @@ class CampaignServiceTest extends TestCase
         $this->assertEquals('', $params['AGE_9']);
         $this->assertEquals('', $params['AGE_10']);
         $this->assertEquals('', $params['AGE_11']);
-        $this->assertEquals("{$childThree->getFirstname()}", $params['AGE_12']);
+        $this->assertEquals(" ✅ {$childThree->getFirstname()}", $params['AGE_12']);
     }
 
     /**
