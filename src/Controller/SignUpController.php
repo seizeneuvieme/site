@@ -10,6 +10,7 @@ use App\Service\SendInBlueApiService;
 use App\Service\SubscriberService;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,10 +23,10 @@ use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
 class SignUpController extends AbstractController
 {
     public function __construct(
-        private VerifyEmailHelperInterface $verifyEmailHelper,
-        private EmailVerifier $emailVerifier,
-        private AuthenticatorInterface $loginAuthenticator,
-        private SendInBlueApiService $sendInBlueApiService
+        private readonly VerifyEmailHelperInterface $verifyEmailHelper,
+        private readonly EmailVerifier $emailVerifier,
+        private readonly AuthenticatorInterface $loginAuthenticator,
+        private readonly SendInBlueApiService $sendInBlueApiService
     ) {
     }
 
@@ -36,7 +37,8 @@ class SignUpController extends AbstractController
         CityService $cityService,
         ValidatorInterface $validator,
         EntityManagerInterface $entityManager,
-        UserAuthenticatorInterface $userAuthenticator
+        UserAuthenticatorInterface $userAuthenticator,
+        LoggerInterface $logger
     ): Response {
         if ($this->isGranted('ROLE_USER') === true) {
             return $this->redirectToRoute('app_account');
@@ -46,6 +48,13 @@ class SignUpController extends AbstractController
             $subscriberCreate = new SubscriberCreate();
             $subscriberCreate->hydrateFromData($request->request->all());
             if ($subscriberService->doesSubscriberAlreadyExist($subscriberCreate) === true) {
+                $logger->info(
+                    'USER_ALREADY_EXIST',
+                    [
+                        'user' => $subscriberCreate->email,
+                    ]
+                );
+
                 return $this->render('sign_up/index.html.twig', [
                     'user_already_exist' => $subscriberCreate->email,
                 ]);
@@ -54,6 +63,14 @@ class SignUpController extends AbstractController
             $cityService->processCityDetails($subscriberCreate);
             $errors = $validator->validate($subscriberCreate);
             if ($errors->count() > 0) {
+                $logger->error(
+                    'INVALID_SUBSCRIBER',
+                    [
+                        'user'   => $subscriberCreate->email,
+                        'errors' => $errors,
+                    ]
+                );
+
                 return $this->render('sign_up/index.html.twig', [
                     'error' => true,
                 ]);
@@ -63,6 +80,13 @@ class SignUpController extends AbstractController
 
             $entityManager->persist($subscriber);
             $entityManager->flush();
+
+            $logger->info(
+                'SUBSCRIBER_SAVED',
+                [
+                    'user' => $subscriber->getEmail(),
+                ]
+            );
 
             $signatureComponents = $this->verifyEmailHelper->generateSignature(
                 'app_verify_email',
@@ -102,6 +126,7 @@ class SignUpController extends AbstractController
     public function verifyUserEmail(
         Request $request,
         SubscriberRepository $subscriberRepository,
+        LoggerInterface $logger
     ): Response {
         $id = $request->get('id');
 
@@ -117,6 +142,12 @@ class SignUpController extends AbstractController
 
         try {
             $this->emailVerifier->handleEmailConfirmation($request, $subscriber);
+            $logger->info(
+                'ACCOUNT_VALIDATED',
+                [
+                    'user' => $subscriber->getEmail(),
+                ]
+            );
             $this->addFlash('account_activated', '');
         } catch (Exception $exception) {
             $this->addFlash('verify_email_error', '');

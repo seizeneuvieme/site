@@ -4,6 +4,7 @@ namespace App\Service;
 
 use Exception;
 use GuzzleHttp\Client;
+use Psr\Log\LoggerInterface;
 use SendinBlue\Client\Api\TransactionalEmailsApi;
 use SendinBlue\Client\Configuration;
 use SendinBlue\Client\Model\GetSmtpTemplateOverview;
@@ -17,7 +18,8 @@ class SendInBlueApiService
     public const RESET_PASSWORD_TEMPLATE_ID = 5;
 
     public function __construct(
-        private readonly string $apiKey
+        private readonly string $apiKey,
+        private readonly LoggerInterface $logger
     ) {
     }
 
@@ -30,8 +32,23 @@ class SendInBlueApiService
         );
 
         try {
+            $this->logger->info(
+                'GET_TEMPLATE',
+                [
+                    'templateId' => $templateId,
+                ]
+            );
+
             return $apiInstance->getSmtpTemplate($templateId);
         } catch (Exception $e) {
+            $this->logger->error(
+                'GET_TEMPLATE_ERROR',
+                [
+                    'exception'  => $e,
+                    'templateId' => $templateId,
+                ]
+            );
+
             return null;
         }
     }
@@ -58,9 +75,23 @@ class SendInBlueApiService
 
         try {
             $apiInstance->sendTransacEmail($sendSmtpEmail);
+            $this->logger->info(
+                'EMAIL_SENT',
+                [
+                    'to' => $to,
+                ]
+            );
 
             return true;
         } catch (Exception $e) {
+            $this->logger->error(
+                'SEND_EMAIL_ERROR',
+                [
+                    'to'        => $to,
+                    'exception' => $e,
+                ]
+            );
+
             return false;
         }
     }

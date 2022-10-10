@@ -6,11 +6,11 @@ use App\DTO\SubscriberPasswordUpdate;
 use App\Entity\Subscriber;
 use App\Service\SendInBlueApiService;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
@@ -28,9 +28,9 @@ class ResetPasswordController extends AbstractController
     use ResetPasswordControllerTrait;
 
     public function __construct(
-        private ResetPasswordHelperInterface $resetPasswordHelper,
-        private EntityManagerInterface $entityManager,
-        private SendInBlueApiService $sendInBlueApiService
+        private readonly ResetPasswordHelperInterface $resetPasswordHelper,
+        private readonly EntityManagerInterface $entityManager,
+        private readonly SendInBlueApiService $sendInBlueApiService
     ) {
     }
 
@@ -38,7 +38,7 @@ class ResetPasswordController extends AbstractController
      * Display & process form to request a password reset.
      */
     #[Route('/', name: 'app_forgot_password_request')]
-    public function request(Request $request, MailerInterface $mailer, TranslatorInterface $translator): Response
+    public function request(Request $request, LoggerInterface $logger): Response
     {
         if ($this->isGranted('ROLE_USER') === true) {
             return $this->redirectToRoute('app_account');
@@ -46,6 +46,13 @@ class ResetPasswordController extends AbstractController
 
         if ($request->isMethod('POST')) {
             $email = $request->request->get('_username') ?? '';
+
+            $logger->info(
+                'RESET_PASSWORD_REQUESTED',
+                [
+                    'user' => $email,
+                ]
+            );
 
             return $this->processSendingPasswordResetEmail("$email");
         }
@@ -78,7 +85,7 @@ class ResetPasswordController extends AbstractController
      * Validates and process the reset URL that the user clicked in their email.
      */
     #[Route('/reinitialisation/{token}', name: 'app_reset_password')]
-    public function reset(Request $request, ValidatorInterface $validator, UserPasswordHasherInterface $passwordHasher, TranslatorInterface $translator, string $token = null): Response
+    public function reset(Request $request, ValidatorInterface $validator, UserPasswordHasherInterface $passwordHasher, TranslatorInterface $translator, LoggerInterface $logger, string $token = null): Response
     {
         if ($this->isGranted('ROLE_USER') === true) {
             return $this->redirectToRoute('app_account');
@@ -122,6 +129,13 @@ class ResetPasswordController extends AbstractController
 
             $errors = $validator->validate($subscriberPasswordUpdate);
             if (0 < $errors->count()) {
+                $logger->error(
+                    'RESET_PASSWORD_ERROR',
+                    [
+                        'error' => $errors,
+                    ]
+                );
+
                 return $this->render('reset_password/reset.html.twig', [
                     'error' => true,
                 ]);
@@ -141,6 +155,12 @@ class ResetPasswordController extends AbstractController
              */
             $subscriber->setPassword($encodedPassword);
             $this->entityManager->flush();
+            $logger->info(
+                'PASSWORD_RESETTED',
+                [
+                    'user' => $subscriber->getEmail(),
+                ]
+            );
 
             // The session is cleaned up after the password has been changed.
             $this->cleanSessionAfterReset();

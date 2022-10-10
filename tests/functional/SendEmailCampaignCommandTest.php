@@ -13,6 +13,8 @@ use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
 use Faker\Factory;
+use Monolog\Handler\TestHandler;
+use Monolog\Logger;
 use SendinBlue\Client\Model\GetSmtpTemplateOverview;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -20,9 +22,12 @@ use Symfony\Component\Console\Tester\CommandTester;
 
 class SendEmailCampaignCommandTest extends KernelTestCase
 {
+    private readonly TestHandler $logger;
+
     public function setUp(): void
     {
         parent::setUp();
+
         $container = static::getContainer();
         /**
          * @var EntityManagerInterface $entityManager
@@ -39,6 +44,10 @@ class SendEmailCampaignCommandTest extends KernelTestCase
             ->withRoles(['ROLE_ADMIN'])
             ->withIsVerified(true)
             ->insert();
+
+        $log          = new Logger('test');
+        $this->logger = new TestHandler();
+        $log->pushHandler($this->logger);
     }
 
     /**
@@ -115,17 +124,55 @@ class SendEmailCampaignCommandTest extends KernelTestCase
         // Assert
         $commandTester->assertCommandIsSuccessful();
         $output = $commandTester->getDisplay();
-        $this->assertStringContainsString(
-            "[INFO] Sending campaign $campaignToSendName...",
-            $output
+
+        $this->logger->hasInfo(
+            [
+                'message' => 'BEGIN_SEND_EMAIL_CAMPAIGN_COMMAND',
+                'context' => [],
+            ]
         );
-        $this->assertStringContainsString(
-            '[INFO] Email(s) sent : 1',
-            $output
+        $this->logger->hasInfo(
+            [
+                'message' => 'PROCESS_CAMPAIGNS',
+                'context' => [
+                    'campaignsToSend' => 1,
+                ],
+            ]
         );
-        $this->assertStringContainsString(
-            "[OK] Campaign $campaignToSendName sent!",
-            $output
+        $this->logger->hasInfo(
+            [
+                'message' => 'PROCESS_CAMPAIGN',
+                'context' => [
+                    'campaignId'   => $campaign->getId(),
+                    'campaignName' => $campaign->getName(),
+                ],
+            ]
+        );
+        $this->logger->hasInfo(
+            [
+                'message' => 'CAMPAIGN_SENT',
+                'context' => [
+                    'campaignId'   => $campaign->getId(),
+                    'campaignName' => $campaign->getName(),
+                    'emailSent'    => 1,
+                    'emailError'   => 0,
+                ],
+            ]
+        );
+        $this->logger->hasInfo(
+            [
+                'message' => 'CAMPAIGN_PROCESSED',
+                'context' => [
+                    'campaignId'   => $campaign->getId(),
+                    'campaignName' => $campaign->getName(),
+                ],
+            ]
+        );
+        $this->logger->hasInfo(
+            [
+                'message' => 'END_SEND_EMAIL_CAMPAIGN_COMMAND',
+                'context' => [],
+            ]
         );
     }
 }
