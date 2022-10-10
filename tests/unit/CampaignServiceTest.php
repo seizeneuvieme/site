@@ -174,7 +174,7 @@ class CampaignServiceTest extends TestCase
         );
 
         $sendInBlueApiService
-            ->expects(self::once())
+            ->expects(self::exactly(2))
             ->method('getTemplate')
             ->willReturn(new GetSmtpTemplateOverview());
 
@@ -184,7 +184,7 @@ class CampaignServiceTest extends TestCase
             ->willReturn([$subscriber]);
 
         $sendInBlueApiService
-            ->expects(self::once())
+            ->expects(self::exactly(2))
             ->method('sendTransactionalEmail')
             ->willReturn(true);
 
