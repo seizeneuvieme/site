@@ -118,13 +118,13 @@ class SendEmailCampaignCommandTest extends KernelTestCase
 
         $sendInBlueApiService = $this->createMock(SendInBlueApiService::class);
         $sendInBlueApiService
-            ->expects(self::once())
+            ->expects(self::exactly(2))
             ->method('getTemplate')
             ->willReturn(
                 new GetSmtpTemplateOverview()
             );
         $sendInBlueApiService
-            ->expects(self::once())
+            ->expects(self::exactly(2))
             ->method('sendTransactionalEmail')
             ->willReturn(true);
         $container->set(SendInBlueApiService::class, $sendInBlueApiService);

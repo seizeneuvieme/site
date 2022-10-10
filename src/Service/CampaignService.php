@@ -93,6 +93,20 @@ class CampaignService
         $campaign->setNumberSent($numberEmailSent);
         $campaign->setState(Campaign::SENT_STATE);
         $this->entityManager->flush();
+
+        $template = $this->sendInBlueApiService->getTemplate(SendInBlueApiService::CONFIRM_CAMPAIGN_SENT);
+        if ($template === null) {
+            throw new Exception('Confirm campaign template id not found.');
+        }
+        $this->sendInBlueApiService->sendTransactionalEmail(
+            $template,
+            SendInBlueApiService::CONFIRM_CAMPAIGN_TO,
+            [
+                'CAMPAIGN_NAME'  => $campaign->getName(),
+                'MAILS_SENT'     => $numberEmailSent,
+                'MAILS_IN_ERROR' => $numberOfErrors,
+            ]
+        );
         $this->logger->info('CAMPAIGN_SENT', [
             'campaignId'   => $campaign->getId(),
             'campaignName' => $campaign->getName(),
