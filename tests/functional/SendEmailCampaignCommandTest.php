@@ -44,6 +44,10 @@ class SendEmailCampaignCommandTest extends KernelTestCase
             ->withRoles(['ROLE_ADMIN'])
             ->withIsVerified(true)
             ->insert();
+        (new SubscriberBuilder($connection))
+            ->withEmail('doc@doc.com')
+            ->withIsVerified(true)
+            ->insert();
 
         $log          = new Logger('test');
         $this->logger = new TestHandler();
@@ -72,6 +76,10 @@ class SendEmailCampaignCommandTest extends KernelTestCase
             'email' => 'marty@mcfly.com',
         ]);
 
+        $subscriber2 = $subscriberRepository->findOneBy([
+            'email' => 'doc@doc.com',
+        ]);
+
         /**
          * @var Connection $connection
          */
@@ -79,6 +87,11 @@ class SendEmailCampaignCommandTest extends KernelTestCase
         (new ChildBuilder($connection))
             ->withSubscriberId($subscriber->getId())
             ->withBirthDate(new DateTime('-3 years'))
+            ->insert();
+
+        (new ChildBuilder($connection))
+            ->withSubscriberId($subscriber2->getId())
+            ->withBirthDate(new DateTime('-13 years'))
             ->insert();
 
         /**
