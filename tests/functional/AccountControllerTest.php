@@ -820,8 +820,6 @@ class AccountControllerTest extends AbstractWebTestCase
         $csrfToken = static::getContainer()->get('security.csrf.token_generator')->generateToken();
         $this->setLoginSessionValue(SessionTokenStorage::SESSION_NAMESPACE."/$tokenId", $csrfToken);
 
-
-
         // Act
         $this->client->request(
             'POST',

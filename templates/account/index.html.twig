@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Mon compte - Le Réhausseur{% endblock %}
+{% block title %}Mon compte | Le Réhausseur{% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
@@ -43,7 +43,7 @@
                                 <div class="alert alert-primary-2" role="alert">
                                     <p>
                                         ⚠️ Une erreur est survenue pendant la vérification de ton compte <br/>
-                                        En cas de problème, <a href="mailto:contact@lerehausseur.fr" alt="Contacter Le Réhausseur">contacte-nous</a> :)
+                                        En cas de problème, <a href="mailto:fanny@lerehausseur.fr" alt="Contacter Le Réhausseur">contacte-moi</a> :)
                                     </p>
                                 </div>
                             {% endfor %}
@@ -88,7 +88,7 @@
                                 <div class="alert alert-success" role="alert">
                                     <p>
                                         ⚠️ Une erreur est survenue pendant la suppression de ton compte<br/>
-                                        En cas de problème, <a href="mailto:contact@lerehausseur.fr" alt="Contacter Le Réhausseur">contacte-nous</a> :)                                    </p>
+                                        En cas de problème, <a href="mailto:fanny@lerehausseur.fr" alt="Contacter Le Réhausseur">contacte-moi</a> :)                                    </p>
                                 </div>
                             {% endfor %}
                         {% endif %}
@@ -102,16 +102,22 @@
                             <table class="table table-borderless mt-2 mb-2" style="--bs-table-accent-bg: inherit">
                                 <tbody>
                                     <tr>
-                                        <td colspan="3"><strong>Mes informations personnelles :</strong></td>
+                                        <td colspan="3"><strong>Mes informations personnelles</strong></td>
                                     </tr>
                                     <tr>
                                         <td><small>Email :</small></td>
+                                    </tr>
+                                    <tr>
                                         <td>{{ subscriber.email }}</td>
+                                        <td></td>
                                         <td class="text-right"><a href="{{ path('app_update_email') }}">modifier</a></td>
                                     </tr>
                                     <tr>
                                         <td><small>Mot de passe :</small></th>
+                                    </tr>
+                                    <tr>
                                         <td>********</td>
+                                        <td></td>
                                         <td class="text-right"><a href="{{ path('app_update_password') }}">modifier</a></td>
                                     </tr>
                                 </tbody>
@@ -121,16 +127,20 @@
                             <table class="table table-borderless mt-2 mb-2" style="--bs-table-accent-bg: inherit">
                                 <tbody>
                                     <tr>
-                                        <td colspan="3" class="text-left"><strong>Mes coordonnées :</strong></td>
+                                        <td colspan="3" class="text-left"><strong>Mes coordonnées</strong></td>
                                         <td colspan="2" class="text-right"><a href="{{ path('app_update_user_infos') }}">modifier</a></td>
                                     </tr>
                                     <tr>
                                         <td><small>Prénom :</small></td>
+                                    </tr>
+                                    <tr>
                                         <td colspan="2" class="text-left">{{ subscriber.firstname }}</td>
                                         <td></td>
                                     </tr>
                                     <tr>
                                         <td><small>Ville :</small></td>
+                                    </tr>
+                                    <tr>
                                         <td colspan="2" class="text-left">{{ subscriber.city }}</td>
                                         <td></td>
                                     </tr>
@@ -182,7 +192,7 @@
                             <table class="table table-borderless mt-2 mb-2" style="--bs-table-accent-bg: inherit">
                                 <tbody>
                                     <tr>
-                                        <td colspan="3"><strong>Mes enfants :</strong></td>
+                                        <td colspan="3"><strong>Mes enfants</strong></td>
                                     </tr>
                                     {% for child in subscriber.childs %}
                                         <tr>
@@ -203,7 +213,7 @@
                                                         <div class="m-2 text-center">
                                                             <div class="mx-3">
                                                                 <h5 class="mb-1">Confirmation</h5>
-                                                                <p>ℹ️ Tu ne recevras plus de recommandation de films pour {{ child.firstname }}</p>
+                                                                <p>ℹ️ Tu ne recevras plus de recommandations de films pour {{ child.firstname }}</p>
                                                             </div>
                                                             <form action="{{ path('app_remove_child') }}" method="POST">
                                                                 <input name="child-id" value="{{ child.id }}" hidden>
@@ -232,7 +242,7 @@
                             <table class="table table-borderless mt-2 mb-2" style="--bs-table-accent-bg: inherit">
                                 <tbody>
                                     <tr>
-                                        <td colspan="3"><strong>Mes plateformes de streaming payantes :</strong></td>
+                                        <td colspan="3"><strong>Mes plateformes de streaming payantes</strong></td>
                                         <td colspan="2" class="text-right"><a href="{{ path('app_update_platforms') }}">modifier</a></td>
                                     </tr>
                                     {% for platform in subscriber.platforms %}
@@ -302,8 +312,7 @@
                                                 <div class="m-2 text-center">
                                                     <div class="col-lg-10" style="margin: auto;">
                                                         <h5 class="mb-1">Me désabonner</h5>
-                                                        <p>Nous sommes triste d'apprendre que tu souhaites partir...</p>
-                                                        <p>ℹ️ En te désabonnant, ton compte sera entièrement supprimé. Toutes tes données seront effacées et ne seront pas conservées. Tu pourras bien entendu te réinscrire à tout moment, et nous serons heureux de t'accueillir à nouveau ! </p>
+                                                        <p>ℹ️ En te désabonnant, ton compte sera entièrement supprimé. Toutes tes données seront effacées et ne seront pas conservées. Tu pourras bien entendu te réinscrire à tout moment ! </p>
                                                     </div>
                                                     <div class="col-lg-8" style="margin: auto;">
                                                         <form action="{{ path('app_remove_account') }}" method="POST">

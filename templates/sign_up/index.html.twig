@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}S'abonner à la newsletter - Le Réhausseur{% endblock %}
+{% block title %}S'abonner à la newsletter | Le Réhausseur{% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
@@ -25,7 +25,7 @@
                 </div>
               {% elseif error is defined %}
                 <div class="alert alert-primary invalid-form" role="alert">
-                  Formulaire invalide. <br/>En cas de problème, <a href="mailto:contact@lerehausseur.fr" alt="Contacter Le Réhausseur">contacte-nous</a> :)
+                  Formulaire invalide. <br/>En cas de problème, <a href="mailto:fanny@lerehausseur.fr" alt="Contacter Le Réhausseur">contacte-moi</a> :)
                 </div>
               {% endif %}
             </div>
@@ -76,7 +76,7 @@
                       <small>En sachant dans quelle ville tu habites, je pourrais t'envoyer des actualités sur les évennements dans ta région (festivals...) :</small><br/><br/>
                       <div class="form-group">
                         <input name="city"  id="city" class="sign-up-form form-control step-2" list="city-datalist" placeholder="Ta ville">
-                        <small id="city-control-label" class="text-primary" style="display:none;">Dis-nous où tu habites</small>
+                        <small id="city-control-label" class="text-primary" style="display:none;">Dis-moi où tu habites</small>
                         <datalist id="city-datalist">
                         </datalist>
                         <input name="city-details"  id="city-details" class="sign-up-form form-control" hidden>

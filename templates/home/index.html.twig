@@ -8,25 +8,26 @@
 
     {% include './partials/header.html.twig' %}
 
-    <section class="pt-0 bg-primary-alt has-divider">
+    <section class="pt-3 bg-primary-alt has-divider">
       <div class="container" style="padding-bottom: 0;">
         <div class="row justify-content-center text-center">
           <div class="col-xl-8 col-lg-9 col-md-10">
-            <h1 class="display-4">Chaque semaine, <span style="color: #ff2e3d">reçois une sélection de films choisis pour tes enfants ✉️</span></h1>
+            <h1 class="display-4">Des films à la<br> <span style="color: #ff2e3d"> hauteur des enfants</span></h1>
+            <h6>Abonne-toi à la newsletter Le Réhausseur et reçois régulièrement une sélection de films à regarder, spécialement choisis pour tes enfants ✉ 🎥 🧒 </h6>
             <form action="{{ path('app_sign_up') }}" method="GET">
               <div class="d-flex flex-column flex-sm-row justify-content-center align-items-center align-items-sm-start mt-5">
                 <input class="form-control form-control-lg" type="text" placeholder="Ton adresse email" name="email">
               </div>
               <div class="d-flex flex-column flex-sm-row justify-content-center align-items-center align-items-sm-start mt-5">
-                <button class="mx-1 btn btn-lg btn-primary text-white mt-sm-0" type="submit">JE M'ABONNE</button>
+                <button class="mx-1 btn btn-lg btn-primary text-white mt-sm-0" type="submit">Je m'abonne !</button>
               </div>
             </form>
-            <div class="d-flex flex-column flex-sm-row justify-content-center align-items-center align-items-sm-start mt-5">
-              <p> 
-                Le Réhausseur s’engage à ne jamais transmettre ton adresse e-mail à des fins promotionnelles. 
+            <div class="d-flex flex-column flex-sm-row justify-content-center align-items-center align-items-sm-start mt-4 mb-3">
+              <small class="font-weight-light">
+                Le Réhausseur s’engage à ne jamais transmettre ton adresse e-mail à des fins promotionnelles.
                 <br/>
                 Tu pourras te désinscrire à tout moment en un clic.
-              </p>
+              </small>
             </div>
           </div>
         </div>
@@ -41,8 +42,8 @@
     <section style="padding-bottom: 0;">
       <div class="container">
         <div class="row justify-content-center">
-          <div class="col-xl-9 text-center">
-            <h2 class="display-4 mx-xl-6">Pourquoi choisir <span style="font-family: 'Grand Hotel'; color: #ff2e3d">Le Réhausseur</span></h2>
+          <div class="col-xl-10 text-center">
+            <h2 class="display-4 mx-xl-6">Pourquoi choisir<br> <span style="font-family: 'Grand Hotel'; color: #ff2e3d">Le Réhausseur</span> ?</h2>
           </div>
         </div>
         <div class="row justify-content-between align-items-center my-6">
@@ -57,7 +58,8 @@
               <div class="ml-3-desktop">
                 <h5>Gagne du temps</h5>
                 <p>
-                  Voluptatem accusantium doloremque laudantium, totam rem aperiam.
+                  Grâce au Réhausseur, ne perds plus ton temps à rechercher le film idéal pour tes enfants. Reçois des recommandations de films directement
+                  dans ta boîte mail : TV, internet, Netflix, Disney+, cinéma... tous les médias sont passés au peigne fin.
                 </p>
               </div>
             </div>
@@ -66,25 +68,28 @@
               <div class="ml-3-desktop">
                 <h5>Des contenus adaptés et personnalisés</h5>
                 <p>
-                  Voluptatem accusantium doloremque laudantium, totam rem aperiam.
+                  Nos sélections de films sont faites par une professionnelle du cinéma jeune public, s'adaptent automatiquement à l'âge de tes enfants, et aux plateformes de streaming payantes auxquelles
+                  tu es éventuellement abonné(e) (Netflix et Disney+).
                 </p>
               </div>
             </div>
             <div class="d-flex mb-4 feature" >
               <div class="process-circle bg-primary-3">❤️</div>
               <div class="ml-3-desktop">
-                <h5> Les sorties cinéma à partager en famille</h5>
+                <h5> Les événements cinéma à partager en famille</h5>
                 <p>
-                  Voluptatem accusantium doloremque laudantium, totam rem aperiam.
+                  Tu recevras également les sorties de films pour enfants à ne pas manquer au cinéma, mais aussi des événements
+                  auxquels participer autour de chez toi (avant-premières, festivals...).
                 </p>
               </div>
-            </div> 
+            </div>
             <div class="d-flex mb-4 feature " >
               <div class="process-circle bg-primary-3">🎥</div>
               <div class="ml-3-desktop">
-                <h5>Prends de la hauteur !</h5>
+                <h5>Prends de la hauteur</h5>
                 <p>
-                  Voluptatem accusantium doloremque laudantium, totam rem aperiam.
+                  Montre des films qui feront grandir tes enfants ! Que ce soit un grand classique du cinéma ou la nouveauté à ne pas rater,
+                  Le Réhausseur te donnera toutes les raisons de les (re)visionner.
                 </p>
               </div>
             </div>
@@ -146,302 +151,6 @@
         </div>
       </div>
     </section>
-    <section class="pt-0 has-divider bg-primary-3">
-      <div class="divider flip-y">
-        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100%" height="96px" viewBox="0 0 100 100" version="1.1" preserveAspectRatio="none" class="injected-svg" data-src="assets/img/dividers/divider-3.svg">
-          <path d="M0,0 C6.83050094,50 15.1638343,75 25,75 C41.4957514,75 62.4956597,0 81.2456597,0 C93.7456597,0 99.9971065,0 100,0 L100,100 L0,100"></path>
-        </svg>
-      </div>
-      <div class="container">
-        <div class="row justify-content-center text-center">
-          <div class="col-xl-8 col-lg-9">
-            <h2 class="display-4 mx-xl-6">Combien <span style="color: #ff2e3d">ça coûte ?</span></h2>
-            <p class="lead">
-              Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa.
-            </p>
-            <br/>
-            <div class="row align-items-center">
-              <div class="col-md-6" style="margin: 1rem 0 1rem 0;">
-                <div class="card card-body align-items-center ">
-                  <div class="pt-md-2">
-                    <h4>Mensuel</h4>
-                  </div>
-                  <div class="d-flex align-items-start pb-md-2">
-                    <span class="display-4 mb-0">3</span>
-                    <span class="h3">€</span>
-                  </div>
-                  <span class="text-small text-muted">Sans engagement</span>
-                  <ul class="text-center list-unstyled my-2 my-md-4">
-                    <li class="py-1">
-                      <span>10k Visitors/mo</span>
-                    </li>
-                    <li class="py-1">
-                      <span>10 Funnels, 50 Pages</span>
-                    </li>
-                    <li class="py-1">
-                      <span>Unlimited Transactions</span>
-                    </li>
-                    <li class="py-1">
-                      <span>Analytics</span>
-                    </li>
-                    <li class="py-1">
-                      <span>Integrations</span>
-                    </li>
-                    <li class="py-1">
-                      <span class="text-muted text-strikethrough">Audience Data</span>
-                    </li>
-                    <li class="py-1">
-                      <span class="text-muted text-strikethrough">Premium Templates</span>
-                    </li>
-                    <li class="py-1">
-                      <span class="text-muted text-strikethrough">White Labelling</span>
-                    </li>
-                  </ul>
-                  <a href="#" class="btn btn-primary text-white">
-                    Get Basic
-                  </a>
-                </div>
-              </div>
-              <div class="col-md-6" style="margin: 1rem 0 1rem 0;">
-                <div class="card card-body align-items-center shadow-3d">
-                  <span class="badge badge-top badge-primary-2">2 mois offerts</span>
-                  <div class="pt-md-2">
-                    <h4>Annuel</h4>
-                  </div>
-                  <div class="d-flex align-items-start pb-md-2">
-                    <span class="display-4 mb-0">30</span>
-                    <span class="h3">€</span>
-                  </div>
-                  <span class="text-small text-muted">Sans engagement</span>
-                  <ul class="text-center list-unstyled my-2 my-md-4">
-                    <li class="py-1">
-                      <span>10k Visitors/mo</span>
-                    </li>
-                    <li class="py-1">
-                      <span>10 Funnels, 50 Pages</span>
-                    </li>
-                    <li class="py-1">
-                      <span>Unlimited Transactions</span>
-                    </li>
-                    <li class="py-1">
-                      <span>Analytics</span>
-                    </li>
-                    <li class="py-1">
-                      <span>Integrations</span>
-                    </li>
-                    <li class="py-1">
-                      <span>Audience Data</span>
-                    </li>
-                    <li class="py-1">
-                      <span>Premium Templates</span>
-                    </li>
-                    <li class="py-1">
-                      <span class="text-muted text-strikethrough">White Labelling</span>
-                    </li>
-                  </ul>
-                  <a href="#" class="btn btn-primary text-white">
-                    Get Pro
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="divider">
-        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100%" height="96px" viewBox="0 0 100 100" version="1.1" preserveAspectRatio="none" class="injected-svg bg-white" data-src="assets/img/dividers/divider-1.svg">
-     <path d="M0,0 C40,33 66,52 75,52 C83,52 92,33 100,0 L100,100 L0,100 L0,0 Z"></path>
-</svg>
-      </div>
-    </section>
-    <section style="padding-bottom:2rem;">
-      <div class="container">
-        <div class="row justify-content-center">
-          <div class="col-xl-9 text-center">
-            <h2 class="display-4 mx-xl-6">Les réponses à  <span style="color: #ff2e3d">vos questions</span></h2>
-          </div>
-          <div class="col-xl-8 col-lg-9">
-            <div class="my-4">
-            <div class="card card-sm card-body shadow-3d mb-4">
-              <div data-target="#panel-1" class="accordion-panel-title collapsed" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="panel-1">
-                <span class="h6 mb-0">Qui se cache derrière Le Réhausseur ?</span>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="injected-svg icon" data-src="assets/img/icons/interface/plus.svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                  <path d="M19 11H5C4.44772 11 4 11.4477 4 12C4 12.5523 4.44772 13 5 13H19C19.5523 13 20 12.5523 20 12C20 11.4477 19.5523 11 19 11Z" fill="#212529"></path>
-                  <path d="M13 19L13 5C13 4.44772 12.5523 4 12 4C11.4477 4 11 4.44772 11 5L11 19C11 19.5523 11.4477 20 12 20C12.5523 20 13 19.5523 13 19Z" fill="#212529"></path>
-                </svg>
-              </div>
-              <div class="collapse" id="panel-1" style="">
-                <div class="pt-3">
-                  <p class="mb-0">
-                    Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div class="card card-sm card-body shadow-3d mb-4">
-              <div data-target="#panel-2" class="accordion-panel-title collapsed" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="panel-1">
-                <span class="h6 mb-0">La période d'essai est-elle vraiment gratuite ?</span>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="injected-svg icon" data-src="assets/img/icons/interface/plus.svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                  <path d="M19 11H5C4.44772 11 4 11.4477 4 12C4 12.5523 4.44772 13 5 13H19C19.5523 13 20 12.5523 20 12C20 11.4477 19.5523 11 19 11Z" fill="#212529"></path>
-                  <path d="M13 19L13 5C13 4.44772 12.5523 4 12 4C11.4477 4 11 4.44772 11 5L11 19C11 19.5523 11.4477 20 12 20C12.5523 20 13 19.5523 13 19Z" fill="#212529"></path>
-                </svg>
-              </div>
-              <div class="collapse" id="panel-2" style="">
-                <div class="pt-3">
-                  <p class="mb-0">
-                    Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div class="card card-sm card-body shadow-3d mb-4">
-              <div data-target="#panel-3" class="accordion-panel-title collapsed" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="panel-1">
-                <span class="h6 mb-0">Pourquoi une telle différence de prix entre l'abonnement annuel et mensuel, alors que je recevrai la même newsletter ?</span>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="injected-svg icon" data-src="assets/img/icons/interface/plus.svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                  <path d="M19 11H5C4.44772 11 4 11.4477 4 12C4 12.5523 4.44772 13 5 13H19C19.5523 13 20 12.5523 20 12C20 11.4477 19.5523 11 19 11Z" fill="#212529"></path>
-                  <path d="M13 19L13 5C13 4.44772 12.5523 4 12 4C11.4477 4 11 4.44772 11 5L11 19C11 19.5523 11.4477 20 12 20C12.5523 20 13 19.5523 13 19Z" fill="#212529"></path>
-                </svg>
-              </div>
-              <div class="collapse" id="panel-3" style="">
-                <div class="pt-3">
-                  <p class="mb-0">
-                    Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div class="card card-sm card-body shadow-3d mb-4">
-              <div data-target="#panel-4" class="accordion-panel-title collapsed" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="panel-2">
-                <span class="h6 mb-0">Quels sont les moyens de paiements acceptés pour régler l'abonnement ?</span>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="injected-svg icon" data-src="assets/img/icons/interface/plus.svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                  <path d="M19 11H5C4.44772 11 4 11.4477 4 12C4 12.5523 4.44772 13 5 13H19C19.5523 13 20 12.5523 20 12C20 11.4477 19.5523 11 19 11Z" fill="#212529"></path>
-                  <path d="M13 19L13 5C13 4.44772 12.5523 4 12 4C11.4477 4 11 4.44772 11 5L11 19C11 19.5523 11.4477 20 12 20C12.5523 20 13 19.5523 13 19Z" fill="#212529"></path>
-                </svg>
-              </div>
-              <div class="collapse" id="panel-4" style="">
-                <div class="pt-3">
-                  <p class="mb-0">
-                    Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div class="card card-sm card-body shadow-3d mb-4">
-              <div data-target="#panel-5" class="accordion-panel-title collapsed" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="panel-2">
-                <span class="h6 mb-0">Et si je veux me désabonner ?</span>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="injected-svg icon" data-src="assets/img/icons/interface/plus.svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                  <path d="M19 11H5C4.44772 11 4 11.4477 4 12C4 12.5523 4.44772 13 5 13H19C19.5523 13 20 12.5523 20 12C20 11.4477 19.5523 11 19 11Z" fill="#212529"></path>
-                  <path d="M13 19L13 5C13 4.44772 12.5523 4 12 4C11.4477 4 11 4.44772 11 5L11 19C11 19.5523 11.4477 20 12 20C12.5523 20 13 19.5523 13 19Z" fill="#212529"></path>
-                </svg>
-              </div>
-              <div class="collapse" id="panel-5" style="">
-                <div class="pt-3">
-                  <p class="mb-0">
-                    Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div class="card card-sm card-body shadow-3d mb-4">
-              <div data-target="#panel-6" class="accordion-panel-title collapsed" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="panel-2">
-                <span class="h6 mb-0">Si j'arrête avant l'échéance, serai-je remboursé-e ?</span>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="injected-svg icon" data-src="assets/img/icons/interface/plus.svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                  <path d="M19 11H5C4.44772 11 4 11.4477 4 12C4 12.5523 4.44772 13 5 13H19C19.5523 13 20 12.5523 20 12C20 11.4477 19.5523 11 19 11Z" fill="#212529"></path>
-                  <path d="M13 19L13 5C13 4.44772 12.5523 4 12 4C11.4477 4 11 4.44772 11 5L11 19C11 19.5523 11.4477 20 12 20C12.5523 20 13 19.5523 13 19Z" fill="#212529"></path>
-                </svg>
-              </div>
-              <div class="collapse" id="panel-6" style="">
-                <div class="pt-3">
-                  <p class="mb-0">
-                    Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div class="card card-sm card-body shadow-3d mb-4">
-              <div data-target="#panel-7" class="accordion-panel-title collapsed" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="panel-2">
-                <span class="h6 mb-0">J’ai souscrit une période d’essai, mais je ne reçois pas la newsletter</span>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="injected-svg icon" data-src="assets/img/icons/interface/plus.svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                  <path d="M19 11H5C4.44772 11 4 11.4477 4 12C4 12.5523 4.44772 13 5 13H19C19.5523 13 20 12.5523 20 12C20 11.4477 19.5523 11 19 11Z" fill="#212529"></path>
-                  <path d="M13 19L13 5C13 4.44772 12.5523 4 12 4C11.4477 4 11 4.44772 11 5L11 19C11 19.5523 11.4477 20 12 20C12.5523 20 13 19.5523 13 19Z" fill="#212529"></path>
-                </svg>
-              </div>
-              <div class="collapse" id="panel-7" style="">
-                <div class="pt-3">
-                  <p class="mb-0">
-                    Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div class="card card-sm card-body shadow-3d mb-4">
-              <div data-target="#panel-8" class="accordion-panel-title collapsed" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="panel-2">
-                <span class="h6 mb-0">Comment modifier mon e-mail, mon mot de passe ou mes informations personnelles ?</span>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="injected-svg icon" data-src="assets/img/icons/interface/plus.svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                  <path d="M19 11H5C4.44772 11 4 11.4477 4 12C4 12.5523 4.44772 13 5 13H19C19.5523 13 20 12.5523 20 12C20 11.4477 19.5523 11 19 11Z" fill="#212529"></path>
-                  <path d="M13 19L13 5C13 4.44772 12.5523 4 12 4C11.4477 4 11 4.44772 11 5L11 19C11 19.5523 11.4477 20 12 20C12.5523 20 13 19.5523 13 19Z" fill="#212529"></path>
-                </svg>
-              </div>
-              <div class="collapse" id="panel-8" style="">
-                <div class="pt-3">
-                  <p class="mb-0">
-                    Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div class="card card-sm card-body shadow-3d mb-4">
-              <div data-target="#panel-9" class="accordion-panel-title collapsed" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="panel-2">
-                <span class="h6 mb-0">Je souhaite offrir un abonnement à un proche</span>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="injected-svg icon" data-src="assets/img/icons/interface/plus.svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                  <path d="M19 11H5C4.44772 11 4 11.4477 4 12C4 12.5523 4.44772 13 5 13H19C19.5523 13 20 12.5523 20 12C20 11.4477 19.5523 11 19 11Z" fill="#212529"></path>
-                  <path d="M13 19L13 5C13 4.44772 12.5523 4 12 4C11.4477 4 11 4.44772 11 5L11 19C11 19.5523 11.4477 20 12 20C12.5523 20 13 19.5523 13 19Z" fill="#212529"></path>
-                </svg>
-              </div>
-              <div class="collapse" id="panel-9" style="">
-                <div class="pt-3">
-                  <p class="mb-0">
-                    Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div class="card card-sm card-body shadow-3d mb-4">
-              <div data-target="#panel-10" class="accordion-panel-title collapsed" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="panel-2">
-                <span class="h6 mb-0">On m'a offert un abonnement, mais je n'ai rien reçu</span>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="injected-svg icon" data-src="assets/img/icons/interface/plus.svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                  <path d="M19 11H5C4.44772 11 4 11.4477 4 12C4 12.5523 4.44772 13 5 13H19C19.5523 13 20 12.5523 20 12C20 11.4477 19.5523 11 19 11Z" fill="#212529"></path>
-                  <path d="M13 19L13 5C13 4.44772 12.5523 4 12 4C11.4477 4 11 4.44772 11 5L11 19C11 19.5523 11.4477 20 12 20C12.5523 20 13 19.5523 13 19Z" fill="#212529"></path>
-                </svg>
-              </div>
-              <div class="collapse" id="panel-10" style="">
-                <div class="pt-3">
-                  <p class="mb-0">
-                    Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div class="card card-sm card-body shadow-3d mb-4">
-              <div data-target="#panel-11" class="accordion-panel-title collapsed" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="panel-2">
-                <span class="h6 mb-0">Comment Le Réhausseur respecte ma vie privée ?</span>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="injected-svg icon" data-src="assets/img/icons/interface/plus.svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                  <path d="M19 11H5C4.44772 11 4 11.4477 4 12C4 12.5523 4.44772 13 5 13H19C19.5523 13 20 12.5523 20 12C20 11.4477 19.5523 11 19 11Z" fill="#212529"></path>
-                  <path d="M13 19L13 5C13 4.44772 12.5523 4 12 4C11.4477 4 11 4.44772 11 5L11 19C11 19.5523 11.4477 20 12 20C12.5523 20 13 19.5523 13 19Z" fill="#212529"></path>
-                </svg>
-              </div>
-              <div class="collapse" id="panel-11" style="">
-                <div class="pt-3">
-                  <p class="mb-0">
-                    Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
 
     <section class="bg-primary-3 has-divider"  style="background-color: #fff2f3 !important;">
       <div class="divider flip-y">
@@ -449,204 +158,98 @@
             <path d="M0,0 C40,33 66,52 75,52 C83,52 92,33 100,0 L100,100 L0,100 L0,0 Z"></path>
         </svg>
       </div>
-      <div class="container">
-        <div class="row justify-content-center text-center mb-3">
+      <div class="container mb-3 pb-3">
+        <div class="row justify-content-center">
+          <div class="col-xl-9 text-center">
+            <h2 class="display-4 mx-xl-6">Les réponses à  <span style="color: #ff2e3d">tes questions</span></h2>
+          </div>
           <div class="col-xl-8 col-lg-9">
-            <h2 class="display-4 mx-xl-6">Ils l'ont déjà <span style="color: #ff2e3d">adoptée ❤️</span></h2>
-            <p class="lead">
-              Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa.
-            </p>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-6 col-lg-4">
-            <div class="card card-body">
-              <div class="d-flex mb-3">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="injected-svg icon bg-warning" data-src="assets/img/icons/interface/star.svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                  <path fill-rule="evenodd" clip-rule="evenodd" d="M12.3616 17.7407L8.27722 19.888C7.78838 20.145 7.18375 19.957 6.92675 19.4682C6.82441 19.2735 6.7891 19.0505 6.82627 18.8338L7.60632 14.2858L4.30199 11.0648C3.90651 10.6793 3.89841 10.0462 4.28391 9.65073C4.43742 9.49325 4.63856 9.39076 4.8562 9.35913L9.42268 8.69559L11.4649 4.55766C11.7093 4.0624 12.3089 3.85906 12.8042 4.10349C13.0014 4.20082 13.161 4.36044 13.2583 4.55766L15.3005 8.69559L19.867 9.35913C20.4136 9.43855 20.7922 9.94599 20.7128 10.4925C20.6812 10.7102 20.5787 10.9113 20.4212 11.0648L17.1169 14.2858L17.8969 18.8338C17.9903 19.3781 17.6247 19.8951 17.0804 19.9884C16.8636 20.0256 16.6406 19.9903 16.446 19.888L12.3616 17.7407Z" fill="#212529"></path>
-                </svg>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="injected-svg icon bg-warning" data-src="assets/img/icons/interface/star.svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                  <path fill-rule="evenodd" clip-rule="evenodd" d="M12.3616 17.7407L8.27722 19.888C7.78838 20.145 7.18375 19.957 6.92675 19.4682C6.82441 19.2735 6.7891 19.0505 6.82627 18.8338L7.60632 14.2858L4.30199 11.0648C3.90651 10.6793 3.89841 10.0462 4.28391 9.65073C4.43742 9.49325 4.63856 9.39076 4.8562 9.35913L9.42268 8.69559L11.4649 4.55766C11.7093 4.0624 12.3089 3.85906 12.8042 4.10349C13.0014 4.20082 13.161 4.36044 13.2583 4.55766L15.3005 8.69559L19.867 9.35913C20.4136 9.43855 20.7922 9.94599 20.7128 10.4925C20.6812 10.7102 20.5787 10.9113 20.4212 11.0648L17.1169 14.2858L17.8969 18.8338C17.9903 19.3781 17.6247 19.8951 17.0804 19.9884C16.8636 20.0256 16.6406 19.9903 16.446 19.888L12.3616 17.7407Z" fill="#212529"></path>
-                </svg>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="injected-svg icon bg-warning" data-src="assets/img/icons/interface/star.svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                  <path fill-rule="evenodd" clip-rule="evenodd" d="M12.3616 17.7407L8.27722 19.888C7.78838 20.145 7.18375 19.957 6.92675 19.4682C6.82441 19.2735 6.7891 19.0505 6.82627 18.8338L7.60632 14.2858L4.30199 11.0648C3.90651 10.6793 3.89841 10.0462 4.28391 9.65073C4.43742 9.49325 4.63856 9.39076 4.8562 9.35913L9.42268 8.69559L11.4649 4.55766C11.7093 4.0624 12.3089 3.85906 12.8042 4.10349C13.0014 4.20082 13.161 4.36044 13.2583 4.55766L15.3005 8.69559L19.867 9.35913C20.4136 9.43855 20.7922 9.94599 20.7128 10.4925C20.6812 10.7102 20.5787 10.9113 20.4212 11.0648L17.1169 14.2858L17.8969 18.8338C17.9903 19.3781 17.6247 19.8951 17.0804 19.9884C16.8636 20.0256 16.6406 19.9903 16.446 19.888L12.3616 17.7407Z" fill="#212529"></path>
-                </svg>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="injected-svg icon bg-warning" data-src="assets/img/icons/interface/star.svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                  <path fill-rule="evenodd" clip-rule="evenodd" d="M12.3616 17.7407L8.27722 19.888C7.78838 20.145 7.18375 19.957 6.92675 19.4682C6.82441 19.2735 6.7891 19.0505 6.82627 18.8338L7.60632 14.2858L4.30199 11.0648C3.90651 10.6793 3.89841 10.0462 4.28391 9.65073C4.43742 9.49325 4.63856 9.39076 4.8562 9.35913L9.42268 8.69559L11.4649 4.55766C11.7093 4.0624 12.3089 3.85906 12.8042 4.10349C13.0014 4.20082 13.161 4.36044 13.2583 4.55766L15.3005 8.69559L19.867 9.35913C20.4136 9.43855 20.7922 9.94599 20.7128 10.4925C20.6812 10.7102 20.5787 10.9113 20.4212 11.0648L17.1169 14.2858L17.8969 18.8338C17.9903 19.3781 17.6247 19.8951 17.0804 19.9884C16.8636 20.0256 16.6406 19.9903 16.446 19.888L12.3616 17.7407Z" fill="#212529"></path>
-                </svg>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="injected-svg icon bg-warning" data-src="assets/img/icons/interface/star.svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                  <path fill-rule="evenodd" clip-rule="evenodd" d="M12.3616 17.7407L8.27722 19.888C7.78838 20.145 7.18375 19.957 6.92675 19.4682C6.82441 19.2735 6.7891 19.0505 6.82627 18.8338L7.60632 14.2858L4.30199 11.0648C3.90651 10.6793 3.89841 10.0462 4.28391 9.65073C4.43742 9.49325 4.63856 9.39076 4.8562 9.35913L9.42268 8.69559L11.4649 4.55766C11.7093 4.0624 12.3089 3.85906 12.8042 4.10349C13.0014 4.20082 13.161 4.36044 13.2583 4.55766L15.3005 8.69559L19.867 9.35913C20.4136 9.43855 20.7922 9.94599 20.7128 10.4925C20.6812 10.7102 20.5787 10.9113 20.4212 11.0648L17.1169 14.2858L17.8969 18.8338C17.9903 19.3781 17.6247 19.8951 17.0804 19.9884C16.8636 20.0256 16.6406 19.9903 16.446 19.888L12.3616 17.7407Z" fill="#212529"></path>
-                </svg>
-              </div>
-              <div class="my-md-2 flex-grow-1">
-                <h4>
-                    “I couldn’t have done it without the team from Leap.”
-                </h4>
-              </div>
-              <div class="avatar-author align-items-center">
-                <div class="ml-2">
-                  <h6>Benjamin</h6>
+            <div class="my-4">
+              <div class="card card-sm card-body shadow-3d mb-4">
+                <div data-target="#panel-1" class="accordion-panel-title collapsed" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="panel-1">
+                  <span class="h6 mb-0">Qui se cache derrière Le Réhausseur ?</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="injected-svg icon" data-src="assets/img/icons/interface/plus.svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <path d="M19 11H5C4.44772 11 4 11.4477 4 12C4 12.5523 4.44772 13 5 13H19C19.5523 13 20 12.5523 20 12C20 11.4477 19.5523 11 19 11Z" fill="#212529"></path>
+                    <path d="M13 19L13 5C13 4.44772 12.5523 4 12 4C11.4477 4 11 4.44772 11 5L11 19C11 19.5523 11.4477 20 12 20C12.5523 20 13 19.5523 13 19Z" fill="#212529"></path>
+                  </svg>
+                </div>
+                <div class="collapse" id="panel-1" style="">
+                  <div class="pt-3">
+                    <p class="mb-0">
+                      Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+                    </p>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
-          <div class="col-md-6 col-lg-4">
-            <div class="card card-body">
-              <div class="d-flex mb-3">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="injected-svg icon bg-warning" data-src="assets/img/icons/interface/star.svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                  <path fill-rule="evenodd" clip-rule="evenodd" d="M12.3616 17.7407L8.27722 19.888C7.78838 20.145 7.18375 19.957 6.92675 19.4682C6.82441 19.2735 6.7891 19.0505 6.82627 18.8338L7.60632 14.2858L4.30199 11.0648C3.90651 10.6793 3.89841 10.0462 4.28391 9.65073C4.43742 9.49325 4.63856 9.39076 4.8562 9.35913L9.42268 8.69559L11.4649 4.55766C11.7093 4.0624 12.3089 3.85906 12.8042 4.10349C13.0014 4.20082 13.161 4.36044 13.2583 4.55766L15.3005 8.69559L19.867 9.35913C20.4136 9.43855 20.7922 9.94599 20.7128 10.4925C20.6812 10.7102 20.5787 10.9113 20.4212 11.0648L17.1169 14.2858L17.8969 18.8338C17.9903 19.3781 17.6247 19.8951 17.0804 19.9884C16.8636 20.0256 16.6406 19.9903 16.446 19.888L12.3616 17.7407Z" fill="#212529"></path>
-                </svg>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="injected-svg icon bg-warning" data-src="assets/img/icons/interface/star.svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                  <path fill-rule="evenodd" clip-rule="evenodd" d="M12.3616 17.7407L8.27722 19.888C7.78838 20.145 7.18375 19.957 6.92675 19.4682C6.82441 19.2735 6.7891 19.0505 6.82627 18.8338L7.60632 14.2858L4.30199 11.0648C3.90651 10.6793 3.89841 10.0462 4.28391 9.65073C4.43742 9.49325 4.63856 9.39076 4.8562 9.35913L9.42268 8.69559L11.4649 4.55766C11.7093 4.0624 12.3089 3.85906 12.8042 4.10349C13.0014 4.20082 13.161 4.36044 13.2583 4.55766L15.3005 8.69559L19.867 9.35913C20.4136 9.43855 20.7922 9.94599 20.7128 10.4925C20.6812 10.7102 20.5787 10.9113 20.4212 11.0648L17.1169 14.2858L17.8969 18.8338C17.9903 19.3781 17.6247 19.8951 17.0804 19.9884C16.8636 20.0256 16.6406 19.9903 16.446 19.888L12.3616 17.7407Z" fill="#212529"></path>
-                </svg>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="injected-svg icon bg-warning" data-src="assets/img/icons/interface/star.svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                  <path fill-rule="evenodd" clip-rule="evenodd" d="M12.3616 17.7407L8.27722 19.888C7.78838 20.145 7.18375 19.957 6.92675 19.4682C6.82441 19.2735 6.7891 19.0505 6.82627 18.8338L7.60632 14.2858L4.30199 11.0648C3.90651 10.6793 3.89841 10.0462 4.28391 9.65073C4.43742 9.49325 4.63856 9.39076 4.8562 9.35913L9.42268 8.69559L11.4649 4.55766C11.7093 4.0624 12.3089 3.85906 12.8042 4.10349C13.0014 4.20082 13.161 4.36044 13.2583 4.55766L15.3005 8.69559L19.867 9.35913C20.4136 9.43855 20.7922 9.94599 20.7128 10.4925C20.6812 10.7102 20.5787 10.9113 20.4212 11.0648L17.1169 14.2858L17.8969 18.8338C17.9903 19.3781 17.6247 19.8951 17.0804 19.9884C16.8636 20.0256 16.6406 19.9903 16.446 19.888L12.3616 17.7407Z" fill="#212529"></path>
-                </svg>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="injected-svg icon bg-warning" data-src="assets/img/icons/interface/star.svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                  <path fill-rule="evenodd" clip-rule="evenodd" d="M12.3616 17.7407L8.27722 19.888C7.78838 20.145 7.18375 19.957 6.92675 19.4682C6.82441 19.2735 6.7891 19.0505 6.82627 18.8338L7.60632 14.2858L4.30199 11.0648C3.90651 10.6793 3.89841 10.0462 4.28391 9.65073C4.43742 9.49325 4.63856 9.39076 4.8562 9.35913L9.42268 8.69559L11.4649 4.55766C11.7093 4.0624 12.3089 3.85906 12.8042 4.10349C13.0014 4.20082 13.161 4.36044 13.2583 4.55766L15.3005 8.69559L19.867 9.35913C20.4136 9.43855 20.7922 9.94599 20.7128 10.4925C20.6812 10.7102 20.5787 10.9113 20.4212 11.0648L17.1169 14.2858L17.8969 18.8338C17.9903 19.3781 17.6247 19.8951 17.0804 19.9884C16.8636 20.0256 16.6406 19.9903 16.446 19.888L12.3616 17.7407Z" fill="#212529"></path>
-                </svg>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="injected-svg icon bg-warning" data-src="assets/img/icons/interface/star.svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                  <path fill-rule="evenodd" clip-rule="evenodd" d="M12.3616 17.7407L8.27722 19.888C7.78838 20.145 7.18375 19.957 6.92675 19.4682C6.82441 19.2735 6.7891 19.0505 6.82627 18.8338L7.60632 14.2858L4.30199 11.0648C3.90651 10.6793 3.89841 10.0462 4.28391 9.65073C4.43742 9.49325 4.63856 9.39076 4.8562 9.35913L9.42268 8.69559L11.4649 4.55766C11.7093 4.0624 12.3089 3.85906 12.8042 4.10349C13.0014 4.20082 13.161 4.36044 13.2583 4.55766L15.3005 8.69559L19.867 9.35913C20.4136 9.43855 20.7922 9.94599 20.7128 10.4925C20.6812 10.7102 20.5787 10.9113 20.4212 11.0648L17.1169 14.2858L17.8969 18.8338C17.9903 19.3781 17.6247 19.8951 17.0804 19.9884C16.8636 20.0256 16.6406 19.9903 16.446 19.888L12.3616 17.7407Z" fill="#212529"></path>
-                </svg>
-              </div>
-              <div class="my-md-2 flex-grow-1">
-                <h4>
-                    “I couldn’t have done it without the team from Leap.”
-                </h4>
-              </div>
-              <div class="avatar-author align-items-center">
-                <div class="ml-2">
-                  <h6>Benjamin</h6>
+              <div class="card card-sm card-body shadow-3d mb-4">
+                <div data-target="#panel-2" class="accordion-panel-title collapsed" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="panel-1">
+                  <span class="h6 mb-0">Combien ça coûte ?</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="injected-svg icon" data-src="assets/img/icons/interface/plus.svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <path d="M19 11H5C4.44772 11 4 11.4477 4 12C4 12.5523 4.44772 13 5 13H19C19.5523 13 20 12.5523 20 12C20 11.4477 19.5523 11 19 11Z" fill="#212529"></path>
+                    <path d="M13 19L13 5C13 4.44772 12.5523 4 12 4C11.4477 4 11 4.44772 11 5L11 19C11 19.5523 11.4477 20 12 20C12.5523 20 13 19.5523 13 19Z" fill="#212529"></path>
+                  </svg>
+                </div>
+                <div class="collapse" id="panel-2" style="">
+                  <div class="pt-3">
+                    <p class="mb-0">
+                      Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+                    </p>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
-          <div class="col-md-6 col-lg-4">
-            <div class="card card-body">
-              <div class="d-flex mb-3">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="injected-svg icon bg-warning" data-src="assets/img/icons/interface/star.svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                  <path fill-rule="evenodd" clip-rule="evenodd" d="M12.3616 17.7407L8.27722 19.888C7.78838 20.145 7.18375 19.957 6.92675 19.4682C6.82441 19.2735 6.7891 19.0505 6.82627 18.8338L7.60632 14.2858L4.30199 11.0648C3.90651 10.6793 3.89841 10.0462 4.28391 9.65073C4.43742 9.49325 4.63856 9.39076 4.8562 9.35913L9.42268 8.69559L11.4649 4.55766C11.7093 4.0624 12.3089 3.85906 12.8042 4.10349C13.0014 4.20082 13.161 4.36044 13.2583 4.55766L15.3005 8.69559L19.867 9.35913C20.4136 9.43855 20.7922 9.94599 20.7128 10.4925C20.6812 10.7102 20.5787 10.9113 20.4212 11.0648L17.1169 14.2858L17.8969 18.8338C17.9903 19.3781 17.6247 19.8951 17.0804 19.9884C16.8636 20.0256 16.6406 19.9903 16.446 19.888L12.3616 17.7407Z" fill="#212529"></path>
-                </svg>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="injected-svg icon bg-warning" data-src="assets/img/icons/interface/star.svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                  <path fill-rule="evenodd" clip-rule="evenodd" d="M12.3616 17.7407L8.27722 19.888C7.78838 20.145 7.18375 19.957 6.92675 19.4682C6.82441 19.2735 6.7891 19.0505 6.82627 18.8338L7.60632 14.2858L4.30199 11.0648C3.90651 10.6793 3.89841 10.0462 4.28391 9.65073C4.43742 9.49325 4.63856 9.39076 4.8562 9.35913L9.42268 8.69559L11.4649 4.55766C11.7093 4.0624 12.3089 3.85906 12.8042 4.10349C13.0014 4.20082 13.161 4.36044 13.2583 4.55766L15.3005 8.69559L19.867 9.35913C20.4136 9.43855 20.7922 9.94599 20.7128 10.4925C20.6812 10.7102 20.5787 10.9113 20.4212 11.0648L17.1169 14.2858L17.8969 18.8338C17.9903 19.3781 17.6247 19.8951 17.0804 19.9884C16.8636 20.0256 16.6406 19.9903 16.446 19.888L12.3616 17.7407Z" fill="#212529"></path>
-                </svg>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="injected-svg icon bg-warning" data-src="assets/img/icons/interface/star.svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                  <path fill-rule="evenodd" clip-rule="evenodd" d="M12.3616 17.7407L8.27722 19.888C7.78838 20.145 7.18375 19.957 6.92675 19.4682C6.82441 19.2735 6.7891 19.0505 6.82627 18.8338L7.60632 14.2858L4.30199 11.0648C3.90651 10.6793 3.89841 10.0462 4.28391 9.65073C4.43742 9.49325 4.63856 9.39076 4.8562 9.35913L9.42268 8.69559L11.4649 4.55766C11.7093 4.0624 12.3089 3.85906 12.8042 4.10349C13.0014 4.20082 13.161 4.36044 13.2583 4.55766L15.3005 8.69559L19.867 9.35913C20.4136 9.43855 20.7922 9.94599 20.7128 10.4925C20.6812 10.7102 20.5787 10.9113 20.4212 11.0648L17.1169 14.2858L17.8969 18.8338C17.9903 19.3781 17.6247 19.8951 17.0804 19.9884C16.8636 20.0256 16.6406 19.9903 16.446 19.888L12.3616 17.7407Z" fill="#212529"></path>
-                </svg>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="injected-svg icon bg-warning" data-src="assets/img/icons/interface/star.svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                  <path fill-rule="evenodd" clip-rule="evenodd" d="M12.3616 17.7407L8.27722 19.888C7.78838 20.145 7.18375 19.957 6.92675 19.4682C6.82441 19.2735 6.7891 19.0505 6.82627 18.8338L7.60632 14.2858L4.30199 11.0648C3.90651 10.6793 3.89841 10.0462 4.28391 9.65073C4.43742 9.49325 4.63856 9.39076 4.8562 9.35913L9.42268 8.69559L11.4649 4.55766C11.7093 4.0624 12.3089 3.85906 12.8042 4.10349C13.0014 4.20082 13.161 4.36044 13.2583 4.55766L15.3005 8.69559L19.867 9.35913C20.4136 9.43855 20.7922 9.94599 20.7128 10.4925C20.6812 10.7102 20.5787 10.9113 20.4212 11.0648L17.1169 14.2858L17.8969 18.8338C17.9903 19.3781 17.6247 19.8951 17.0804 19.9884C16.8636 20.0256 16.6406 19.9903 16.446 19.888L12.3616 17.7407Z" fill="#212529"></path>
-                </svg>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="injected-svg icon bg-warning" data-src="assets/img/icons/interface/star.svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                  <path fill-rule="evenodd" clip-rule="evenodd" d="M12.3616 17.7407L8.27722 19.888C7.78838 20.145 7.18375 19.957 6.92675 19.4682C6.82441 19.2735 6.7891 19.0505 6.82627 18.8338L7.60632 14.2858L4.30199 11.0648C3.90651 10.6793 3.89841 10.0462 4.28391 9.65073C4.43742 9.49325 4.63856 9.39076 4.8562 9.35913L9.42268 8.69559L11.4649 4.55766C11.7093 4.0624 12.3089 3.85906 12.8042 4.10349C13.0014 4.20082 13.161 4.36044 13.2583 4.55766L15.3005 8.69559L19.867 9.35913C20.4136 9.43855 20.7922 9.94599 20.7128 10.4925C20.6812 10.7102 20.5787 10.9113 20.4212 11.0648L17.1169 14.2858L17.8969 18.8338C17.9903 19.3781 17.6247 19.8951 17.0804 19.9884C16.8636 20.0256 16.6406 19.9903 16.446 19.888L12.3616 17.7407Z" fill="#212529"></path>
-                </svg>
-              </div>
-              <div class="my-md-2 flex-grow-1">
-                <h4>
-                    “I couldn’t have done it without the team from Leap.”
-                </h4>
-              </div>
-              <div class="avatar-author align-items-center">
-                <div class="ml-2">
-                  <h6>Benjamin</h6>
+              <div class="card card-sm card-body shadow-3d mb-4">
+                <div data-target="#panel-5" class="accordion-panel-title collapsed" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="panel-2">
+                  <span class="h6 mb-0">Et si je veux me désabonner ?</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="injected-svg icon" data-src="assets/img/icons/interface/plus.svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <path d="M19 11H5C4.44772 11 4 11.4477 4 12C4 12.5523 4.44772 13 5 13H19C19.5523 13 20 12.5523 20 12C20 11.4477 19.5523 11 19 11Z" fill="#212529"></path>
+                    <path d="M13 19L13 5C13 4.44772 12.5523 4 12 4C11.4477 4 11 4.44772 11 5L11 19C11 19.5523 11.4477 20 12 20C12.5523 20 13 19.5523 13 19Z" fill="#212529"></path>
+                  </svg>
+                </div>
+                <div class="collapse" id="panel-5" style="">
+                  <div class="pt-3">
+                    <p class="mb-0">
+                      Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+                    </p>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
-          <div class="col-md-6 col-lg-4">
-            <div class="card card-body">
-              <div class="d-flex mb-3">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="injected-svg icon bg-warning" data-src="assets/img/icons/interface/star.svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                  <path fill-rule="evenodd" clip-rule="evenodd" d="M12.3616 17.7407L8.27722 19.888C7.78838 20.145 7.18375 19.957 6.92675 19.4682C6.82441 19.2735 6.7891 19.0505 6.82627 18.8338L7.60632 14.2858L4.30199 11.0648C3.90651 10.6793 3.89841 10.0462 4.28391 9.65073C4.43742 9.49325 4.63856 9.39076 4.8562 9.35913L9.42268 8.69559L11.4649 4.55766C11.7093 4.0624 12.3089 3.85906 12.8042 4.10349C13.0014 4.20082 13.161 4.36044 13.2583 4.55766L15.3005 8.69559L19.867 9.35913C20.4136 9.43855 20.7922 9.94599 20.7128 10.4925C20.6812 10.7102 20.5787 10.9113 20.4212 11.0648L17.1169 14.2858L17.8969 18.8338C17.9903 19.3781 17.6247 19.8951 17.0804 19.9884C16.8636 20.0256 16.6406 19.9903 16.446 19.888L12.3616 17.7407Z" fill="#212529"></path>
-                </svg>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="injected-svg icon bg-warning" data-src="assets/img/icons/interface/star.svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                  <path fill-rule="evenodd" clip-rule="evenodd" d="M12.3616 17.7407L8.27722 19.888C7.78838 20.145 7.18375 19.957 6.92675 19.4682C6.82441 19.2735 6.7891 19.0505 6.82627 18.8338L7.60632 14.2858L4.30199 11.0648C3.90651 10.6793 3.89841 10.0462 4.28391 9.65073C4.43742 9.49325 4.63856 9.39076 4.8562 9.35913L9.42268 8.69559L11.4649 4.55766C11.7093 4.0624 12.3089 3.85906 12.8042 4.10349C13.0014 4.20082 13.161 4.36044 13.2583 4.55766L15.3005 8.69559L19.867 9.35913C20.4136 9.43855 20.7922 9.94599 20.7128 10.4925C20.6812 10.7102 20.5787 10.9113 20.4212 11.0648L17.1169 14.2858L17.8969 18.8338C17.9903 19.3781 17.6247 19.8951 17.0804 19.9884C16.8636 20.0256 16.6406 19.9903 16.446 19.888L12.3616 17.7407Z" fill="#212529"></path>
-                </svg>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="injected-svg icon bg-warning" data-src="assets/img/icons/interface/star.svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                  <path fill-rule="evenodd" clip-rule="evenodd" d="M12.3616 17.7407L8.27722 19.888C7.78838 20.145 7.18375 19.957 6.92675 19.4682C6.82441 19.2735 6.7891 19.0505 6.82627 18.8338L7.60632 14.2858L4.30199 11.0648C3.90651 10.6793 3.89841 10.0462 4.28391 9.65073C4.43742 9.49325 4.63856 9.39076 4.8562 9.35913L9.42268 8.69559L11.4649 4.55766C11.7093 4.0624 12.3089 3.85906 12.8042 4.10349C13.0014 4.20082 13.161 4.36044 13.2583 4.55766L15.3005 8.69559L19.867 9.35913C20.4136 9.43855 20.7922 9.94599 20.7128 10.4925C20.6812 10.7102 20.5787 10.9113 20.4212 11.0648L17.1169 14.2858L17.8969 18.8338C17.9903 19.3781 17.6247 19.8951 17.0804 19.9884C16.8636 20.0256 16.6406 19.9903 16.446 19.888L12.3616 17.7407Z" fill="#212529"></path>
-                </svg>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="injected-svg icon bg-warning" data-src="assets/img/icons/interface/star.svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                  <path fill-rule="evenodd" clip-rule="evenodd" d="M12.3616 17.7407L8.27722 19.888C7.78838 20.145 7.18375 19.957 6.92675 19.4682C6.82441 19.2735 6.7891 19.0505 6.82627 18.8338L7.60632 14.2858L4.30199 11.0648C3.90651 10.6793 3.89841 10.0462 4.28391 9.65073C4.43742 9.49325 4.63856 9.39076 4.8562 9.35913L9.42268 8.69559L11.4649 4.55766C11.7093 4.0624 12.3089 3.85906 12.8042 4.10349C13.0014 4.20082 13.161 4.36044 13.2583 4.55766L15.3005 8.69559L19.867 9.35913C20.4136 9.43855 20.7922 9.94599 20.7128 10.4925C20.6812 10.7102 20.5787 10.9113 20.4212 11.0648L17.1169 14.2858L17.8969 18.8338C17.9903 19.3781 17.6247 19.8951 17.0804 19.9884C16.8636 20.0256 16.6406 19.9903 16.446 19.888L12.3616 17.7407Z" fill="#212529"></path>
-                </svg>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="injected-svg icon bg-warning" data-src="assets/img/icons/interface/star.svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                  <path fill-rule="evenodd" clip-rule="evenodd" d="M12.3616 17.7407L8.27722 19.888C7.78838 20.145 7.18375 19.957 6.92675 19.4682C6.82441 19.2735 6.7891 19.0505 6.82627 18.8338L7.60632 14.2858L4.30199 11.0648C3.90651 10.6793 3.89841 10.0462 4.28391 9.65073C4.43742 9.49325 4.63856 9.39076 4.8562 9.35913L9.42268 8.69559L11.4649 4.55766C11.7093 4.0624 12.3089 3.85906 12.8042 4.10349C13.0014 4.20082 13.161 4.36044 13.2583 4.55766L15.3005 8.69559L19.867 9.35913C20.4136 9.43855 20.7922 9.94599 20.7128 10.4925C20.6812 10.7102 20.5787 10.9113 20.4212 11.0648L17.1169 14.2858L17.8969 18.8338C17.9903 19.3781 17.6247 19.8951 17.0804 19.9884C16.8636 20.0256 16.6406 19.9903 16.446 19.888L12.3616 17.7407Z" fill="#212529"></path>
-                </svg>
-              </div>
-              <div class="my-md-2 flex-grow-1">
-                <h4>
-                    “I couldn’t have done it without the team from Leap.”
-                </h4>
-              </div>
-              <div class="avatar-author align-items-center">
-                <div class="ml-2">
-                  <h6>Benjamin</h6>
+              <div class="card card-sm card-body shadow-3d mb-4">
+                <div data-target="#panel-8" class="accordion-panel-title collapsed" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="panel-2">
+                  <span class="h6 mb-0">Comment modifier mon e-mail, mon mot de passe ou mes informations personnelles ?</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="injected-svg icon" data-src="assets/img/icons/interface/plus.svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <path d="M19 11H5C4.44772 11 4 11.4477 4 12C4 12.5523 4.44772 13 5 13H19C19.5523 13 20 12.5523 20 12C20 11.4477 19.5523 11 19 11Z" fill="#212529"></path>
+                    <path d="M13 19L13 5C13 4.44772 12.5523 4 12 4C11.4477 4 11 4.44772 11 5L11 19C11 19.5523 11.4477 20 12 20C12.5523 20 13 19.5523 13 19Z" fill="#212529"></path>
+                  </svg>
+                </div>
+                <div class="collapse" id="panel-8" style="">
+                  <div class="pt-3">
+                    <p class="mb-0">
+                      Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+                    </p>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
-          <div class="col-md-6 col-lg-4">
-            <div class="card card-body">
-              <div class="d-flex mb-3">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="injected-svg icon bg-warning" data-src="assets/img/icons/interface/star.svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                  <path fill-rule="evenodd" clip-rule="evenodd" d="M12.3616 17.7407L8.27722 19.888C7.78838 20.145 7.18375 19.957 6.92675 19.4682C6.82441 19.2735 6.7891 19.0505 6.82627 18.8338L7.60632 14.2858L4.30199 11.0648C3.90651 10.6793 3.89841 10.0462 4.28391 9.65073C4.43742 9.49325 4.63856 9.39076 4.8562 9.35913L9.42268 8.69559L11.4649 4.55766C11.7093 4.0624 12.3089 3.85906 12.8042 4.10349C13.0014 4.20082 13.161 4.36044 13.2583 4.55766L15.3005 8.69559L19.867 9.35913C20.4136 9.43855 20.7922 9.94599 20.7128 10.4925C20.6812 10.7102 20.5787 10.9113 20.4212 11.0648L17.1169 14.2858L17.8969 18.8338C17.9903 19.3781 17.6247 19.8951 17.0804 19.9884C16.8636 20.0256 16.6406 19.9903 16.446 19.888L12.3616 17.7407Z" fill="#212529"></path>
-                </svg>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="injected-svg icon bg-warning" data-src="assets/img/icons/interface/star.svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                  <path fill-rule="evenodd" clip-rule="evenodd" d="M12.3616 17.7407L8.27722 19.888C7.78838 20.145 7.18375 19.957 6.92675 19.4682C6.82441 19.2735 6.7891 19.0505 6.82627 18.8338L7.60632 14.2858L4.30199 11.0648C3.90651 10.6793 3.89841 10.0462 4.28391 9.65073C4.43742 9.49325 4.63856 9.39076 4.8562 9.35913L9.42268 8.69559L11.4649 4.55766C11.7093 4.0624 12.3089 3.85906 12.8042 4.10349C13.0014 4.20082 13.161 4.36044 13.2583 4.55766L15.3005 8.69559L19.867 9.35913C20.4136 9.43855 20.7922 9.94599 20.7128 10.4925C20.6812 10.7102 20.5787 10.9113 20.4212 11.0648L17.1169 14.2858L17.8969 18.8338C17.9903 19.3781 17.6247 19.8951 17.0804 19.9884C16.8636 20.0256 16.6406 19.9903 16.446 19.888L12.3616 17.7407Z" fill="#212529"></path>
-                </svg>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="injected-svg icon bg-warning" data-src="assets/img/icons/interface/star.svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                  <path fill-rule="evenodd" clip-rule="evenodd" d="M12.3616 17.7407L8.27722 19.888C7.78838 20.145 7.18375 19.957 6.92675 19.4682C6.82441 19.2735 6.7891 19.0505 6.82627 18.8338L7.60632 14.2858L4.30199 11.0648C3.90651 10.6793 3.89841 10.0462 4.28391 9.65073C4.43742 9.49325 4.63856 9.39076 4.8562 9.35913L9.42268 8.69559L11.4649 4.55766C11.7093 4.0624 12.3089 3.85906 12.8042 4.10349C13.0014 4.20082 13.161 4.36044 13.2583 4.55766L15.3005 8.69559L19.867 9.35913C20.4136 9.43855 20.7922 9.94599 20.7128 10.4925C20.6812 10.7102 20.5787 10.9113 20.4212 11.0648L17.1169 14.2858L17.8969 18.8338C17.9903 19.3781 17.6247 19.8951 17.0804 19.9884C16.8636 20.0256 16.6406 19.9903 16.446 19.888L12.3616 17.7407Z" fill="#212529"></path>
-                </svg>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="injected-svg icon bg-warning" data-src="assets/img/icons/interface/star.svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                  <path fill-rule="evenodd" clip-rule="evenodd" d="M12.3616 17.7407L8.27722 19.888C7.78838 20.145 7.18375 19.957 6.92675 19.4682C6.82441 19.2735 6.7891 19.0505 6.82627 18.8338L7.60632 14.2858L4.30199 11.0648C3.90651 10.6793 3.89841 10.0462 4.28391 9.65073C4.43742 9.49325 4.63856 9.39076 4.8562 9.35913L9.42268 8.69559L11.4649 4.55766C11.7093 4.0624 12.3089 3.85906 12.8042 4.10349C13.0014 4.20082 13.161 4.36044 13.2583 4.55766L15.3005 8.69559L19.867 9.35913C20.4136 9.43855 20.7922 9.94599 20.7128 10.4925C20.6812 10.7102 20.5787 10.9113 20.4212 11.0648L17.1169 14.2858L17.8969 18.8338C17.9903 19.3781 17.6247 19.8951 17.0804 19.9884C16.8636 20.0256 16.6406 19.9903 16.446 19.888L12.3616 17.7407Z" fill="#212529"></path>
-                </svg>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="injected-svg icon bg-warning" data-src="assets/img/icons/interface/star.svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                  <path fill-rule="evenodd" clip-rule="evenodd" d="M12.3616 17.7407L8.27722 19.888C7.78838 20.145 7.18375 19.957 6.92675 19.4682C6.82441 19.2735 6.7891 19.0505 6.82627 18.8338L7.60632 14.2858L4.30199 11.0648C3.90651 10.6793 3.89841 10.0462 4.28391 9.65073C4.43742 9.49325 4.63856 9.39076 4.8562 9.35913L9.42268 8.69559L11.4649 4.55766C11.7093 4.0624 12.3089 3.85906 12.8042 4.10349C13.0014 4.20082 13.161 4.36044 13.2583 4.55766L15.3005 8.69559L19.867 9.35913C20.4136 9.43855 20.7922 9.94599 20.7128 10.4925C20.6812 10.7102 20.5787 10.9113 20.4212 11.0648L17.1169 14.2858L17.8969 18.8338C17.9903 19.3781 17.6247 19.8951 17.0804 19.9884C16.8636 20.0256 16.6406 19.9903 16.446 19.888L12.3616 17.7407Z" fill="#212529"></path>
-                </svg>
-              </div>
-              <div class="my-md-2 flex-grow-1">
-                <h4>
-                    “I couldn’t have done it without the team from Leap.”
-                </h4>
-              </div>
-              <div class="avatar-author align-items-center">
-                <div class="ml-2">
-                  <h6>Benjamin</h6>
+              <div class="card card-sm card-body shadow-3d mb-0">
+                <div data-target="#panel-11" class="accordion-panel-title collapsed" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="panel-2">
+                  <span class="h6 mb-0">Comment Le Réhausseur respecte ma vie privée ?</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="injected-svg icon" data-src="assets/img/icons/interface/plus.svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <path d="M19 11H5C4.44772 11 4 11.4477 4 12C4 12.5523 4.44772 13 5 13H19C19.5523 13 20 12.5523 20 12C20 11.4477 19.5523 11 19 11Z" fill="#212529"></path>
+                    <path d="M13 19L13 5C13 4.44772 12.5523 4 12 4C11.4477 4 11 4.44772 11 5L11 19C11 19.5523 11.4477 20 12 20C12.5523 20 13 19.5523 13 19Z" fill="#212529"></path>
+                  </svg>
                 </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6 col-lg-4">
-            <div class="card card-body">
-              <div class="d-flex mb-3">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="injected-svg icon bg-warning" data-src="assets/img/icons/interface/star.svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                  <path fill-rule="evenodd" clip-rule="evenodd" d="M12.3616 17.7407L8.27722 19.888C7.78838 20.145 7.18375 19.957 6.92675 19.4682C6.82441 19.2735 6.7891 19.0505 6.82627 18.8338L7.60632 14.2858L4.30199 11.0648C3.90651 10.6793 3.89841 10.0462 4.28391 9.65073C4.43742 9.49325 4.63856 9.39076 4.8562 9.35913L9.42268 8.69559L11.4649 4.55766C11.7093 4.0624 12.3089 3.85906 12.8042 4.10349C13.0014 4.20082 13.161 4.36044 13.2583 4.55766L15.3005 8.69559L19.867 9.35913C20.4136 9.43855 20.7922 9.94599 20.7128 10.4925C20.6812 10.7102 20.5787 10.9113 20.4212 11.0648L17.1169 14.2858L17.8969 18.8338C17.9903 19.3781 17.6247 19.8951 17.0804 19.9884C16.8636 20.0256 16.6406 19.9903 16.446 19.888L12.3616 17.7407Z" fill="#212529"></path>
-                </svg>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="injected-svg icon bg-warning" data-src="assets/img/icons/interface/star.svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                  <path fill-rule="evenodd" clip-rule="evenodd" d="M12.3616 17.7407L8.27722 19.888C7.78838 20.145 7.18375 19.957 6.92675 19.4682C6.82441 19.2735 6.7891 19.0505 6.82627 18.8338L7.60632 14.2858L4.30199 11.0648C3.90651 10.6793 3.89841 10.0462 4.28391 9.65073C4.43742 9.49325 4.63856 9.39076 4.8562 9.35913L9.42268 8.69559L11.4649 4.55766C11.7093 4.0624 12.3089 3.85906 12.8042 4.10349C13.0014 4.20082 13.161 4.36044 13.2583 4.55766L15.3005 8.69559L19.867 9.35913C20.4136 9.43855 20.7922 9.94599 20.7128 10.4925C20.6812 10.7102 20.5787 10.9113 20.4212 11.0648L17.1169 14.2858L17.8969 18.8338C17.9903 19.3781 17.6247 19.8951 17.0804 19.9884C16.8636 20.0256 16.6406 19.9903 16.446 19.888L12.3616 17.7407Z" fill="#212529"></path>
-                </svg>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="injected-svg icon bg-warning" data-src="assets/img/icons/interface/star.svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                  <path fill-rule="evenodd" clip-rule="evenodd" d="M12.3616 17.7407L8.27722 19.888C7.78838 20.145 7.18375 19.957 6.92675 19.4682C6.82441 19.2735 6.7891 19.0505 6.82627 18.8338L7.60632 14.2858L4.30199 11.0648C3.90651 10.6793 3.89841 10.0462 4.28391 9.65073C4.43742 9.49325 4.63856 9.39076 4.8562 9.35913L9.42268 8.69559L11.4649 4.55766C11.7093 4.0624 12.3089 3.85906 12.8042 4.10349C13.0014 4.20082 13.161 4.36044 13.2583 4.55766L15.3005 8.69559L19.867 9.35913C20.4136 9.43855 20.7922 9.94599 20.7128 10.4925C20.6812 10.7102 20.5787 10.9113 20.4212 11.0648L17.1169 14.2858L17.8969 18.8338C17.9903 19.3781 17.6247 19.8951 17.0804 19.9884C16.8636 20.0256 16.6406 19.9903 16.446 19.888L12.3616 17.7407Z" fill="#212529"></path>
-                </svg>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="injected-svg icon bg-warning" data-src="assets/img/icons/interface/star.svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                  <path fill-rule="evenodd" clip-rule="evenodd" d="M12.3616 17.7407L8.27722 19.888C7.78838 20.145 7.18375 19.957 6.92675 19.4682C6.82441 19.2735 6.7891 19.0505 6.82627 18.8338L7.60632 14.2858L4.30199 11.0648C3.90651 10.6793 3.89841 10.0462 4.28391 9.65073C4.43742 9.49325 4.63856 9.39076 4.8562 9.35913L9.42268 8.69559L11.4649 4.55766C11.7093 4.0624 12.3089 3.85906 12.8042 4.10349C13.0014 4.20082 13.161 4.36044 13.2583 4.55766L15.3005 8.69559L19.867 9.35913C20.4136 9.43855 20.7922 9.94599 20.7128 10.4925C20.6812 10.7102 20.5787 10.9113 20.4212 11.0648L17.1169 14.2858L17.8969 18.8338C17.9903 19.3781 17.6247 19.8951 17.0804 19.9884C16.8636 20.0256 16.6406 19.9903 16.446 19.888L12.3616 17.7407Z" fill="#212529"></path>
-                </svg>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="injected-svg icon bg-warning" data-src="assets/img/icons/interface/star.svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                  <path fill-rule="evenodd" clip-rule="evenodd" d="M12.3616 17.7407L8.27722 19.888C7.78838 20.145 7.18375 19.957 6.92675 19.4682C6.82441 19.2735 6.7891 19.0505 6.82627 18.8338L7.60632 14.2858L4.30199 11.0648C3.90651 10.6793 3.89841 10.0462 4.28391 9.65073C4.43742 9.49325 4.63856 9.39076 4.8562 9.35913L9.42268 8.69559L11.4649 4.55766C11.7093 4.0624 12.3089 3.85906 12.8042 4.10349C13.0014 4.20082 13.161 4.36044 13.2583 4.55766L15.3005 8.69559L19.867 9.35913C20.4136 9.43855 20.7922 9.94599 20.7128 10.4925C20.6812 10.7102 20.5787 10.9113 20.4212 11.0648L17.1169 14.2858L17.8969 18.8338C17.9903 19.3781 17.6247 19.8951 17.0804 19.9884C16.8636 20.0256 16.6406 19.9903 16.446 19.888L12.3616 17.7407Z" fill="#212529"></path>
-                </svg>
-              </div>
-              <div class="my-md-2 flex-grow-1">
-                <h4>
-                    “I couldn’t have done it without the team from Leap.”
-                </h4>
-              </div>
-              <div class="avatar-author align-items-center">
-                <div class="ml-2">
-                  <h6>Benjamin</h6>
+                <div class="collapse" id="panel-11" style="">
+                  <div class="pt-3">
+                    <p class="mb-0">
+                      Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+
       <div class="divider">
         <svg class="bg-white" width="100%" height="96px" viewBox="0 0 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="none">
           <path d="M0,0 C16.6666667,66 33.3333333,99 50,99 C66.6666667,99 83.3333333,66 100,0 L100,100 L0,100 L0,0 Z"></path>

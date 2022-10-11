@@ -23,10 +23,20 @@
   .ml-3-desktop {
     margin-left: 0 !important;
   }
-  
-  ul {
+
+  ul.navbar-nav {
     flex-flow: column;
     align-items: center;
+  }
+
+  ul.footer-nav {
+    flex-flow: column;
+    align-items: center;
+  }
+
+  .modal {
+    padding-left: inherit !important;
+    margin: inherit !important;
   }
 }
 
@@ -69,7 +79,7 @@ h1 {
 .logo {
   font-family: "Grand Hotel";
   color: $primary !important;
-  font-size: 25px !important;
+  font-size: 30px !important;
 }
 
 .logo-img {

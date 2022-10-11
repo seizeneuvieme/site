@@ -417,7 +417,7 @@ class AccountController extends AbstractController
                             'email' => $subscriber->getEmail(),
                         ],
                         [
-                            'FIRSTNAME'  => $subscriber->getFirstname(),
+                            'FIRSTNAME' => $subscriber->getFirstname(),
                         ]
                     );
                 }

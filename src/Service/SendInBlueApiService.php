@@ -17,7 +17,7 @@ class SendInBlueApiService
     public const ACTIVE_ACCOUNT_TEMPLATE_ID = 4;
     public const RESET_PASSWORD_TEMPLATE_ID = 5;
     public const CONFIRM_CAMPAIGN_SENT      = 6;
-    public const CONFIRM_ACCOUNT_REMOVED     = 7;
+    public const CONFIRM_ACCOUNT_REMOVED    = 7;
     public const CONFIRM_CAMPAIGN_TO        = [
         'name'  => 'Fanny',
         'email' => 'fanny@lerehausseur.fr',

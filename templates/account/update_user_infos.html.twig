@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Modifier mes coordonnées Le Réhausseur{% endblock %}
+{% block title %}Modifier mes coordonnées | Le Réhausseur{% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
@@ -21,7 +21,7 @@
                                 {% for flashMessage in app.session.flashbag.get('error') %}
                                     <div class="alert alert-primary" role="alert">
                                         <p>
-                                            Formulaire invalide. <br/>En cas de problème, <a href="mailto:contact@lerehausseur.fr" alt="Contacter Le Réhausseur">contacte-nous</a> :)
+                                            Formulaire invalide. <br/>En cas de problème, <a href="mailto:fanny@lerehausseur.fr" alt="Contacter Le Réhausseur">contacte-moi</a> :)
                                         </p>
                                     </div>
                                 {% endfor %}
@@ -54,7 +54,7 @@
                                     <small>En sachant dans quelle ville tu habites, je pourrais t'envoyer des actualités sur les évennements dans ta région (festivals...) :</small><br/><br/>
                                     <div class="form-group">
                                         <input name="city"  id="city" class="update-user-form form-control" list="city-datalist" placeholder="Ta ville" value="{{ app.user.city }}">
-                                        <small id="city-control-label" class="text-primary" style="display:none;">Dis-nous où tu habites</small>
+                                        <small id="city-control-label" class="text-primary" style="display:none;">Dis-moi où tu habites</small>
                                         <datalist id="city-datalist">
                                             <option value="{{ app.user.city }}">{{ app.user.departmentNumber ~ ', ' ~ app.user.departmentName ~ ', ' ~ app.user.region }}</option>
                                         </datalist>
