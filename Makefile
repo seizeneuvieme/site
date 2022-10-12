@@ -46,6 +46,7 @@ unit-test: ## Run unit tests
 functional-test: ## Run functional tests
 	docker-compose -f docker-compose-test.yml up -d
 	sleep 3
+	php bin/console --env test doctrine:database:create --if-not-exists -n
 	php bin/console --env test doctrine:migrations:migrate -n
 	php -d memory_limit=256M ./vendor/bin/phpunit --verbose --stop-on-failure --testsuite functional
 	docker-compose -f docker-compose-test.yml down
