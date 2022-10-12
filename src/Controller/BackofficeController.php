@@ -47,7 +47,6 @@ class BackofficeController extends AbstractController
             'state' => Campaign::DRAFT_STATE,
         ]);
 
-
         $lastSentCampaigns = $campaignRepository->findBy([
             'state' => Campaign::SENT_STATE,
         ], ['sendingDate' => 'DESC'], 10);
