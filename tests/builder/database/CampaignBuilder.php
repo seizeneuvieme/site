@@ -55,15 +55,15 @@ class CampaignBuilder
      */
     public function insert(): self
     {
-        $this->connection->insert('public.campaign', [
+        $this->connection->insert('campaign', [
             'id'           => $this->id,
             'name'         => $this->name,
             'template_id'  => $this->templateId,
             'sending_date' => $this->sendingDate->format('Y-m-d'),
             'state'        => $this->state,
             'number_sent'  => $this->numberSent,
-            'created_at'   => $this->createdAt->format('d-m-Y'),
-            'update_at'    => $this->updatedAt->format('d-m-Y'),
+            'created_at'   => $this->createdAt->format('Y-m-d'),
+            'update_at'    => $this->updatedAt->format('Y-m-d'),
         ]);
 
         return $this;

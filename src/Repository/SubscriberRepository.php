@@ -80,10 +80,10 @@ class SubscriberRepository extends ServiceEntityRepository implements PasswordUp
         return $this->getEntityManager()
             ->getConnection()
             ->executeQuery(
-                "SELECT id 
+                'SELECT id 
                      FROM subscriber
                      WHERE is_verified = true
-                     AND created_at >= date_trunc('month', current_date - interval '1' month)"
+                     AND created_at >= EXTRACT(MONTH FROM NOW())'
             )
             ->rowCount();
     }

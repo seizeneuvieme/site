@@ -42,7 +42,7 @@ class ChildBuilder
      */
     public function insert(): self
     {
-        $this->connection->insert('public.child', [
+        $this->connection->insert('child', [
             'id'            => $this->id,
             'subscriber_id' => $this->subscriberId,
             'firstname'     => $this->firstname,

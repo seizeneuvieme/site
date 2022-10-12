@@ -21,7 +21,7 @@ Le MVP doit permetttre :
 **🧰 CHOIX DES OUTILS**
 
 - Symfony pour l'application, suivant un modèle MVC classique
-- Sendinblue pour l'envoi des mails transactionnels et des newsletters
+- Sendinblue pour l'envoi des mails 
 - Un accent particulier sera mis sur la CI/CD
 
 **🗺 PARCOURS UTILISATEURS**
@@ -70,7 +70,7 @@ git clone git@github.com:lerehausseur/site.git
 Pour initialiser le projet, exécuter la commande suivante :
 ```
 make install
-make init-db # à lancer une seule fois lors de l'initialisation du projet
+make init-database # à lancer une seule fois lors de l'initialisation du projet
 ```
 
 **4°) Démarrer le projet en local**
@@ -97,6 +97,13 @@ symfony console app:send:email-campaign
 Si une campagne est programmée le même jour que celui de l'exécution de la commande, les envois d'emails seront automatiquement déclenchés via Sendinblue.
 
 En `production`, cette commande est automatiquement exécutée par un CRON, tous les jours à 11h45. 
+
+**7°) Stopper le projet en local**
+
+Pour stopper le projet en local, exécuter la commande suivante :
+```
+make stop
+```
 
 **⚙️ WORKFLOW**
 
