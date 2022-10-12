@@ -1,5 +1,5 @@
 .DEFAULT_GOAL: help
-.PHONY: install code-analysis test unit-test functional-test php-cs-fixer-dry-run php-cs-fixer php-stan vendor init-db start
+.PHONY: install code-analysis test unit-test functional-test php-cs-fixer-dry-run php-cs-fixer php-stan vendor init-db start stop
 SHELL := /bin/bash
 
 -include .env
@@ -16,13 +16,17 @@ start: install ## Run project locally
 	docker-compose -f docker-compose.yml up -d
 	yarn watch
 
+stop: ## Stop project
+	symfony server:stop
+	docker-compose -f docker-compose.yml down -v
+
 vendor: composer.lock ## Run composer install
 	composer install --no-scripts
 	yarn install
 
 init-database: ## Create database (to run once)
 	docker-compose -f docker-compose.yml up -d
-	symfony console doctrine:database:create
+	symfony console doctrine:database:create --if-not-exists
 	symfony console doctrine:migrations:migrate
 
 ##@ Continuous integration
@@ -45,8 +49,8 @@ unit-test: ## Run unit tests
 
 functional-test: ## Run functional tests
 	docker-compose -f docker-compose-test.yml up -d
-	sleep 3
+	sleep 10
 	php bin/console --env test doctrine:database:create --if-not-exists -n
 	php bin/console --env test doctrine:migrations:migrate -n
 	php -d memory_limit=256M ./vendor/bin/phpunit --verbose --stop-on-failure --testsuite functional
-	docker-compose -f docker-compose-test.yml down
+	docker-compose -f docker-compose-test.yml down -v

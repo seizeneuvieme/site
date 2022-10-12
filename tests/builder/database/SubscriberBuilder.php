@@ -72,7 +72,7 @@ class SubscriberBuilder
      */
     public function insert(): self
     {
-        $this->connection->insert('public.subscriber', [
+        $this->connection->insert('subscriber', [
             'id'                => $this->id,
             'email'             => $this->email,
             'roles'             => $this->roles,
@@ -83,8 +83,8 @@ class SubscriberBuilder
             'department_name'   => $this->departmentName,
             'region'            => $this->region,
             'is_verified'       => $this->isVerified === true ? 1 : 0,
-            'created_at'        => $this->createdAt->format('d-m-Y'),
-            'updated_at'        => $this->updatedAt->format('d-m-Y'),
+            'created_at'        => $this->createdAt->format('y-m-d'),
+            'updated_at'        => $this->updatedAt->format('y-m-d'),
         ]);
 
         return $this;
