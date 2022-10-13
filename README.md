@@ -116,5 +116,27 @@ Workflow à suivre pour chaque modification de code :
 
 **🚀️ DEPLOIEMENT**
 
-TODO
+Pour déployer en production, lancer le script suivant : 
 
+```
+php prepare-deploy.php 
+```
+
+Cela va préparer une nouvelle branche de release qui pourra être récupérée sur le serveur de production.
+
+Cette branche doit respecter la nomenclature suivante : `deploy/release-jj-mm-aaaa`
+
+Se connecter ensuite au serveur de production puis récupérer le code de la branche :
+
+```
+ssh lerehad@ftp.cluster028.hosting.ovh.net
+git fetch origin deploy/release-jj-mm-aaaa #télécharge la branche distante
+git checkout deploy/release-jj-mm-aaaa #se positionne sur la nouvelle branche en local
+```
+
+Enfin, exécuter les migrations en base de données puis nettoyer le cache : 
+
+```
+php bin/console doctrine:migrations:migrate 
+APP_ENV=prod APP_DEBUG=0 php bin/console cache:clear
+```
