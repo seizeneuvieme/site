@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-B9E8VBWYFJ"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-B9E8VBWYFJ');
+        </script>
         <meta charset="UTF-8">
         <title>{% block title %}Le Réhausseur{% endblock %}</title>
         <link rel="icon" href="{{ asset('build/images/favicon.ico') }}">
@@ -15,16 +24,6 @@
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
-
-        <!-- Google tag (gtag.js) -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-B9E8VBWYFJ"></script>
-        <script>
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-
-            gtag('config', 'G-B9E8VBWYFJ');
-        </script>
     </head>
     <body>
         {% block body %}
