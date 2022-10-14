@@ -34,7 +34,7 @@
     "@symfony/webpack-encore": "^4.0.0",
     "core-js": "^3.25.5",
     "file-loader": "^6.0.0",
-    "regenerator-runtime": "^0.13.9",
+    "regenerator-runtime": "^0.13.10",
     "sass": "^1.55.0",
     "sass-loader": "^13.1.0",
     "webpack": "^5.74.0",
