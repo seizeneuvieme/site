@@ -18,7 +18,7 @@
                 <a href="#" class="btn btn-primary-2 ml-lg-3 text-white dropdown-toggle" data-toggle="dropdown-grid" aria-expanded="false" aria-haspopup="true">Offrir</a>
             </li>
             #}
-            {% if is_granted('ROLE_USER') == false %}
+            {% if app.user and is_granted('ROLE_USER') == false %}
                 <li class="nav-item dropdown">
                     <a href="{{ path('app_sign_up') }}" class="btn btn-primary text-white ml-lg-3 dropdown-toggle" data-toggle="dropdown-grid" aria-expanded="false" aria-haspopup="true">S'abonner</a>
                 </li>
