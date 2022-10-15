@@ -139,6 +139,7 @@ Enfin, exécuter les migrations en base de données puis nettoyer le cache :
 ```
 php bin/console doctrine:migrations:migrate 
 APP_ENV=prod APP_DEBUG=0 php bin/console cache:clear
+php composer.phar dump-env prod
 ```
 
 ℹ️ Une fois tout testé, supprimer la branche distante sur Github pour éviter tout accident (les branches de release ne doivent jamais être mergées) 
