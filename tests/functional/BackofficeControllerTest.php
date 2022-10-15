@@ -208,8 +208,8 @@ class BackofficeControllerTest extends AbstractWebTestCase
         return [
             'invalid sending date' => [
                 [
-                    'template-id'  => $faker->randomNumber(),
-                    'sending-date' => $faker->dateTimeBetween('-30 days', '- 1 day')->format('Y-m-d'),
+                    'template-id'           => $faker->randomNumber(),
+                    'campaign-sending-date' => $faker->dateTimeBetween('-30 days', '- 1 day')->format('Y-m-d'),
                 ],
                 'div.alert-primary > p',
                 'Formulaire invalide.',

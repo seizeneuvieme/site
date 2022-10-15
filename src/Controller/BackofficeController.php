@@ -84,7 +84,7 @@ class BackofficeController extends AbstractController
             $campaign->hydrateFromData([
                 'name'        => $template?->getName(),
                 'templateId'  => $template?->getId(),
-                'sendingDate' => $request->request->get('sending-date'),
+                'sendingDate' => $request->request->get('campaign-sending-date'),
             ]);
 
             /**

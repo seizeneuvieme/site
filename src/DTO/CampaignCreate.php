@@ -22,7 +22,7 @@ class CampaignCreate
     public function hydrateFromData(array $data): void
     {
         $this->name        = $data['name'] ?? '';
-        $this->templateId  = $data['templateId'] ?? '';
+        $this->templateId  = $data['templateId'] ?? -1;
         $this->sendingDate = new \DateTime($data['sendingDate']);
     }
 }
