@@ -220,16 +220,16 @@ function validateStep3() {
 }
 
 $("input.sign-up-form#child-firstname").on("keyup", function () {
-  validateChildFirstname();
+  validateChildFirstname($(this).val());
 });
 
 $("input.sign-up-form#child-birth-date").on("input", function () {
-  validateChildBirthdayDate();
+  validateChildBirthdayDate($(this).val());
 });
 
 $("#btn-step-3").on("click", function (e) {
   e.stopImmediatePropagation();
-  if (validateStep2() === true) {
+  if (validateStep3() === true) {
     $('.wizard').smartWizard('next');
   }
 });
