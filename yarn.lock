@@ -773,11 +773,12 @@
     "@babel/types" "^7.4.4"
     esutils "^2.0.2"
 
-"@babel/runtime@^7.19.0", "@babel/runtime@^7.8.4":
-  version "7.19.0"
-  resolved "https://registry.npmjs.org/@babel/runtime/-/runtime-7.19.0.tgz"
+"@babel/runtime@^7.19.4", "@babel/runtime@^7.8.4":
+  version "7.20.0"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.20.0.tgz#824a9ef325ffde6f78056059db3168c08785e24a"
+  integrity sha512-NDYdls71fTXoU8TZHfbBWg7DiZfNzClcKui/+kyi6ppD2L1qnWW3VV6CjtaBXSUGGhiTWJ6ereOIkUvenif66Q==
   dependencies:
-    regenerator-runtime "^0.13.4"
+    regenerator-runtime "^0.13.10"
 
 "@babel/template@^7.18.10":
   version "7.18.10"
@@ -926,12 +927,12 @@
     webpack-dev-server "^4.8.0"
     yargs-parser "^21.0.0"
 
-"@tanem/svg-injector@^10.1.34":
-  version "10.1.34"
-  resolved "https://registry.yarnpkg.com/@tanem/svg-injector/-/svg-injector-10.1.34.tgz#2221df45b7adf9174df383bc6a56ea133ecacce4"
-  integrity sha512-F2TVpC9BLKyhL5904m+XbISvIvclDJPXyzrD5tfrRi+zo+e8rSEZYWcyA7vYuTz5w6b+/4gN8uqKiKVLwNVB2g==
+"@tanem/svg-injector@^10.1.35":
+  version "10.1.35"
+  resolved "https://registry.yarnpkg.com/@tanem/svg-injector/-/svg-injector-10.1.35.tgz#496d708ca6e2201e8427e22ba6e23bc420f40591"
+  integrity sha512-kqDZ99X+hZAbdj2FCgJaQmUSX2myqUWM3uUeoWSSGr9uXIFGh2fyQG5dIVCUVKFwKFN56W+GZqWGftFvzkT5rQ==
   dependencies:
-    "@babel/runtime" "^7.19.0"
+    "@babel/runtime" "^7.19.4"
     content-type "^1.0.4"
     tslib "^2.4.0"
 
@@ -3231,7 +3232,7 @@ regenerate@^1.4.2:
   version "1.4.2"
   resolved "https://registry.npmjs.org/regenerate/-/regenerate-1.4.2.tgz"
 
-regenerator-runtime@^0.13.10, regenerator-runtime@^0.13.4:
+regenerator-runtime@^0.13.10:
   version "0.13.10"
   resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.13.10.tgz#ed07b19616bcbec5da6274ebc75ae95634bfc2ee"
   integrity sha512-KepLsg4dU12hryUO7bp/axHAKvwGOCV0sGloQtpagJ12ai+ojVDqkeGSiRX1zlq+kjIMZ1t7gpze+26QqtdGqw==
