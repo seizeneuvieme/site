@@ -31,7 +31,7 @@ jobs:
         run: composer install --prefer-dist
 
       - name: Cache node_modules
-        uses: actions/cache@v1
+        uses: actions/cache@v3
         id: yarn-cache-node-modules
         with:
           path: node_modules
