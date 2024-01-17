@@ -7,12 +7,11 @@ use App\Entity\Subscriber;
 use App\Repository\SubscriberRepository;
 use App\Service\SendInBlueApiService;
 use App\Tests\builder\database\SubscriberBuilder;
-use DateTime;
+use Brevo\Client\Model\GetSmtpTemplateOverview;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
 use Faker\Factory;
-use SendinBlue\Client\Model\GetSmtpTemplateOverview;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
@@ -51,11 +50,11 @@ class SignUpControllerTest extends WebTestCase
     public function it_gets_sign_up(): void
     {
         // Act
-        $this->client->request('GET', '/inscription');
+        $this->client->request('GET', '/sign-up');
 
         // Assert
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('h1', "S'abonner à la newsletter Le Réhausseur");
+        $this->assertSelectorTextContains('h1', "S'abonner à la newsletter 16/9");
     }
 
     /**
@@ -73,8 +72,6 @@ class SignUpControllerTest extends WebTestCase
         $departmentName     = $faker->word;
         $region             = $faker->word;
         $cityDetails        = "$departmentNumber, $departmentName, $region";
-        $childFirstname     = $faker->firstName;
-        $childBirthdate     = '2018-09-10';
         $streamingPlatforms = [Platform::DISNEY];
 
         $sendInBlueApiService = $this->createMock(SendInBlueApiService::class);
@@ -105,7 +102,7 @@ class SignUpControllerTest extends WebTestCase
         // Act
         $this->client->request(
             'POST',
-            '/inscription',
+            '/sign-up',
             [
                 'email'            => $email,
                 'password'         => $password,
@@ -113,8 +110,6 @@ class SignUpControllerTest extends WebTestCase
                 'firstname'        => $firstname,
                 'city'             => $city,
                 'city-details'     => $cityDetails,
-                'child-firstname'  => $childFirstname,
-                'child-birth-date' => $childBirthdate,
                 'streaming'        => $streamingPlatforms,
             ]
         );
@@ -133,9 +128,6 @@ class SignUpControllerTest extends WebTestCase
         $this->assertEquals($departmentNumber, $subscriber?->getDepartmentNumber());
         $this->assertEquals($departmentName, $subscriber?->getDepartmentName());
         $this->assertEquals($region, $subscriber?->getRegion());
-        $this->assertEquals(1, $subscriber?->getChilds()->count());
-        $this->assertEquals($childFirstname, $subscriber?->getChilds()->toArray()[0]->getFirstname());
-        $this->assertEquals((new Datetime($childBirthdate))->format('d-m-Y'), $subscriber?->getChilds()->toArray()[0]->getBirthDate()->format('d-m-Y'));
         $this->assertEquals(1, $subscriber?->getPlatforms()->count());
         $this->assertEquals($streamingPlatforms[0], $subscriber?->getPlatforms()->toArray()[0]->getName());
         $this->assertEquals(false, $subscriber?->isVerified());
@@ -213,7 +205,7 @@ class SignUpControllerTest extends WebTestCase
         // Act
         $this->client->request(
             'POST',
-            '/inscription',
+            '/sign-up',
             $invalidFields
         );
 
@@ -235,8 +227,6 @@ class SignUpControllerTest extends WebTestCase
                     'firstname'        => $faker->firstName,
                     'city'             => $faker->city,
                     'city-details'     => $faker->numberBetween(10, 95).', '.$faker->word.', '.$faker->word,
-                    'child-firstname'  => $faker->firstName,
-                    'child-birth-date' => '2018-09-10',
                     'streaming'        => [Platform::DISNEY],
                 ],
                 Response::HTTP_OK,
@@ -250,8 +240,6 @@ class SignUpControllerTest extends WebTestCase
                     'firstname'        => $faker->firstName,
                     'city'             => $faker->city,
                     'city-details'     => $faker->numberBetween(10, 95).', '.$faker->word.', '.$faker->word,
-                    'child-firstname'  => $faker->firstName,
-                    'child-birth-date' => '2018-09-10',
                     'streaming'        => [Platform::DISNEY],
                 ],
                 Response::HTTP_OK,
@@ -265,12 +253,10 @@ class SignUpControllerTest extends WebTestCase
                     'firstname'        => $faker->firstName,
                     'city'             => $faker->city,
                     'city-details'     => $faker->numberBetween(10, 95).', '.$faker->word.', '.$faker->word,
-                    'child-firstname'  => $faker->firstName,
-                    'child-birth-date' => '2018-09-10',
                     'streaming'        => [Platform::DISNEY],
                 ],
                 Response::HTTP_OK,
-                "L'adresse email marty@mcfly.com est déjà abonnée au Réhausseur 👉 Je me connecte",
+                "L'adresse email marty@mcfly.com est déjà abonnée au 16/9 👉 Je me connecte",
             ],
             'password too short' => [
                 [
@@ -280,8 +266,6 @@ class SignUpControllerTest extends WebTestCase
                     'firstname'        => $faker->firstName,
                     'city'             => $faker->city,
                     'city-details'     => $faker->numberBetween(10, 95).', '.$faker->word.', '.$faker->word,
-                    'child-firstname'  => $faker->firstName,
-                    'child-birth-date' => '2018-09-10',
                     'streaming'        => [Platform::DISNEY],
                 ],
                 Response::HTTP_OK,
@@ -295,8 +279,6 @@ class SignUpControllerTest extends WebTestCase
                     'firstname'        => $faker->firstName,
                     'city'             => $faker->city,
                     'city-details'     => $faker->numberBetween(10, 95).', '.$faker->word.', '.$faker->word,
-                    'child-firstname'  => $faker->firstName,
-                    'child-birth-date' => '2018-09-10',
                     'streaming'        => [Platform::DISNEY],
                 ],
                 Response::HTTP_OK,
@@ -310,8 +292,6 @@ class SignUpControllerTest extends WebTestCase
                     'firstname'        => 'ab',
                     'city'             => $faker->city,
                     'city-details'     => $faker->numberBetween(10, 95).', '.$faker->word.', '.$faker->word,
-                    'child-firstname'  => $faker->firstName,
-                    'child-birth-date' => '2018-09-10',
                     'streaming'        => [Platform::DISNEY],
                 ],
                 Response::HTTP_OK,
@@ -325,8 +305,6 @@ class SignUpControllerTest extends WebTestCase
                     'firstname'        => 'text with length more than 125. text with length more than 125. text with length more than 125. text with length more than 125. text with length more than 125. text with length more than 125. text with length more than 125. text with length more than 125. text with length more than 125. text with length more than 125. text with length more than 125. text with length more than 125.',
                     'city'             => $faker->city,
                     'city-details'     => $faker->numberBetween(10, 95).', '.$faker->word.', '.$faker->word,
-                    'child-firstname'  => $faker->firstName,
-                    'child-birth-date' => '2018-09-10',
                     'streaming'        => [Platform::DISNEY],
                 ],
                 Response::HTTP_OK,
@@ -340,8 +318,6 @@ class SignUpControllerTest extends WebTestCase
                     'firstname'        => $faker->word,
                     'city'             => '',
                     'city-details'     => $faker->numberBetween(10, 95).', '.$faker->word.', '.$faker->word,
-                    'child-firstname'  => $faker->firstName,
-                    'child-birth-date' => '2018-09-10',
                     'streaming'        => [Platform::DISNEY],
                 ],
                 Response::HTTP_OK,
@@ -355,68 +331,6 @@ class SignUpControllerTest extends WebTestCase
                     'firstname'        => $faker->word,
                     'city'             => $faker->city,
                     'city-details'     => $faker->word,
-                    'child-firstname'  => $faker->firstName,
-                    'child-birth-date' => '2018-09-10',
-                    'streaming'        => [Platform::DISNEY],
-                ],
-                Response::HTTP_OK,
-                'Formulaire invalide',
-            ],
-            'child firstname too short' => [
-                [
-                    'email'            => $faker->email,
-                    'password'         => $password,
-                    'confirm-password' => $password,
-                    'firstname'        => $faker->word,
-                    'city'             => $faker->city,
-                    'city-details'     => $faker->numberBetween(10, 95).', '.$faker->word.', '.$faker->word,
-                    'child-firstname'  => 'ab',
-                    'child-birth-date' => '2018-09-10',
-                    'streaming'        => [Platform::DISNEY],
-                ],
-                Response::HTTP_OK,
-                'Formulaire invalide',
-            ],
-            'child firstname too long' => [
-                [
-                    'email'            => $faker->email,
-                    'password'         => $password,
-                    'confirm-password' => $password,
-                    'firstname'        => $faker->word,
-                    'city'             => $faker->city,
-                    'city-details'     => $faker->numberBetween(10, 95).', '.$faker->word.', '.$faker->word,
-                    'child-firstname'  => 'text with length more than 125. text with length more than 125. text with length more than 125. text with length more than 125. text with length more than 125. text with length more than 125.text with length more than 125. text with length more than 125. text with length more than 125. text with length more than 125. text with length more than 125. text with length more than 125.',
-                    'child-birth-date' => '2018-09-10',
-                    'streaming'        => [Platform::DISNEY],
-                ],
-                Response::HTTP_OK,
-                'Formulaire invalide',
-            ],
-            'child too young' => [
-                [
-                    'email'            => $faker->email,
-                    'password'         => $password,
-                    'confirm-password' => $password,
-                    'firstname'        => $faker->word,
-                    'city'             => $faker->city,
-                    'city-details'     => $faker->numberBetween(10, 95).', '.$faker->word.', '.$faker->word,
-                    'child-firstname'  => $faker->word,
-                    'child-birth-date' => (new DateTime('NOW'))->format('Y-m-d'),
-                    'streaming'        => [Platform::DISNEY],
-                ],
-                Response::HTTP_OK,
-                'Formulaire invalide',
-            ],
-            'child too old' => [
-                [
-                    'email'            => $faker->email,
-                    'password'         => $password,
-                    'confirm-password' => $password,
-                    'firstname'        => $faker->word,
-                    'city'             => $faker->city,
-                    'city-details'     => $faker->numberBetween(10, 95).', '.$faker->word.', '.$faker->word,
-                    'child-firstname'  => $faker->word,
-                    'child-birth-date' => '2000-09-10',
                     'streaming'        => [Platform::DISNEY],
                 ],
                 Response::HTTP_OK,
@@ -430,8 +344,6 @@ class SignUpControllerTest extends WebTestCase
                     'firstname'        => $faker->word,
                     'city'             => $faker->city,
                     'city-details'     => $faker->numberBetween(10, 95).', '.$faker->word.', '.$faker->word,
-                    'child-firstname'  => $faker->word,
-                    'child-birth-date' => '2018-09-10',
                     'streaming'        => ['Benshi'],
                 ],
                 Response::HTTP_OK,

@@ -4,10 +4,10 @@ namespace App\Tests\functional;
 
 use App\Service\SendInBlueApiService;
 use App\Tests\builder\database\SubscriberBuilder;
+use Brevo\Client\Model\GetSmtpTemplateOverview;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
-use SendinBlue\Client\Model\GetSmtpTemplateOverview;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
@@ -41,7 +41,7 @@ class ResetPasswordControllerTest extends WebTestCase
     public function it_gets_forgot_password(): void
     {
         // Act
-        $this->client->request('GET', '/mot-de-passe-oublie/');
+        $this->client->request('GET', '/password-forgotten/');
 
         // Assert
         $this->assertResponseIsSuccessful();
@@ -68,7 +68,7 @@ class ResetPasswordControllerTest extends WebTestCase
         // Act
         $this->client->request(
             'POST',
-            '/mot-de-passe-oublie/',
+            '/password-forgotten/',
             [
                 '_username' => 'marty@mcfly.com',
             ]

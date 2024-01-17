@@ -4,17 +4,16 @@ namespace App\Tests\unit;
 
 use App\DTO\CampaignCreate;
 use App\Entity\Campaign;
-use App\Entity\Child;
 use App\Entity\Platform;
 use App\Entity\Subscriber;
 use App\Repository\SubscriberRepository;
 use App\Service\CampaignService;
 use App\Service\SendInBlueApiService;
+use Brevo\Client\Model\GetSmtpTemplateOverview;
 use Doctrine\ORM\EntityManagerInterface;
 use Faker\Factory;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
-use SendinBlue\Client\Model\GetSmtpTemplateOverview;
 
 class CampaignServiceTest extends TestCase
 {
@@ -78,18 +77,6 @@ class CampaignServiceTest extends TestCase
         $subscriber->setDepartmentNumber($faker->numberBetween(10, 95));
         $subscriber->setDepartmentName($faker->word);
         $subscriber->setRegion($faker->word);
-        $childOne = new Child();
-        $childOne->setFirstname($faker->firstName);
-        $childOne->setBirthDate($faker->dateTimeBetween('-3 years - 1 day', '-3 years - 1 day'));
-        $childTwo = new Child();
-        $childTwo->setFirstname($faker->firstName);
-        $childTwo->setBirthDate($faker->dateTimeBetween('-3 years - 1 day', '-3 years - 1 day'));
-        $childThree = new Child();
-        $childThree->setFirstname($faker->firstName);
-        $childThree->setBirthDate($faker->dateTimeBetween('-12 years - 1 day', '-12 years - 1 day'));
-        $subscriber->addChild($childOne);
-        $subscriber->addChild($childTwo);
-        $subscriber->addChild($childThree);
         $platform = new Platform();
         $platform->setName(Platform::NETFLIX);
         $subscriber->addPlatform($platform);
@@ -105,16 +92,6 @@ class CampaignServiceTest extends TestCase
         $this->assertEquals($subscriber->getRegion(), $params['REGION']);
         $this->assertEquals(true, $params['NETFLIX']);
         $this->assertEquals(false, $params['DISNEY']);
-        $this->assertEquals(" ✅ {$childOne->getFirstname()} ✅ {$childTwo->getFirstname()}", $params['AGE_3']);
-        $this->assertEquals('', $params['AGE_4']);
-        $this->assertEquals('', $params['AGE_5']);
-        $this->assertEquals('', $params['AGE_6']);
-        $this->assertEquals('', $params['AGE_7']);
-        $this->assertEquals('', $params['AGE_8']);
-        $this->assertEquals('', $params['AGE_9']);
-        $this->assertEquals('', $params['AGE_10']);
-        $this->assertEquals('', $params['AGE_11']);
-        $this->assertEquals(" ✅ {$childThree->getFirstname()}", $params['AGE_12']);
     }
 
     /**
@@ -132,18 +109,6 @@ class CampaignServiceTest extends TestCase
         $subscriber->setDepartmentNumber($faker->numberBetween(10, 95));
         $subscriber->setDepartmentName($faker->word);
         $subscriber->setRegion($faker->word);
-        $childOne = new Child();
-        $childOne->setFirstname($faker->firstName);
-        $childOne->setBirthDate($faker->dateTimeBetween('-3 years - 1 day', '-3 years - 1 day'));
-        $childTwo = new Child();
-        $childTwo->setFirstname($faker->firstName);
-        $childTwo->setBirthDate($faker->dateTimeBetween('-3 years - 1 day', '-3 years - 1 day'));
-        $childThree = new Child();
-        $childThree->setFirstname($faker->firstName);
-        $childThree->setBirthDate($faker->dateTimeBetween('-12 years - 1 day', '-12 years - 1 day'));
-        $subscriber->addChild($childOne);
-        $subscriber->addChild($childTwo);
-        $subscriber->addChild($childThree);
         $platform = new Platform();
         $platform->setName(Platform::NETFLIX);
         $subscriber->addPlatform($platform);

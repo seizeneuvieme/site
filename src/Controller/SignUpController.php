@@ -9,7 +9,6 @@ use App\Service\CityService;
 use App\Service\SendInBlueApiService;
 use App\Service\SubscriberService;
 use Doctrine\ORM\EntityManagerInterface;
-use Exception;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,7 +29,7 @@ class SignUpController extends AbstractController
     ) {
     }
 
-    #[Route('/inscription', name: 'app_sign_up')]
+    #[Route('/sign-up', name: 'app_sign_up')]
     public function index(
         Request $request,
         SubscriberService $subscriberService,
@@ -122,7 +121,7 @@ class SignUpController extends AbstractController
         ]);
     }
 
-    #[Route('/verification/email', name: 'app_verify_email')]
+    #[Route('/sign-up/email/verify', name: 'app_verify_email')]
     public function verifyUserEmail(
         Request $request,
         SubscriberRepository $subscriberRepository,
@@ -149,7 +148,7 @@ class SignUpController extends AbstractController
                 ]
             );
             $this->addFlash('account_activated', '');
-        } catch (Exception $exception) {
+        } catch (\Exception $exception) {
             $this->addFlash('verify_email_error', '');
         }
 

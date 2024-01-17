@@ -45,9 +45,6 @@ class Subscriber implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private string $region;
 
-    #[ORM\OneToMany(mappedBy: 'subscriber', targetEntity: Child::class, cascade: ['persist', 'remove'])]
-    private Collection $childs;
-
     #[ORM\ManyToMany(targetEntity: Platform::class, inversedBy: 'subscribers', cascade: ['persist', 'remove'])]
     private Collection $platforms;
 
@@ -64,7 +61,6 @@ class Subscriber implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function __construct()
     {
-        $this->childs    = new ArrayCollection();
         $this->platforms = new ArrayCollection();
     }
 
@@ -194,36 +190,6 @@ class Subscriber implements UserInterface, PasswordAuthenticatedUserInterface
     public function setRegion(string $region): self
     {
         $this->region = $region;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Child>
-     */
-    public function getChilds(): Collection
-    {
-        return $this->childs;
-    }
-
-    public function addChild(Child $child): self
-    {
-        if (!$this->childs->contains($child)) {
-            $this->childs->add($child);
-            $child->setSubscriber($this);
-        }
-
-        return $this;
-    }
-
-    public function removeChild(Child $child): self
-    {
-        if ($this->childs->removeElement($child)) {
-            // set the owning side to null (unless already changed)
-            if ($child->getSubscriber() === $this) {
-                $child->setSubscriber(null);
-            }
-        }
 
         return $this;
     }

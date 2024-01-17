@@ -2,15 +2,14 @@
 
 namespace App\Service;
 
-use Exception;
+use Brevo\Client\Api\TransactionalEmailsApi;
+use Brevo\Client\Configuration;
+use Brevo\Client\Model\GetSmtpTemplateOverview;
+use Brevo\Client\Model\SendSmtpEmail;
+use Brevo\Client\Model\SendSmtpEmailSender;
+use Brevo\Client\Model\SendSmtpEmailTo;
 use GuzzleHttp\Client;
 use Psr\Log\LoggerInterface;
-use SendinBlue\Client\Api\TransactionalEmailsApi;
-use SendinBlue\Client\Configuration;
-use SendinBlue\Client\Model\GetSmtpTemplateOverview;
-use SendinBlue\Client\Model\SendSmtpEmail;
-use SendinBlue\Client\Model\SendSmtpEmailSender;
-use SendinBlue\Client\Model\SendSmtpEmailTo;
 
 class SendInBlueApiService
 {
@@ -20,7 +19,7 @@ class SendInBlueApiService
     public const CONFIRM_ACCOUNT_REMOVED    = 7;
     public const CONFIRM_CAMPAIGN_TO        = [
         'name'  => 'Fanny',
-        'email' => 'fanny@lerehausseur.fr',
+        'email' => 'fanny@seize9eme.fr',
     ];
 
     public function __construct(
@@ -46,7 +45,7 @@ class SendInBlueApiService
             );
 
             return $apiInstance->getSmtpTemplate($templateId);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->logger->error(
                 'GET_TEMPLATE_ERROR',
                 [
@@ -89,7 +88,7 @@ class SendInBlueApiService
             );
 
             return true;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->logger->error(
                 'SEND_EMAIL_ERROR',
                 [

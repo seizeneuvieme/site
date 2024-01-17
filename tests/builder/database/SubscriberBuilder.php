@@ -2,7 +2,6 @@
 
 namespace App\Tests\builder\database;
 
-use DateTime;
 use Doctrine\DBAL\Connection;
 use Faker\Factory;
 
@@ -17,6 +16,8 @@ class SubscriberBuilder
     private string $departmentNumber;
     private string $departmentName;
     private string $region;
+    private array $platforms;
+
     private bool $isVerified;
     private \DateTimeInterface $createdAt;
     private \DateTimeInterface $updatedAt;
@@ -34,9 +35,10 @@ class SubscriberBuilder
         $this->departmentNumber = (string) $faker->numberBetween(10, 95);
         $this->departmentName   = $faker->word;
         $this->region           = $faker->word;
+        $this->platforms        = [];
         $this->isVerified       = false;
-        $this->createdAt        = new DateTime('NOW');
-        $this->updatedAt        = new DateTime('NOW');
+        $this->createdAt        = new \DateTime('NOW');
+        $this->updatedAt        = new \DateTime('NOW');
     }
 
     public function fake(
@@ -61,8 +63,8 @@ class SubscriberBuilder
         $this->departmentName   = $departmentName;
         $this->region           = $region;
         $this->isVerified       = $isVerified;
-        $this->createdAt        = new DateTime('NOW');
-        $this->updatedAt        = new DateTime('NOW');
+        $this->createdAt        = new \DateTime('NOW');
+        $this->updatedAt        = new \DateTime('NOW');
 
         return $this;
     }
@@ -86,6 +88,19 @@ class SubscriberBuilder
             'created_at'        => $this->createdAt->format('y-m-d'),
             'updated_at'        => $this->updatedAt->format('y-m-d'),
         ]);
+
+        $faker = Factory::create();
+        foreach ($this->platforms as $platform) {
+            $platformId = $faker->randomNumber();
+            $this->connection->insert('platform', [
+                'id'   => $platformId,
+                'name' => $platform,
+            ]);
+            $this->connection->insert('subscriber_platform', [
+                'subscriber_id' => $this->id,
+                'platform_id'   => $platformId,
+            ]);
+        }
 
         return $this;
     }
@@ -114,6 +129,13 @@ class SubscriberBuilder
     public function withRoles(array $roles): self
     {
         $this->roles = json_encode($roles);
+
+        return $this;
+    }
+
+    public function withPlatforms(array $platforms): self
+    {
+        $this->platforms = $platforms;
 
         return $this;
     }

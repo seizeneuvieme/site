@@ -15,7 +15,7 @@ class FooterControllerTest extends WebTestCase
         $client = static::createClient();
 
         // Act
-        $client->request('GET', '/mentions-legales');
+        $client->request('GET', '/legal-notice');
 
         // Assert
         $this->assertResponseIsSuccessful();
@@ -31,7 +31,7 @@ class FooterControllerTest extends WebTestCase
         $client = static::createClient();
 
         // Act
-        $crawler = $client->request('GET', '/politique-de-confidentialite');
+        $crawler = $client->request('GET', '/privacy-policy');
 
         // Assert
         $this->assertResponseIsSuccessful();

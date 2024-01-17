@@ -6,12 +6,11 @@ use App\Entity\Platform;
 use App\Repository\SubscriberRepository;
 use App\Service\SendInBlueApiService;
 use App\Tests\builder\database\SubscriberBuilder;
-use DateTime;
+use Brevo\Client\Model\GetSmtpTemplateOverview;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
 use Faker\Factory;
-use SendinBlue\Client\Model\GetSmtpTemplateOverview;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Csrf\TokenStorage\SessionTokenStorage;
 
@@ -55,7 +54,7 @@ class AccountControllerTest extends AbstractWebTestCase
         $this->client->loginUser($subscriber);
 
         // Act
-        $this->client->request('GET', '/mon-compte');
+        $this->client->request('GET', '/account');
         $this->client->followRedirect();
 
         // Assert
@@ -69,7 +68,7 @@ class AccountControllerTest extends AbstractWebTestCase
     public function it_redirects_to_sign_in_if_not_logged(): void
     {
         // Act
-        $this->client->request('GET', '/mon-compte');
+        $this->client->request('GET', '/account');
         $this->client->followRedirect();
 
         // Assert
@@ -104,7 +103,7 @@ class AccountControllerTest extends AbstractWebTestCase
         $container->set(SendInBlueApiService::class, $sendInBlueApiService);
 
         // Act
-        $this->client->request('GET', '/mon-compte/renvoi-code-activation');
+        $this->client->request('GET', '/account/send-activation-code');
         $this->client->followRedirect();
 
         // Assert
@@ -136,7 +135,7 @@ class AccountControllerTest extends AbstractWebTestCase
         // Act
         $this->client->request(
             'POST',
-            '/mon-compte/modifier/email',
+            '/account/email/edit',
             [
                 'email' => 'doc@doc.com',
                 'token' => $csrfToken,
@@ -179,7 +178,7 @@ class AccountControllerTest extends AbstractWebTestCase
         // Act
         $this->client->request(
             'POST',
-            '/mon-compte/modifier/email',
+            '/account/email/edit',
             [
                 'email' => $email,
                 'token' => $csrfToken,
@@ -239,7 +238,7 @@ class AccountControllerTest extends AbstractWebTestCase
         // Act
         $this->client->request(
             'POST',
-            '/mon-compte/modifier/mot-de-passe',
+            '/account/password/edit',
             [
                 'password'         => $password,
                 'confirm-password' => $password,
@@ -283,7 +282,7 @@ class AccountControllerTest extends AbstractWebTestCase
         // Act
         $crawler = $this->client->request(
             'POST',
-            '/mon-compte/modifier/mot-de-passe',
+            '/account/password/edit',
             [
                 'password'         => $password,
                 'confirm-password' => $confirmPassword,
@@ -318,7 +317,7 @@ class AccountControllerTest extends AbstractWebTestCase
     /**
      * @test
      */
-    public function it_updates_user_infos(): void
+    public function it_updates_user_data(): void
     {
         // Arrange
         $container = $this->client->getContainer();
@@ -347,7 +346,7 @@ class AccountControllerTest extends AbstractWebTestCase
         // Act
         $this->client->request(
             'POST',
-            '/mon-compte/modifier/coordonnees',
+            '/account/data/edit',
             [
                 'firstname'    => $firstname,
                 'city'         => $city,
@@ -396,7 +395,7 @@ class AccountControllerTest extends AbstractWebTestCase
         // Act
         $this->client->request(
             'POST',
-            '/mon-compte/modifier/coordonnees',
+            '/account/data/edit',
             array_merge(
                 $invalidFields,
                 [
@@ -476,7 +475,7 @@ class AccountControllerTest extends AbstractWebTestCase
         // Act
         $this->client->request(
             'POST',
-            '/mon-compte/modifier/plateformes',
+            '/account/platforms/edit',
             [
                 'streaming' => [Platform::DISNEY],
                 'token'     => $csrfToken,
@@ -489,7 +488,7 @@ class AccountControllerTest extends AbstractWebTestCase
 
         // Assert
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('div.alert-success > p', 'Tes plateformes de streaming payantes ont bien été modifiées 🎉');
+        $this->assertSelectorTextContains('div.alert-success > p', 'Tes plateformes de contenu ont bien été modifiées 🎉');
         $this->assertEquals(1, $subscriber->getPlatforms()->count());
     }
 
@@ -519,7 +518,7 @@ class AccountControllerTest extends AbstractWebTestCase
         // Act
         $this->client->request(
             'POST',
-            '/mon-compte/modifier/plateformes',
+            '/account/platforms/edit',
             array_merge(
                 $invalidFields,
                 [
@@ -549,259 +548,6 @@ class AccountControllerTest extends AbstractWebTestCase
     /**
      * @test
      */
-    public function it_adds_child(): void
-    {
-        // Arrange
-        $container = $this->client->getContainer();
-        /**
-         * @var SubscriberRepository $subscriberRepository
-         */
-        $subscriberRepository = $container->get(SubscriberRepository::class);
-        $subscriber           = $subscriberRepository->findOneBy([
-            'email' => 'marty@mcfly.com',
-        ]);
-
-        $this->loginUser($subscriber);
-
-        $tokenId   = 'add-child';
-        $csrfToken = static::getContainer()->get('security.csrf.token_generator')->generateToken();
-        $this->setLoginSessionValue(SessionTokenStorage::SESSION_NAMESPACE."/$tokenId", $csrfToken);
-        $faker          = Factory::create();
-        $childFirstname = $faker->firstName;
-        $childBirthdate = '2018-09-10';
-
-        // Act
-        $this->client->request(
-            'POST',
-            '/mon-compte/ajouter/enfant',
-            [
-                'child-firstname'  => $childFirstname,
-                'child-birth-date' => $childBirthdate,
-                'token'            => $csrfToken,
-            ]
-        );
-
-        $subscriber = $subscriberRepository->findOneBy([
-            'id' => $subscriber->getId(),
-        ]);
-
-        // Assert
-        $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('div.alert-success > p', "✅ C'est noté ! Tu recevras désormais aussi des recommandations de films pour $childFirstname");
-        $this->assertEquals(1, $subscriber->getChilds()->count());
-    }
-
-    /**
-     * @test
-     *
-     * @dataProvider invalidChildsProvider
-     */
-    public function it_does_not_add_child_if_invalid(array $invalidFields, string $seletor, string $message): void
-    {
-        // Arrange
-        $container = $this->client->getContainer();
-        /**
-         * @var SubscriberRepository $subscriberRepository
-         */
-        $subscriberRepository = $container->get(SubscriberRepository::class);
-        $subscriber           = $subscriberRepository->findOneBy([
-            'email' => 'marty@mcfly.com',
-        ]);
-
-        $this->loginUser($subscriber);
-
-        $tokenId   = 'add-child';
-        $csrfToken = static::getContainer()->get('security.csrf.token_generator')->generateToken();
-        $this->setLoginSessionValue(SessionTokenStorage::SESSION_NAMESPACE."/$tokenId", $csrfToken);
-
-        // Act
-        $this->client->request(
-            'POST',
-            '/mon-compte/ajouter/enfant',
-            array_merge(
-                $invalidFields,
-                [
-                    'token' => $csrfToken,
-                ]
-            )
-        );
-
-        // Assert
-        $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains($seletor, $message);
-    }
-
-    public function invalidChildsProvider(): array
-    {
-        $faker = Factory::create();
-
-        return [
-            'child firstname too short' => [
-                [
-                    'child-firstname'  => 'ab',
-                    'child-birth-date' => '2018-09-10',
-                ],
-                'div.alert-primary > p',
-                'Formulaire invalide.',
-            ],
-            'child firstname too long' => [
-                [
-                    'child-firstname'  => 'text with length more than 125. text with length more than 125. text with length more than 125. text with length more than 125. text with length more than 125. text with length more than 125.text with length more than 125. text with length more than 125. text with length more than 125. text with length more than 125. text with length more than 125. text with length more than 125.',
-                    'child-birth-date' => '2018-09-10',
-                ],
-                'div.alert-primary > p',
-                'Formulaire invalide.',
-            ],
-            'child too young' => [
-                [
-                    'child-firstname'  => $faker->firstName,
-                    'child-birth-date' => (new DateTime('NOW'))->format('Y-m-d'),
-                ],
-                'div.alert-primary > p',
-                'Formulaire invalide.',
-            ],
-            'child too old' => [
-                [
-                    'child-firstname'  => $faker->firstName,
-                    'child-birth-date' => '2000-09-10',
-                ],
-                'div.alert-primary > p',
-                'Formulaire invalide.',
-            ],
-        ];
-    }
-
-    /**
-     * @test
-     */
-    public function it_removes_child(): void
-    {
-        // Arrange
-        $container = $this->client->getContainer();
-        /**
-         * @var SubscriberRepository $subscriberRepository
-         */
-        $subscriberRepository = $container->get(SubscriberRepository::class);
-        $subscriber           = $subscriberRepository->findOneBy([
-            'email' => 'marty@mcfly.com',
-        ]);
-
-        $this->loginUser($subscriber);
-
-        $tokenId   = 'add-child';
-        $csrfToken = static::getContainer()->get('security.csrf.token_generator')->generateToken();
-        $this->setLoginSessionValue(SessionTokenStorage::SESSION_NAMESPACE."/$tokenId", $csrfToken);
-        $faker          = Factory::create();
-        $childFirstname = $faker->firstName;
-        $childBirthdate = '2018-09-10';
-
-        // Act
-        $this->client->request(
-            'POST',
-            '/mon-compte/ajouter/enfant',
-            [
-                'child-firstname'  => $childFirstname,
-                'child-birth-date' => $childBirthdate,
-                'token'            => $csrfToken,
-            ]
-        );
-
-        $this->client->request(
-            'POST',
-            '/mon-compte/ajouter/enfant',
-            [
-                'child-firstname'  => $childFirstname,
-                'child-birth-date' => $childBirthdate,
-                'token'            => $csrfToken,
-            ]
-        );
-
-        $subscriber = $subscriberRepository->findOneBy([
-            'id' => $subscriber->getId(),
-        ]);
-
-        $tokenId   = 'remove-child';
-        $csrfToken = static::getContainer()->get('security.csrf.token_generator')->generateToken();
-        $this->setLoginSessionValue(SessionTokenStorage::SESSION_NAMESPACE."/$tokenId", $csrfToken);
-
-        $firstChild = $subscriber->getChilds()->first();
-        $this->client->request(
-            'POST',
-            '/mon-compte/supprimer/enfant',
-            [
-                'child-id' => $firstChild->getId(),
-                'token'    => $csrfToken,
-            ]
-        );
-        $this->client->followRedirect();
-
-        // Assert
-        $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('div.alert-success > p', "✅ C'est noté ! Tu recevras plus de recommandations de films pour {$firstChild->getFirstname()}");
-    }
-
-    /**
-     * @test
-     */
-    public function it_does_not_remove_child_if_subscriber_only_have_one(): void
-    {
-        // Arrange
-        $container = $this->client->getContainer();
-        /**
-         * @var SubscriberRepository $subscriberRepository
-         */
-        $subscriberRepository = $container->get(SubscriberRepository::class);
-        $subscriber           = $subscriberRepository->findOneBy([
-            'email' => 'marty@mcfly.com',
-        ]);
-
-        $this->loginUser($subscriber);
-
-        $tokenId   = 'add-child';
-        $csrfToken = static::getContainer()->get('security.csrf.token_generator')->generateToken();
-        $this->setLoginSessionValue(SessionTokenStorage::SESSION_NAMESPACE."/$tokenId", $csrfToken);
-        $faker          = Factory::create();
-        $childFirstname = $faker->firstName;
-        $childBirthdate = '2018-09-10';
-
-        // Act
-        $this->client->request(
-            'POST',
-            '/mon-compte/ajouter/enfant',
-            [
-                'child-firstname'  => $childFirstname,
-                'child-birth-date' => $childBirthdate,
-                'token'            => $csrfToken,
-            ]
-        );
-
-        $subscriber = $subscriberRepository->findOneBy([
-            'id' => $subscriber->getId(),
-        ]);
-
-        $tokenId   = 'remove-child';
-        $csrfToken = static::getContainer()->get('security.csrf.token_generator')->generateToken();
-        $this->setLoginSessionValue(SessionTokenStorage::SESSION_NAMESPACE."/$tokenId", $csrfToken);
-
-        $firstChild = $subscriber->getChilds()->first();
-        $this->client->request(
-            'POST',
-            '/mon-compte/supprimer/enfant',
-            [
-                'child-id' => $firstChild->getId(),
-                'token'    => $csrfToken,
-            ]
-        );
-        $this->client->followRedirect();
-
-        // Assert
-        $this->assertResponseIsSuccessful();
-        $this->assertSelectorNotExists('div.alert-success > p', "✅ C'est noté ! Tu recevras plus de recommandations de films pour {$firstChild->getFirstname()}");
-    }
-
-    /**
-     * @test
-     */
     public function it_removes_account(): void
     {
         // Arrange
@@ -823,7 +569,7 @@ class AccountControllerTest extends AbstractWebTestCase
         // Act
         $this->client->request(
             'POST',
-            '/mon-compte/modifier/mot-de-passe',
+            '/account/password/edit',
             [
                 'password'         => 'ouvre toi STP',
                 'confirm-password' => 'ouvre toi STP',
@@ -852,7 +598,7 @@ class AccountControllerTest extends AbstractWebTestCase
         $this->setLoginSessionValue(SessionTokenStorage::SESSION_NAMESPACE."/$tokenId", $csrfToken);
         $this->client->request(
             'POST',
-            '/mon-compte/supprimer/compte',
+            '/account/delete',
             [
                 'password' => 'ouvre toi STP',
                 'token'    => $csrfToken,
@@ -860,7 +606,7 @@ class AccountControllerTest extends AbstractWebTestCase
         );
 
         // Assert
-        $this->assertSelectorTextContains('title', 'Redirecting to /deconnexion');
+        $this->assertSelectorTextContains('title', 'Redirecting to /logout');
         $subscriber = $subscriberRepository->findOneBy([
             'email' => 'marty@mcfly.com',
         ]);

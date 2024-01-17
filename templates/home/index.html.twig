@@ -7,13 +7,12 @@
 {% block body %}
 
     {% include './partials/header.html.twig' %}
-
-    <section class="pt-3 bg-primary-alt has-divider">
+    <section class="pt-6 bg-primary-alt has-divider">
       <div class="container" style="padding-bottom: 0;">
         <div class="row justify-content-center text-center">
           <div class="col-xl-8 col-lg-9 col-md-10">
-            <h1 class="display-4">Des films à la<br> <span style="color: #ff2e3d"> hauteur des enfants</span></h1>
-            <h6>Abonne-toi à la newsletter Le Réhausseur et reçois régulièrement une sélection de films à regarder, spécialement choisis pour tes enfants ✉ 🎥 🧒 </h6>
+            <h1 class="display-4">La newsletter des <span style="color: #ff2e3d"> films cultes</span> à voir directement depuis ton canapé 🍿</h1>
+            <h6>Abonne-toi, c'est gratuit ! </h6>
             <form action="{{ path('app_sign_up') }}" method="GET">
               <div class="d-flex flex-column flex-sm-row justify-content-center align-items-center align-items-sm-start mt-5">
                 <input class="form-control form-control-lg" type="text" placeholder="Ton adresse email" name="email">
@@ -24,9 +23,9 @@
             </form>
             <div class="d-flex flex-column flex-sm-row justify-content-center align-items-center align-items-sm-start mt-4 mb-3">
               <small class="font-weight-light">
-                Le Réhausseur s’engage à ne jamais transmettre ton adresse e-mail à des fins promotionnelles.
+                16/9 s’engage à ne jamais transmettre ton adresse e-mail à des fins promotionnelles.
                 <br/>
-                Tu pourras te désinscrire à tout moment en un clic.
+                Tu pourras te désinscrire à tout moment en un clap 🎬
               </small>
             </div>
           </div>
@@ -43,13 +42,13 @@
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-xl-10 text-center">
-            <h2 class="display-4 mx-xl-6">Pourquoi choisir<br> <span style="font-family: 'Grand Hotel'; color: #ff2e3d">Le Réhausseur</span> ?</h2>
+            <h2 class="display-4 mx-xl-6">Pourquoi choisir<br> <span style="color: #ff2e3d">16/9</span> ?</h2>
           </div>
         </div>
         <div class="row justify-content-between align-items-center my-6">
           <div class="col-md-5 col-lg-5 mb-4 mb-md-0">
             <div class="row justify-content-center">
-                  <img style="width: 22rem; transform: rotate(-5deg);" src={{ asset('build/images/phone-1.webp') }} alt="newsletter"/>
+                  <img style="width: 22rem; transform: rotate(-5deg);" src={{ asset('build/images/phone-1.png') }} alt="newsletter"/>
             </div>
           </div>
           <div class="col-md-7 col-lg-7 col-xl-6">
@@ -58,43 +57,38 @@
               <div class="ml-3-desktop">
                 <h5>Gagne du temps</h5>
                 <p>
-                  Grâce au Réhausseur, ne perds plus ton temps à rechercher le film idéal pour tes enfants. Reçois des recommandations de films directement
-                  dans ta boîte mail : TV, internet, Netflix, Disney+, cinéma... tous les médias sont passés au peigne fin.
+                  Ne perds plus ton temps à rechercher le film idéal. Reçois des recommandations de films directement
+                  dans ta boîte mail : TNT, Netflix, Prime Vidéo, Disney+, MyCanal... les principales plateformes de diffusion sont passées au peigne fin.
                 </p>
               </div>
             </div>
             <div class="d-flex mb-4 feature" >
-              <div class="process-circle bg-primary-3">🧒</div>
+              <div class="process-circle bg-primary-3">👌</div>
               <div class="ml-3-desktop">
-                <h5>Des contenus adaptés et personnalisés</h5>
+                <h5>Des contenus personnalisés</h5>
                 <p>
-                  Nos sélections de films sont faites par une professionnelle du cinéma jeune public, s'adaptent automatiquement à l'âge de tes enfants, et aux plateformes de streaming payantes auxquelles
-                  tu es éventuellement abonné(e) (Netflix et Disney+).
+                  Nos sélections de films sont faites par une professionnelle du cinéma, et s'adaptent automatiquement aux plateformes de contenu à ta disposition.
                 </p>
               </div>
             </div>
             <div class="d-flex mb-4 feature" >
-              <div class="process-circle bg-primary-3">❤️</div>
+              <div class="process-circle bg-primary-3">🧠</div>
               <div class="ml-3-desktop">
-                <h5> Les événements cinéma à partager en famille</h5>
+                <h5>Cultive-toi</h5>
                 <p>
-                  Tu recevras également les sorties de films pour enfants à ne pas manquer au cinéma, mais aussi des événements
-                  auxquels participer autour de chez toi (avant-premières, festivals...).
+                 À travers des films qui ont marqué l'histoire du cinéma. Que tu aimes regarder des films juste pour le plaisir, ou que tu souhaites élargir ta culture G pour briller en société !
                 </p>
               </div>
             </div>
             <div class="d-flex mb-4 feature " >
-              <div class="process-circle bg-primary-3">🎥</div>
+              <div class="process-circle bg-primary-3">❤️</div>
               <div class="ml-3-desktop">
-                <h5>Prends de la hauteur</h5>
+                <h5>C'est gratuit</h5>
                 <p>
-                  Montre des films qui feront grandir tes enfants ! Que ce soit un grand classique du cinéma ou la nouveauté à ne pas rater,
-                  Le Réhausseur te donnera toutes les raisons de les (re)visionner.
+                  Et pour toujours !
                 </p>
               </div>
             </div>
-            <span class="feature"><a href="#" class="hover-arrow" data-toggle="modal" data-target="#discover-modal">Découvre à quoi ressemble la newsletter du Réhausseur</a>
-            </span>
             <div class="modal fade" id="discover-modal" tabindex="-1" role="dialog" aria-hidden="true">
               <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
@@ -167,7 +161,7 @@
             <div class="my-4">
               <div class="card card-sm card-body shadow-3d mb-3">
                 <div data-target="#panel-1" class="accordion-panel-title collapsed" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="panel-1">
-                  <span class="h6 mb-0">Qui se cache derrière Le Réhausseur ?</span>
+                  <span class="h6 mb-0">Qui se cache derrière 16/9 ?</span>
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="injected-svg icon" data-src="assets/img/icons/interface/plus.svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                     <path d="M19 11H5C4.44772 11 4 11.4477 4 12C4 12.5523 4.44772 13 5 13H19C19.5523 13 20 12.5523 20 12C20 11.4477 19.5523 11 19 11Z" fill="#212529"></path>
                     <path d="M13 19L13 5C13 4.44772 12.5523 4 12 4C11.4477 4 11 4.44772 11 5L11 19C11 19.5523 11.4477 20 12 20C12.5523 20 13 19.5523 13 19Z" fill="#212529"></path>
@@ -176,14 +170,14 @@
                 <div class="collapse" id="panel-1" style="">
                   <div class="pt-3">
                     <p class="mb-0">
-                      Je m'appelle Fanny, et je suis la fondatrice du Réhausseur. C'est moi qui recherche les meilleurs films pour tes enfants, et qui rédige tous les contenus du Réhausseur. Je travaille depuis 10 ans dans le secteur du cinéma, programme des films au quotidien pour des salles, et suis spécialisée dans ceux qui peuvent être vus par du jeune public.
+                      Je m'appelle Fanny, et je suis la fondatrice du 16/9. C'est moi qui recherche les meilleurs films pour toi. J'ai travaillé pendant des années dans la programmation pour des salles de cinéma.
                     </p>
                   </div>
                 </div>
               </div>
               <div class="card card-sm card-body shadow-3d mb-3">
                 <div data-target="#panel-2" class="accordion-panel-title collapsed" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="panel-1">
-                  <span class="h6 mb-0">À qui s'adresse Le Réhausseur ?</span>
+                  <span class="h6 mb-0">À qui s'adresse 16/9 ?</span>
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="injected-svg icon" data-src="assets/img/icons/interface/plus.svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                     <path d="M19 11H5C4.44772 11 4 11.4477 4 12C4 12.5523 4.44772 13 5 13H19C19.5523 13 20 12.5523 20 12C20 11.4477 19.5523 11 19 11Z" fill="#212529"></path>
                     <path d="M13 19L13 5C13 4.44772 12.5523 4 12 4C11.4477 4 11 4.44772 11 5L11 19C11 19.5523 11.4477 20 12 20C12.5523 20 13 19.5523 13 19Z" fill="#212529"></path>
@@ -192,7 +186,10 @@
                 <div class="collapse" id="panel-2" style="">
                   <div class="pt-3">
                     <p class="mb-0">
-                      À tous les parents qui désirent montrer des films de qualité à leurs enfants de 3 ans à 12 ans !
+                      À tout le monde :<br/><br/>
+                      - Si tu aimes regarder des films, juste pour le plaisir.<br/>
+                      - Si tu aimes élargir ta culture G, et connaître quelques petites anecdotes ciné à ressortir en soirée.<br/>
+                      - Si tu veux être sûr-e que les films que tu regardes aient un réel intérêt, car ils ont tout simplement marqué l’histoire du cinéma pour différentes raisons qui te seront d’ailleurs données.<br/>
                     </p>
                   </div>
                 </div>
@@ -208,7 +205,7 @@
                 <div class="collapse" id="panel-3" style="">
                   <div class="pt-3">
                     <p class="mb-0">
-                      Le Réhausseur est totalement gratuit ! C'est ma volonté, qui permet de rendre accessible la culture à tous, sans que tu n'aies rien de plus à débourser que le prix de ta place de cinéma, ou ton abonnement à des plateformes de streaming payantes. Aussi, j'arpente le web à la recherche de contenus gratuits et de qualité à te proposer, disponibles sur Youtube et internet, et de façon totalement légale.
+                      C'est totalement gratuit !
                     </p>
                   </div>
                 </div>
@@ -224,14 +221,14 @@
                 <div class="collapse" id="panel-4" style="">
                   <div class="pt-3">
                     <p class="mb-0">
-                      Tu pourras te désabonner à tout moment en un clic directement <a href="{{ path('app_account') }}">depuis ton compte</a>. En te désabonnant, ton compte sera supprimé et tes données totalement effacées.
+                      Tu pourras te désabonner à tout moment en un clap directement <a href="{{ path('app_account') }}">depuis ton compte</a>. En te désabonnant, ton compte sera supprimé et tes données automatiquement effacées.
                     </p>
                   </div>
                 </div>
               </div>
-              <div class="card card-sm card-body shadow-3d mb-3">
+              <div class="card card-sm card-body shadow-3d mb-0">
                 <div data-target="#panel-5" class="accordion-panel-title collapsed" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="panel-2">
-                  <span class="h6 mb-0">Comment modifier mon e-mail, mon mot de passe ou mes informations personnelles ?</span>
+                  <span class="h6 mb-0">Comment 16/9 respecte ma vie privée ?</span>
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="injected-svg icon" data-src="assets/img/icons/interface/plus.svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                     <path d="M19 11H5C4.44772 11 4 11.4477 4 12C4 12.5523 4.44772 13 5 13H19C19.5523 13 20 12.5523 20 12C20 11.4477 19.5523 11 19 11Z" fill="#212529"></path>
                     <path d="M13 19L13 5C13 4.44772 12.5523 4 12 4C11.4477 4 11 4.44772 11 5L11 19C11 19.5523 11.4477 20 12 20C12.5523 20 13 19.5523 13 19Z" fill="#212529"></path>
@@ -240,23 +237,7 @@
                 <div class="collapse" id="panel-5" style="">
                   <div class="pt-3">
                     <p class="mb-0">
-                      Pour modifier ton email, ton mot de passe et tes informations personnelles, il suffit de te <a href="{{ path('app_account') }}">connecter à ton compte</a>.
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div class="card card-sm card-body shadow-3d mb-0">
-                <div data-target="#panel-6" class="accordion-panel-title collapsed" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="panel-2">
-                  <span class="h6 mb-0">Comment Le Réhausseur respecte ma vie privée ?</span>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="injected-svg icon" data-src="assets/img/icons/interface/plus.svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                    <path d="M19 11H5C4.44772 11 4 11.4477 4 12C4 12.5523 4.44772 13 5 13H19C19.5523 13 20 12.5523 20 12C20 11.4477 19.5523 11 19 11Z" fill="#212529"></path>
-                    <path d="M13 19L13 5C13 4.44772 12.5523 4 12 4C11.4477 4 11 4.44772 11 5L11 19C11 19.5523 11.4477 20 12 20C12.5523 20 13 19.5523 13 19Z" fill="#212529"></path>
-                  </svg>
-                </div>
-                <div class="collapse" id="panel-6" style="">
-                  <div class="pt-3">
-                    <p class="mb-0">
-                      Le respect de la vie privée est un sujet auquel j'accorde beaucoup d'importance ! En t'inscrivant au Réhausseur, tu as la garantie qu'aucune de tes informations personnelles ne sera utilisée par d'autres personnes que par nous. Et lorsque nous les utilisons, c'est dans l'unique but de personnaliser au maximum le contenu de ta newsletter ! À tout moment, tu pourras supprimer ton compte et nous effacerons l'ensemble de tes données.
+                      Le respect de la vie privée est un sujet auquel j'accorde beaucoup d'importance ! En t'inscrivant au 16/9, tu as la garantie qu'aucune de tes informations personnelles ne sera utilisée par d'autres personnes que par nous. Et lorsque nous les utilisons, c'est dans l'unique but de personnaliser au maximum le contenu de ta newsletter ! 
                     </p>
                   </div>
                 </div>

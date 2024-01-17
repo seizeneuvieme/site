@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Backoffice | Le Réhausseur{% endblock %}
+{% block title %}Backoffice | 16/9{% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
@@ -9,7 +9,7 @@
 {% block body %}
     {% include './partials/header.html.twig' %}
 
-    <section class="pt-6 pb-0">
+    <section class="pt-15 pb-0">
         <div class="container">
             <div class="row justify-content-center pt-4">
                 <div class="text-center mb-4">
@@ -50,6 +50,16 @@
                     <div class="col-sm-6 col-md-4 col-lg-3">
                         <div class="bg-primary-alt card card-sm card-body flex-row align-items-center justify-content-center">
                             <div class="text-primary text-bold font-weight-bold" style="font-size:2rem;">
+                                {{ nbOfSubscribersForTnt }}
+                            </div>
+                            <div class="ml-3">
+                                <h6 class="mb-0">Nombre d'abonnés à <span style="color: #ff2e3d">TNT</span></h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-4 col-lg-3">
+                        <div class="bg-primary-alt card card-sm card-body flex-row align-items-center justify-content-center">
+                            <div class="text-primary text-bold font-weight-bold" style="font-size:2rem;">
                                 {{ nbOfSubscribersForNetflix }}
                             </div>
                             <div class="ml-3">
@@ -60,10 +70,30 @@
                     <div class="col-sm-6 col-md-4 col-lg-3">
                         <div class="bg-primary-alt card card-sm card-body flex-row align-items-center justify-content-center">
                             <div class="text-primary text-bold font-weight-bold" style="font-size:2rem;">
+                                {{ nbOfSubscribersForPrime }}
+                            </div>
+                            <div class="ml-3">
+                                <h6 class="mb-0">Nombre d'abonnés à <span style="color: #ff2e3d">Prime Video</span></h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-4 col-lg-3">
+                        <div class="bg-primary-alt card card-sm card-body flex-row align-items-center justify-content-center">
+                            <div class="text-primary text-bold font-weight-bold" style="font-size:2rem;">
                                 {{ nbOfSubscribersForDisney }}
                             </div>
                             <div class="ml-3">
-                                <h6 class="mb-0">Nombre d'abonnés à <span style="color: #ff2e3d">Disney</span></h6>
+                                <h6 class="mb-0">Nombre d'abonnés à <span style="color: #ff2e3d">Disney+</span></h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-4 col-lg-3">
+                        <div class="bg-primary-alt card card-sm card-body flex-row align-items-center justify-content-center">
+                            <div class="text-primary text-bold font-weight-bold" style="font-size:2rem;">
+                                {{ nbOfSubscribersForCanal }}
+                            </div>
+                            <div class="ml-3">
+                                <h6 class="mb-0">Nombre d'abonnés à <span style="color: #ff2e3d">MyCanal</span></h6>
                             </div>
                         </div>
                     </div>

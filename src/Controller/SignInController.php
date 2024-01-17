@@ -10,7 +10,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SignInController extends AbstractController
 {
-    #[Route('/connexion', name: 'app_sign_in')]
+    #[Route('/sign-in', name: 'app_sign_in')]
     public function index(AuthenticationUtils $authenticationUtils, LoggerInterface $logger): Response
     {
         if ($this->isGranted('ROLE_USER') === true) {

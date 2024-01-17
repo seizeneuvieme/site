@@ -44,13 +44,6 @@ class SubscriberCreate
     #[Assert\NotBlank]
     public string $region;
 
-    #[Assert\NotNull]
-    #[Assert\Length(min: 3, max: 255)]
-    public string $childFirstname;
-
-    #[AppAssert\HasRightAge]
-    public \DateTime $childBirthDate;
-
     #[AppAssert\IsValidPlatform]
     public array $streamingPlatforms;
 
@@ -62,8 +55,6 @@ class SubscriberCreate
         $this->firstname          = $data['firstname'] ?? '';
         $this->city               = $data['city'] ?? '';
         $this->cityDetails        = $data['city-details'] ?? '';
-        $this->childFirstname     = $data['child-firstname'] ?? '';
-        $this->childBirthDate     = $data['child-birth-date'] ? new \DateTime($data['child-birth-date']) : new \DateTime('NOW');
         $this->streamingPlatforms = $data['streaming'] ?? [];
     }
 }
