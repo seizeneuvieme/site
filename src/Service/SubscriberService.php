@@ -3,7 +3,6 @@
 namespace App\Service;
 
 use App\DTO\SubscriberCreate;
-use App\Entity\Child;
 use App\Entity\Platform;
 use App\Entity\Subscriber;
 use App\Repository\SubscriberRepository;
@@ -37,11 +36,6 @@ class SubscriberService
         $subscriber->setDepartmentNumber($subscriberCreate->departmentNumber);
         $subscriber->setDepartmentName($subscriberCreate->departmentName);
         $subscriber->setRegion($subscriberCreate->region);
-
-        $child = new Child();
-        $child->setFirstname($subscriberCreate->childFirstname);
-        $child->setBirthDate($subscriberCreate->childBirthDate);
-        $subscriber->addChild($child);
 
         foreach ($subscriberCreate->streamingPlatforms as $streamingPlatform) {
             $platform = new Platform();

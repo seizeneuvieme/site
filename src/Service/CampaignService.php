@@ -4,7 +4,6 @@ namespace App\Service;
 
 use App\DTO\CampaignCreate;
 use App\Entity\Campaign;
-use App\Entity\Child;
 use App\Entity\Platform;
 use App\Entity\Subscriber;
 use App\Repository\SubscriberRepository;
@@ -33,7 +32,7 @@ class CampaignService
     }
 
     /**
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     public function processCampaign(Campaign $campaign): void
     {
@@ -55,16 +54,11 @@ class CampaignService
                 $params = $this->createParams($subscriber);
 
                 if (
-                    $params['AGE_3'] === '' &&
-                    $params['AGE_4'] === '' &&
-                    $params['AGE_5'] === '' &&
-                    $params['AGE_6'] === '' &&
-                    $params['AGE_7'] === '' &&
-                    $params['AGE_8'] === '' &&
-                    $params['AGE_9'] === '' &&
-                    $params['AGE_10'] === '' &&
-                    $params['AGE_11'] === '' &&
-                    $params['AGE_12'] === ''
+                    $params['TNT'] === false
+                    && $params['NETFLIX'] === false
+                    && $params['PRIME'] === false
+                    && $params['DISNEY'] === false
+                    && $params['CANAL'] === false
                 ) {
                     continue;
                 }
@@ -123,33 +117,22 @@ class CampaignService
         $params['DEPARTMENT_NAME']   = $subscriber->getDepartmentName();
         $params['DEPARTMENT_NUMBER'] = $subscriber->getDepartmentNumber();
         $params['REGION']            = $subscriber->getRegion();
-        $params['DISNEY']            = $subscriber->getPlatforms()->filter(function (Platform $platform) {
-            return $platform->getName() === Platform::DISNEY;
+        $params['TNT']               = $subscriber->getPlatforms()->filter(function (Platform $platform) {
+            return $platform->getName() === Platform::TNT;
         })->count() > 0;
         $params['NETFLIX'] = $subscriber->getPlatforms()->filter(function (Platform $platform) {
             return $platform->getName() === Platform::NETFLIX;
         })->count() > 0;
-
-        for ($age = 3; $age <= 12; ++$age) {
-            $params["AGE_$age"] = $this->createGroup($age, $subscriber);
-        }
+        $params['PRIME'] = $subscriber->getPlatforms()->filter(function (Platform $platform) {
+            return $platform->getName() === Platform::PRIME;
+        })->count() > 0;
+        $params['DISNEY'] = $subscriber->getPlatforms()->filter(function (Platform $platform) {
+            return $platform->getName() === Platform::DISNEY;
+        })->count() > 0;
+        $params['CANAL'] = $subscriber->getPlatforms()->filter(function (Platform $platform) {
+            return $platform->getName() === Platform::CANAL;
+        })->count() > 0;
 
         return $params;
-    }
-
-    private function createGroup(int $age, Subscriber $subscriber): string
-    {
-        $ageGroupChilds = $subscriber->getChilds()->filter(function (Child $child) use ($age) {
-            $childAge = date_diff($child->getBirthDate(), new \DateTime(date('Y-m-d')));
-
-            return $childAge->format('%y') == $age;
-        })->toArray();
-
-        $names = '';
-        foreach ($ageGroupChilds as $ageGroupChild) {
-            $names .= ' ✅ '.$ageGroupChild->getFirstname();
-        }
-
-        return $names;
     }
 }

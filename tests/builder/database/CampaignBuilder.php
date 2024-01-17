@@ -3,7 +3,6 @@
 namespace App\Tests\builder\database;
 
 use App\Entity\Campaign;
-use DateTime;
 use Doctrine\DBAL\Connection;
 use Faker\Factory;
 
@@ -28,8 +27,8 @@ class CampaignBuilder
         $this->sendingDate = $faker->dateTimeBetween('now', '+10 days');
         $this->state       = Campaign::DRAFT_STATE;
         $this->numberSent  = 0;
-        $this->createdAt   = new DateTime('NOW');
-        $this->updatedAt   = new DateTime('NOW');
+        $this->createdAt   = new \DateTime('NOW');
+        $this->updatedAt   = new \DateTime('NOW');
     }
 
     public function fake(
@@ -76,7 +75,7 @@ class CampaignBuilder
         return $this;
     }
 
-    public function withSendingDate(DateTime $sendingDate): self
+    public function withSendingDate(\DateTime $sendingDate): self
     {
         $this->sendingDate = $sendingDate;
 

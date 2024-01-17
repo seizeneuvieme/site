@@ -5,7 +5,7 @@ services:
   database_test:
     image: mysql:latest
     environment:
-      MYSQL_DATABASE: lerehausseur-test
+      MYSQL_DATABASE: seize9eme-test
       # You should definitely change the password in production
       MYSQL_ROOT_PASSWORD: example
     ports:

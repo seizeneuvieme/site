@@ -49,8 +49,6 @@ class SubscriberServiceTest extends TestCase
         $departmentName                             = $faker->word;
         $region                                     = $faker->word;
         $this->subscriberCreate->cityDetails        = $departmentNumber.', '.$departmentName.', '.$region;
-        $this->subscriberCreate->childFirstname     = $faker->word;
-        $this->subscriberCreate->childBirthDate     = $faker->dateTime;
         $this->subscriberCreate->streamingPlatforms = [Platform::NETFLIX];
     }
 
@@ -118,9 +116,6 @@ class SubscriberServiceTest extends TestCase
         $this->assertEquals($this->subscriber->getDepartmentNumber(), $this->subscriberCreate->departmentNumber);
         $this->assertEquals($this->subscriber->getDepartmentName(), $this->subscriberCreate->departmentName);
         $this->assertEquals($this->subscriber->getRegion(), $this->subscriberCreate->region);
-        $this->assertEquals(1, $this->subscriber->getChilds()->count());
-        $this->assertEquals($this->subscriber->getChilds()->toArray()[0]->getFirstname(), $this->subscriberCreate->childFirstname);
-        $this->assertEquals($this->subscriber->getChilds()->toArray()[0]->getBirthDate(), $this->subscriberCreate->childBirthDate);
         $this->assertEquals(1, $this->subscriber->getPlatforms()->count());
         $this->assertEquals($this->subscriber->getPlatforms()->toArray()[0]->getName(), $this->subscriberCreate->streamingPlatforms[0]);
     }

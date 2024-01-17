@@ -130,28 +130,57 @@ class SubscriberRepository extends ServiceEntityRepository implements PasswordUp
             ->rowCount();
     }
 
-//    /**
-//     * @return Subscriber[] Returns an array of Subscriber objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->andWhere('s.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('s.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function getNumberOfSubscribersForTnt(): int
+    {
+        return $this->getEntityManager()
+            ->getConnection()
+            ->executeQuery(
+                'SELECT s.id
+                     FROM subscriber s
+                     INNER JOIN subscriber_platform sp ON s.id = sp.subscriber_id
+                     INNER JOIN platform p ON sp.platform_id = p.id
+                     WHERE s.is_verified = true
+                     AND p.name = :platform',
+                [
+                    'platform' => Platform::TNT,
+                ]
+            )
+            ->rowCount();
+    }
 
-//    public function findOneBySomeField($value): ?Subscriber
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->andWhere('s.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    public function getNumberOfSubscribersForPrime(): int
+    {
+        return $this->getEntityManager()
+            ->getConnection()
+            ->executeQuery(
+                'SELECT s.id
+                     FROM subscriber s
+                     INNER JOIN subscriber_platform sp ON s.id = sp.subscriber_id
+                     INNER JOIN platform p ON sp.platform_id = p.id
+                     WHERE s.is_verified = true
+                     AND p.name = :platform',
+                [
+                    'platform' => Platform::PRIME,
+                ]
+            )
+            ->rowCount();
+    }
+
+    public function getNumberOfSubscribersForCanal(): int
+    {
+        return $this->getEntityManager()
+            ->getConnection()
+            ->executeQuery(
+                'SELECT s.id
+                     FROM subscriber s
+                     INNER JOIN subscriber_platform sp ON s.id = sp.subscriber_id
+                     INNER JOIN platform p ON sp.platform_id = p.id
+                     WHERE s.is_verified = true
+                     AND p.name = :platform',
+                [
+                    'platform' => Platform::CANAL,
+                ]
+            )
+            ->rowCount();
+    }
 }

@@ -2,15 +2,12 @@
 
 namespace App\Controller;
 
-use App\DTO\SubscriberChildCreate;
 use App\DTO\SubscriberContactInfosUpdate;
 use App\DTO\SubscriberEmailUpdate;
 use App\DTO\SubscriberPasswordUpdate;
 use App\DTO\SubscriberStreamingPlatformsUpdate;
-use App\Entity\Child;
 use App\Entity\Platform;
 use App\Entity\Subscriber;
-use App\Repository\ChildRepository;
 use App\Service\CityService;
 use App\Service\SendInBlueApiService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -25,7 +22,7 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
 
-#[Route('/mon-compte')]
+#[Route('/account')]
 class AccountController extends AbstractController
 {
     public function __construct(
@@ -43,7 +40,7 @@ class AccountController extends AbstractController
         ]);
     }
 
-    #[Route('/renvoi-code-activation', name: 'app_send_new_activation_code')]
+    #[Route('/send-activation-code', name: 'app_send_new_activation_code')]
     public function sendNewActivationCode(): Response
     {
         /**
@@ -78,7 +75,7 @@ class AccountController extends AbstractController
         return $this->redirectToRoute('app_account');
     }
 
-    #[Route('/modifier/email', name: 'app_update_email')]
+    #[Route('/email/edit', name: 'app_update_email')]
     public function updateEmail(
         Request $request,
         ValidatorInterface $validator,
@@ -126,7 +123,7 @@ class AccountController extends AbstractController
         return $this->render('account/update_email.html.twig');
     }
 
-    #[Route('/modifier/mot-de-passe', name: 'app_update_password')]
+    #[Route('/password/edit', name: 'app_update_password')]
     public function updatePassword(
         Request $request,
         ValidatorInterface $validator,
@@ -182,7 +179,7 @@ class AccountController extends AbstractController
         return $this->render('account/update_password.html.twig');
     }
 
-    #[Route('/modifier/coordonnees', name: 'app_update_user_infos')]
+    #[Route('/data/edit', name: 'app_update_user_infos')]
     public function updateUserInfos(
         Request $request,
         ValidatorInterface $validator,
@@ -236,7 +233,7 @@ class AccountController extends AbstractController
         return $this->render('account/update_user_infos.html.twig');
     }
 
-    #[Route('/modifier/plateformes', name: 'app_update_platforms')]
+    #[Route('/platforms/edit', name: 'app_update_platforms')]
     public function updatePlatforms(
         Request $request,
         ValidatorInterface $validator,
@@ -283,98 +280,13 @@ class AccountController extends AbstractController
                     'user' => $subscriber->getEmail(),
                 ]
             );
-            $this->addFlash('success', 'Tes plateformes de streaming payantes ont bien été modifiées 🎉');
+            $this->addFlash('success', 'Tes plateformes de contenu ont bien été modifiées 🎉');
         }
 
         return $this->render('account/update_platforms.html.twig');
     }
 
-    #[Route('/ajouter/enfant', name: 'app_add_child')]
-    public function addChild(
-        Request $request,
-        ValidatorInterface $validator,
-        EntityManagerInterface $entityManager
-    ): Response {
-        if ($request->isMethod('POST') && $this->isCsrfTokenValid('add-child', (string) $request->request->get('token'))) {
-            $subscriberChildCreate = new SubscriberChildCreate();
-            $subscriberChildCreate->hydrateFromData($request->request->all());
-
-            $errors = $validator->validate($subscriberChildCreate);
-            if (0 < $errors->count()) {
-                /**
-                 * @var Subscriber $subscriber
-                 */
-                $subscriber = $this->getUser();
-                $this->logger->error(
-                    'CHILD_INVALID',
-                    [
-                        'child' => $subscriberChildCreate,
-                        'user'  => $subscriber->getEmail(),
-                    ]
-                );
-                $this->addFlash('error', '');
-
-                return $this->render('account/add_child.html.twig');
-            }
-
-            /**
-             * @var Subscriber $subscriber
-             */
-            $subscriber = $this->getUser();
-            $child      = new Child();
-            $child->setFirstname($subscriberChildCreate->childFirstname);
-            $child->setBirthDate($subscriberChildCreate->childBirthDate);
-            $subscriber->addChild($child);
-            $entityManager->flush();
-            $this->logger->info(
-                'CHILD_ADDED',
-                [
-                    'user' => $subscriber->getEmail(),
-                ]
-            );
-            $this->addFlash('success', "✅ C'est noté ! Tu recevras désormais aussi des recommandations de films pour {$child->getFirstname()}");
-        }
-
-        return $this->render('account/add_child.html.twig');
-    }
-
-    #[Route('/supprimer/enfant', name: 'app_remove_child')]
-    public function removeChild(
-        Request $request,
-        ChildRepository $childRepository,
-        EntityManagerInterface $entityManager,
-    ): Response {
-        if ($request->isMethod('POST') && $this->isCsrfTokenValid('remove-child', (string) $request->request->get('token'))) {
-            /**
-             * @var Subscriber $subscriber
-             */
-            $subscriber = $this->getUser();
-
-            $child = $childRepository->findOneBy([
-                'id' => $request->request->get('child-id'),
-            ]);
-
-            if ($child === null || $subscriber->getId() !== $child->getSubscriber()?->getId() || $subscriber->getChilds()->count() < 2) {
-                return $this->redirectToRoute('app_account');
-            }
-
-            $subscriber->removeChild($child);
-            $entityManager->remove($child);
-            $entityManager->flush();
-            $this->logger->info(
-                'CHILD_REMOVED',
-                [
-                    'child' => $child,
-                    'user'  => $subscriber->getEmail(),
-                ]
-            );
-            $this->addFlash('success', "✅ C'est noté ! Tu recevras plus de recommandations de films pour {$child->getFirstname()}");
-        }
-
-        return $this->redirectToRoute('app_account');
-    }
-
-    #[Route('/supprimer/compte', name: 'app_remove_account')]
+    #[Route('/delete', name: 'app_remove_account')]
     public function removeAccount(
         Request $request,
         UserPasswordHasherInterface $passwordHasher,

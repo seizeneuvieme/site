@@ -6,16 +6,14 @@ use App\Repository\CampaignRepository;
 use App\Repository\SubscriberRepository;
 use App\Service\SendInBlueApiService;
 use App\Tests\builder\database\CampaignBuilder;
-use App\Tests\builder\database\ChildBuilder;
 use App\Tests\builder\database\SubscriberBuilder;
-use DateTime;
+use Brevo\Client\Model\GetSmtpTemplateOverview;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
 use Faker\Factory;
 use Monolog\Handler\TestHandler;
 use Monolog\Logger;
-use SendinBlue\Client\Model\GetSmtpTemplateOverview;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -42,6 +40,7 @@ class SendEmailCampaignCommandTest extends KernelTestCase
         (new SubscriberBuilder($connection))
             ->withEmail('marty@mcfly.com')
             ->withRoles(['ROLE_ADMIN'])
+            ->withPlatforms(['Disney', 'Tnt'])
             ->withIsVerified(true)
             ->insert();
         (new SubscriberBuilder($connection))
@@ -69,38 +68,12 @@ class SendEmailCampaignCommandTest extends KernelTestCase
         $container           = static::getContainer();
 
         /**
-         * @var SubscriberRepository $subscriberRepository
-         */
-        $subscriberRepository = $container->get(SubscriberRepository::class);
-        $subscriber           = $subscriberRepository->findOneBy([
-            'email' => 'marty@mcfly.com',
-        ]);
-
-        $subscriber2 = $subscriberRepository->findOneBy([
-            'email' => 'doc@doc.com',
-        ]);
-
-        /**
-         * @var Connection $connection
-         */
-        $connection = $container->get(Connection::class);
-        (new ChildBuilder($connection))
-            ->withSubscriberId($subscriber->getId())
-            ->withBirthDate(new DateTime('-3 years'))
-            ->insert();
-
-        (new ChildBuilder($connection))
-            ->withSubscriberId($subscriber2->getId())
-            ->withBirthDate(new DateTime('-13 years'))
-            ->insert();
-
-        /**
          * @var Connection $connection
          */
         $connection = $container->get(Connection::class);
         (new CampaignBuilder($connection))
             ->withName($campaignToSendName)
-            ->withSendingDate(new Datetime('today'))
+            ->withSendingDate(new \DateTime('today'))
             ->insert();
 
         /**
@@ -113,7 +86,7 @@ class SendEmailCampaignCommandTest extends KernelTestCase
 
         (new CampaignBuilder($connection))
             ->withName($pendingCampaignName)
-            ->withSendingDate(new Datetime('+1 day'))
+            ->withSendingDate(new \DateTime('+1 day'))
             ->insert();
 
         $sendInBlueApiService = $this->createMock(SendInBlueApiService::class);

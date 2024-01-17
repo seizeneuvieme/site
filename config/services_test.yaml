@@ -7,4 +7,4 @@ services:
   App\Service\SendInBlueApiService:
     public: true
     arguments:
-      $apiKey: '%env(SENDINBLUE_API_KEY)%'
+      $apiKey: '%env(BREVO_API_KEY)%'

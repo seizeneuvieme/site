@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class LogoutController extends AbstractController
 {
-    #[Route('/deconnexion', name: 'app_logout')]
+    #[Route('/logout', name: 'app_logout')]
     public function index(): Response
     {
         // controller can be blank: it will never be called!

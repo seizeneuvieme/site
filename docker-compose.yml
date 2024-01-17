@@ -5,7 +5,7 @@ services:
   database:
     image: mysql:latest
     environment:
-      MYSQL_DATABASE: lerehausseur
+      MYSQL_DATABASE: seize9eme
       # You should definitely change the password in production
       MYSQL_ROOT_PASSWORD: example
     ports:

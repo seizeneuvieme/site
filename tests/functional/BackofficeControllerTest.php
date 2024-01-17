@@ -7,11 +7,11 @@ use App\Repository\SubscriberRepository;
 use App\Service\SendInBlueApiService;
 use App\Tests\builder\database\CampaignBuilder;
 use App\Tests\builder\database\SubscriberBuilder;
+use Brevo\Client\Model\GetSmtpTemplateOverview;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
 use Faker\Factory;
-use SendinBlue\Client\Model\GetSmtpTemplateOverview;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Csrf\TokenStorage\SessionTokenStorage;
 
@@ -53,7 +53,7 @@ class BackofficeControllerTest extends AbstractWebTestCase
         $this->client->loginUser($subscriber);
 
         // Act
-        $this->client->request('GET', '/passage34/');
+        $this->client->request('GET', '/platform934/');
 
         // Assert
         $this->assertResponseIsSuccessful();
@@ -66,7 +66,7 @@ class BackofficeControllerTest extends AbstractWebTestCase
     public function it_does_not_get_backoffice_if_not_logged(): void
     {
         // Act
-        $this->client->request('GET', '/passage34/');
+        $this->client->request('GET', '/platform934/');
         $this->client->followRedirect();
 
         // Assert
@@ -99,7 +99,7 @@ class BackofficeControllerTest extends AbstractWebTestCase
         $this->client->loginUser($subscriber);
 
         // Act
-        $this->client->request('GET', '/passage34/');
+        $this->client->request('GET', '/platform934/');
 
         // Assert
         $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
@@ -138,7 +138,7 @@ class BackofficeControllerTest extends AbstractWebTestCase
         // Act
         $this->client->request(
             'POST',
-            '/passage34/ajouter/campagne',
+            '/platform934/campaign/add',
             [
                 'template-id'  => $faker->randomNumber(),
                 'sending-date' => $faker->dateTimeBetween('now', '+30 days')->format('Y-m-d'),
@@ -187,7 +187,7 @@ class BackofficeControllerTest extends AbstractWebTestCase
         // Act
         $this->client->request(
             'POST',
-            '/passage34/ajouter/campagne',
+            '/platform934/campaign/add',
             array_merge(
                 $invalidFields,
                 [
@@ -259,7 +259,7 @@ class BackofficeControllerTest extends AbstractWebTestCase
         $newDate = $faker->dateTimeBetween('+1 day', '+30 days');
         $this->client->request(
             'POST',
-            '/passage34/modifier/campagne/'.$campaign->getId(),
+            '/platform934/campaign/edit/'.$campaign->getId(),
             [
                 'campaign-sending-date' => $newDate->format('Y-m-d'),
                 'token'                 => $csrfToken,
@@ -316,7 +316,7 @@ class BackofficeControllerTest extends AbstractWebTestCase
         $newDate = $faker->dateTimeBetween('-1 day', '-1 day');
         $this->client->request(
             'POST',
-            '/passage34/modifier/campagne/'.$campaign->getId(),
+            '/platform934/campaign/edit/'.$campaign->getId(),
             [
                 'campaign-sending-date' => $newDate->format('Y-m-d'),
                 'token'                 => $csrfToken,
@@ -369,7 +369,7 @@ class BackofficeControllerTest extends AbstractWebTestCase
 
         $this->client->request(
             'POST',
-            '/passage34/supprimer/campagne',
+            '/platform934/campaign/delete',
             [
                 'campaign_id' => $campaign->getId(),
                 'token'       => $csrfToken,
@@ -441,7 +441,7 @@ class BackofficeControllerTest extends AbstractWebTestCase
 
         $this->client->request(
             'POST',
-            '/passage34/test/campagne',
+            '/platform934/campaign/test',
             [
                 'campaign_id' => $campaign->getId(),
                 'token'       => $csrfToken,

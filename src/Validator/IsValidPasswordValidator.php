@@ -17,8 +17,8 @@ class IsValidPasswordValidator extends ConstraintValidator
         }
 
         if (
-            $value instanceof (SubscriberCreate::class) === false &&
-            $value instanceof (SubscriberPasswordUpdate::class) === false
+            $value instanceof (SubscriberCreate::class) === false
+            && $value instanceof (SubscriberPasswordUpdate::class) === false
         ) {
             return;
         }

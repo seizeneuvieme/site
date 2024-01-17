@@ -5,7 +5,6 @@ namespace App\Command;
 use App\Entity\Campaign;
 use App\Repository\CampaignRepository;
 use App\Service\CampaignService;
-use DateTime;
 use Doctrine\DBAL\Exception;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -32,7 +31,7 @@ class SendEmailCampaignCommand extends Command
         $this->logger->info('BEGIN_SEND_EMAIL_CAMPAIGN_COMMAND');
         $campaigns = $this->campaignRepository->findBy([
             'state'       => Campaign::DRAFT_STATE,
-            'sendingDate' => new DateTime('now'),
+            'sendingDate' => new \DateTime('now'),
         ]);
         $nbCampaigns = count($campaigns);
         $this->logger->info('PROCESS_CAMPAIGNS', [

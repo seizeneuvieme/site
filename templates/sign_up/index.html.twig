@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}S'abonner à la newsletter | Le Réhausseur{% endblock %}
+{% block title %}S'abonner à la newsletter | 16/9{% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
@@ -10,22 +10,22 @@
 {% block body %}
     {% include './partials/header.html.twig' %}
 
-    <section class="pt-0">
+    <section class="pt-15">
       <div class="container">
         <div class="row justify-content-center pt-6">
           <div class="col-lg-5 col-md-6">
             <div class="text-center mb-4">
-                <h1 class="mb-2">S'abonner à la newsletter <span style="font-family: 'Grand Hotel'; color: #ff2e3d">Le Réhausseur</span> </h1>
+                <h1 class="mb-2">S'abonner à la newsletter <span style="color: #ff2e3d">16/9</span> </h1>
                 <span>Afin de t'envoyer des contenus personnalisés, j'ai d'abord besoin de te connaître un peu mieux...</span>
             </div>
             <div class="text-center mb-4">
               {% if user_already_exist is defined %}
                 <div class="alert alert-primary invalid-form" role="alert">
-                  L'adresse email {{ user_already_exist }} est déjà abonnée au Réhausseur 👉 <a href="{{ path('app_sign_in', {'email': user_already_exist }) }}" alt="Connexion">Je me connecte</a>
+                  L'adresse email {{ user_already_exist }} est déjà abonnée au 16/9 👉 <a href="{{ path('app_sign_in', {'email': user_already_exist }) }}" alt="Connexion">Je me connecte</a>
                 </div>
               {% elseif error is defined %}
                 <div class="alert alert-primary invalid-form" role="alert">
-                  Formulaire invalide. <br/>En cas de problème, <a href="mailto:fanny@lerehausseur.fr" alt="Contacter Le Réhausseur">contacte-moi</a> :)
+                  Formulaire invalide. <br/>En cas de problème, <a href="mailto:fanny@seize9eme.fr" alt="Contacter 16/9">contacte-moi</a> :)
                 </div>
               {% endif %}
             </div>
@@ -40,9 +40,6 @@
                 <li class="nav-item"><a class="nav-link btn" href="#etape-2">2</a>
                 </li>
                 <li class="nav-item"><a class="nav-link btn" href="#etape-3">3</a>
-                </li>
-                <li class="nav-item"><a class="nav-link btn" href="#etape-4">4</a>
-                </li>
               </ul>
               <div class="sw-container tab-content" style="min-height: 232px;">
                 <div id="etape-1" class="active tab-pane step-content" style="">
@@ -88,25 +85,19 @@
                 <div id="etape-3" class="tab-pane step-content">
                   <div class="row justify-content-center">
                     <div class="col-xl-4 col-lg-5 col-md-6">
-                      <small>Le Réhausseur s'adresse aux enfants de 3 à 12 ans. Commence par créer un profil pour un enfant, tu pourras en rajouter lorsque ton compte sera créé :</small><br/><br/>
-                      <div class="form-group">
-                        <input name="child-firstname" type="text" id="child-firstname" class="form-control sign-up-form step-3" placeholder="Son prénom">
-                        <small id="child-firstname-control-label-too-short" class="text-primary" style="display:none;">C'est un peu court :)</small>
-                        <small id="child-firstname-control-label-too-long" class="text-primary" style="display:none;">C'est un peu long :)</small>
-                      </div>
-                      <div class="form-group">
-                        <label for="campaign-sending-date" class="text-primary-alt"><small>Sa date de naissance :</small></label>
-                        <input name="child-birth-date" id="child-birth-date" type="date" class="form-control sign-up-form step-3" placeholder="Sa date de naissance">
-                        <small id="child-birth-date-control-label" class="text-primary" style="display:none;">Le Réhausseur s'addresse aux enfants de 3 à 12 ans</small>
-                      </div>
-                      <button id="btn-step-3" class="btn btn-primary text-white sw-btn-next btn-block" type="button">Suivant</button>
-                    </div>
-                  </div>
-                </div>
-                <div id="etape-4" class="tab-pane step-content">
-                  <div class="row justify-content-center">
-                    <div class="col-xl-4 col-lg-5 col-md-6">
                       <small>En plus des supports gratuits, y a-t-il des plateformes de streaming payantes sur lesquelles tu aimerais recevoir des idées de film à regarder ?</small><br/><br/>
+                      <div class="custom-control custom-checkbox mb-3" style="padding-left: 0 !important">
+                        <div class="card_area">
+                          <input class="checkbox" type="checkbox" id="tnt"  name="streaming[]" value="Tnt" />
+                          <div class="single_card">
+                            <div class="card_content">
+                              <div class="card_icon">
+                                <img src="{{ asset('build/images/Tnt.png') }}" />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                       <div class="custom-control custom-checkbox mb-3" style="padding-left: 0 !important">
                         <div class="card_area">
                           <input class="checkbox" type="checkbox" id="netflix"  name="streaming[]" value="Netflix" />
@@ -121,11 +112,35 @@
                       </div>
                       <div class="custom-control custom-checkbox mb-3" style="padding-left: 0 !important">
                         <div class="card_area">
+                          <input class="checkbox" type="checkbox" id="prime"  name="streaming[]" value="Prime" />
+                          <div class="single_card">
+                            <div class="card_content">
+                              <div class="card_icon">
+                                <img src="{{ asset('build/images/Prime.png') }}" />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="custom-control custom-checkbox mb-3" style="padding-left: 0 !important">
+                        <div class="card_area">
                           <input class="checkbox" type="checkbox" id="disney"  name="streaming[]" value="Disney" />
                           <div class="single_card">
                             <div class="card_content">
                               <div class="card_icon">
                                 <img src="{{ asset('build/images/Disney.png') }}" />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="custom-control custom-checkbox mb-3" style="padding-left: 0 !important">
+                        <div class="card_area">
+                          <input class="checkbox" type="checkbox" id="canal"  name="streaming[]" value="Canal" />
+                          <div class="single_card">
+                            <div class="card_content">
+                              <div class="card_icon">
+                                <img src="{{ asset('build/images/Canal.png') }}" />
                               </div>
                             </div>
                           </div>

@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Modifier mes plateformes de streaming | Le Réhausseur{% endblock %}
+{% block title %}Modifier mes plateformes de contenu | 16/9{% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
@@ -10,18 +10,18 @@
 {% block body %}
     {% include './partials/header.html.twig' %}
 
-    <section class="pt-0">
+    <section class="pt-15">
         <div class="container">
             <div class="row justify-content-center pt-6">
                 <div class="col-lg-4 col-md-6">
                     <div class="text-center mb-4">
-                        <h1 class="mb-2">Modifier mes <span style="color: #ff2e3d">plateformes de streaming</span></h1>
+                        <h1 class="mb-2">Modifier mes <span style="color: #ff2e3d">plateformes de contenu</span></h1>
                         <div class="text-center mb-4">
                             {% if app.session.flashBag.has('error') %}
                                 {% for flashMessage in app.session.flashbag.get('error') %}
                                     <div class="alert alert-primary" role="alert">
                                         <p>
-                                            Formulaire invalide. <br/>En cas de problème, <a href="mailto:fanny@lerehausseur.fr" alt="Contacter Le Réhausseur">contacte-moi</a> :)
+                                            Formulaire invalide. <br/>En cas de problème, <a href="mailto:fanny@seize9eme.fr" alt="Contacter 16/9">contacte-moi</a> :)
                                         </p>
                                     </div>
                                 {% endfor %}
@@ -44,7 +44,19 @@
                     <div class="row justify-content-center pt-2">
                         <div class="col-xl-4 col-lg-5 col-md-6">
                             <form action="{{ path('app_update_platforms') }}" method="POST" class="form">
-                                <small class="text-center">En plus des supports gratuits, y a-t-il des plateformes de streaming payantes sur lesquelles tu aimerais recevoir des idées de film à regarder ?</small><br/><br/>
+                                <small class="text-center">Quelles sont les plateformes de contenu sur lesquelles tu aimerais recevoir des idées de films à regarder ?</small><br/><br/>
+                                <div class="custom-control custom-checkbox mb-3" style="padding-left: 0 !important">
+                                    <div class="card_area">
+                                        <input class="checkbox" type="checkbox" id="tnt"  name="streaming[]" value="Tnt" {% for platform in app.user.platforms %} {% if platform.name == 'Tnt' %} checked="checked" {% endif %} {% endfor %} />
+                                        <div class="single_card">
+                                            <div class="card_content">
+                                                <div class="card_icon">
+                                                    <img src="{{ asset('build/images/Tnt.png') }}" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="custom-control custom-checkbox mb-3" style="padding-left: 0 !important">
                                     <div class="card_area">
                                         <input class="checkbox" type="checkbox" id="netflix"  name="streaming[]" value="Netflix" {% for platform in app.user.platforms %} {% if platform.name == 'Netflix' %} checked="checked" {% endif %} {% endfor %} />
@@ -52,6 +64,18 @@
                                             <div class="card_content">
                                                 <div class="card_icon">
                                                     <img src="{{ asset('build/images/Netflix.png') }}" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="custom-control custom-checkbox mb-3" style="padding-left: 0 !important">
+                                    <div class="card_area">
+                                        <input class="checkbox" type="checkbox" id="prime"  name="streaming[]" value="Prime" {% for platform in app.user.platforms %} {% if platform.name == 'Prime' %} checked="checked" {% endif %} {% endfor %} />
+                                        <div class="single_card">
+                                            <div class="card_content">
+                                                <div class="card_icon">
+                                                    <img src="{{ asset('build/images/Prime.png') }}" />
                                                 </div>
                                             </div>
                                         </div>
@@ -69,8 +93,20 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="custom-control custom-checkbox mb-3" style="padding-left: 0 !important">
+                                    <div class="card_area">
+                                        <input class="checkbox" type="checkbox" id="canal"  name="streaming[]" value="Canal" {% for platform in app.user.platforms %} {% if platform.name == 'Canal' %} checked="checked" {% endif %} {% endfor %} />
+                                        <div class="single_card">
+                                            <div class="card_content">
+                                                <div class="card_icon">
+                                                    <img src="{{ asset('build/images/Canal.png') }}" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="form-group">
-                                    <button class="btn-block btn btn-primary text-white" id="btn-update-platforms">Modifier mes plateformes de streaming</button>
+                                    <button class="btn-block btn btn-primary text-white" id="btn-update-platforms">Modifier mes plateformes de contenu</button>
                                 </div>
                                 <input type="hidden" name="token" value="{{ csrf_token('update-platforms') }}"/>
                             </form>

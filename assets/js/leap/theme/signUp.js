@@ -170,69 +170,8 @@ $("#btn-step-2").on("click", function (e) {
 });
 
 /**
- * STEP 3
+ * SUBMIT FORM
  */
-
-function validateChildFirstname(childFirstname) {
-  if (childFirstname.length < 3) {
-    $("#child-firstname-control-label-too-short").show();
-    return false;
-  } else if (childFirstname.length > 125) {
-    $("#child-firstname-control-label-too-long").show();
-    return false;
-  } else {
-    $("#child-firstname-control-label-too-short").hide();
-    $("#child-firstname-control-label-too-long").hide();
-    return true;
-  }
-}
-
-function validateChildBirthdayDate(birthdayDate) {
-  if (birthdayDate === "") {
-    $("#child-birth-date-control-label").show();
-    return false;
-  }
-  if (Date.now() < new Date(birthdayDate)) {
-    $("#child-birth-date-control-label").show();
-    return false;
-  }
-  ageDifMs = Date.now() - new Date(birthdayDate).getTime();
-  ageDate = new Date(ageDifMs);
-  age = Math.abs(ageDate.getUTCFullYear() - 1970);
-
-  if (age < 3 || age > 12) {
-    $("#child-birth-date-control-label").show();
-    return false;
-  } else {
-    $("#child-birth-date-control-label").hide();
-    return true;
-  }
-}
-
-function validateStep3() {
-  childFirstname = validateChildFirstname(
-    $("input.sign-up-form#child-firstname").val()
-  );
-  childBirthdayDate = validateChildBirthdayDate(
-    $("input.sign-up-form#child-birth-date").val()
-  );
-  return childFirstname === true && childBirthdayDate === true;
-}
-
-$("input.sign-up-form#child-firstname").on("keyup", function () {
-  validateChildFirstname($(this).val());
-});
-
-$("input.sign-up-form#child-birth-date").on("input", function () {
-  validateChildBirthdayDate($(this).val());
-});
-
-$("#btn-step-3").on("click", function (e) {
-  e.stopImmediatePropagation();
-  if (validateStep3() === true) {
-    $('.wizard').smartWizard('next');
-  }
-});
 
 $('input').keypress(function(e) {
   if (e.keyCode === 13) {
@@ -245,12 +184,6 @@ $('input').keypress(function(e) {
     }
     if ($(this).hasClass('step-2')) {
       if (validateStep2() === true) {
-        $('.wizard').smartWizard('next');
-      }
-      return;
-    }
-    if ($(this).hasClass('step-3')) {
-      if (validateStep3() === true) {
         $('.wizard').smartWizard('next');
       }
       return;

@@ -12,14 +12,14 @@ use App\Service\CampaignService;
 use App\Service\SendInBlueApiService;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-#[Route('/passage34')]
+#[Route('/platform934')]
 #[IsGranted('ROLE_ADMIN', null, null, Response::HTTP_NOT_FOUND)]
 class BackofficeController extends AbstractController
 {
@@ -40,7 +40,10 @@ class BackofficeController extends AbstractController
     ): Response {
         $nbOfSubscribers           = $subscriberRepository->getTotalNumberOfSubscribers();
         $nbOfSubscribersThisMonth  = $subscriberRepository->getNumberOfNewSubscribersThisMonth();
+        $nbOfSubscribersForTnt     = $subscriberRepository->getNumberOfSubscribersForTnt();
         $nbOfSubscribersForNetflix = $subscriberRepository->getNumberOfSubscribersForNetflix();
+        $nbOfSubscribersForPrime   = $subscriberRepository->getNumberOfSubscribersForPrime();
+        $nbOfSubscribersForCanal   = $subscriberRepository->getNumberOfSubscribersForCanal();
         $nbOfSubscribersForDisney  = $subscriberRepository->getNumberOfSubscribersForDisney();
 
         $pendingCampaigns = $campaignRepository->findBy([
@@ -54,7 +57,10 @@ class BackofficeController extends AbstractController
         return $this->render('backoffice/index.html.twig', [
             'nbOfSubscribers'           => $nbOfSubscribers,
             'nbOfSubscribersThisMonth'  => $nbOfSubscribersThisMonth,
+            'nbOfSubscribersForTnt'     => $nbOfSubscribersForTnt,
             'nbOfSubscribersForNetflix' => $nbOfSubscribersForNetflix,
+            'nbOfSubscribersForPrime'   => $nbOfSubscribersForPrime,
+            'nbOfSubscribersForCanal'   => $nbOfSubscribersForCanal,
             'nbOfSubscribersForDisney'  => $nbOfSubscribersForDisney,
             'pendingCampaigns'          => $pendingCampaigns,
             'sentCampaigns'             => $lastSentCampaigns,
@@ -64,7 +70,7 @@ class BackofficeController extends AbstractController
     /**
      * @throws \Doctrine\DBAL\Exception
      */
-    #[Route('/ajouter/campagne', name: 'app_add_campaign')]
+    #[Route('/campaign/add', name: 'app_add_campaign')]
     public function addCampaign(
         Request $request,
         ValidatorInterface $validator,
@@ -127,7 +133,7 @@ class BackofficeController extends AbstractController
     /**
      * @throws \Doctrine\DBAL\Exception
      */
-    #[Route('/modifier/campagne/{id}', name: 'app_update_campaign')]
+    #[Route('/campaign/edit/{id}', name: 'app_update_campaign')]
     public function updateCampaign(
         Request $request,
         ValidatorInterface $validator,
@@ -185,7 +191,7 @@ class BackofficeController extends AbstractController
     /**
      * @throws \Doctrine\DBAL\Exception
      */
-    #[Route('/supprimer/campagne', name: 'app_remove_campaign')]
+    #[Route('/campaign/delete', name: 'app_remove_campaign')]
     public function removeCampaign(
         Request $request,
         EntityManagerInterface $entityManager,
@@ -224,7 +230,7 @@ class BackofficeController extends AbstractController
     /**
      * @throws \Doctrine\DBAL\Exception
      */
-    #[Route('/test/campagne', name: 'app_send_campaign_mail_test')]
+    #[Route('/campaign/test', name: 'app_send_campaign_mail_test')]
     public function sendCampaignMailTest(
         Request $request,
         CampaignRepository $campaignRepository,
