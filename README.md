@@ -85,7 +85,7 @@ Cette branche doit respecter la nomenclature suivante : `deploy/release-jj-mm-aa
 Se connecter ensuite au serveur de production puis récupérer le code de la branche :
 
 ```
-ssh lerehad@ftp.cluster028.hosting.ovh.net
+ssh seizeeh@ftp.cluster030.hosting.ovh.net
 git fetch origin deploy/release-jj-mm-aaaa #télécharge la branche distante
 git checkout deploy/release-jj-mm-aaaa #se positionne sur la nouvelle branche en local
 ```
