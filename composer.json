@@ -45,7 +45,7 @@
         "symfony/ux-live-component": "^2.4",
         "symfony/validator": "7.0.*",
         "symfony/web-link": "7.0.*",
-        "symfony/webpack-encore-bundle": "*",
+        "symfony/webpack-encore-bundle": "^2.1",
         "symfony/yaml": "7.0.*",
         "symfonycasts/reset-password-bundle": "^1.15",
         "symfonycasts/verify-email-bundle": "^1.11",
