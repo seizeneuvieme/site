@@ -33,18 +33,6 @@ class Subscriber implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private string $firstname;
 
-    #[ORM\Column(length: 255)]
-    private string $city;
-
-    #[ORM\Column]
-    private string $departmentNumber;
-
-    #[ORM\Column]
-    private string $departmentName;
-
-    #[ORM\Column]
-    private string $region;
-
     #[ORM\ManyToMany(targetEntity: Platform::class, inversedBy: 'subscribers', cascade: ['persist', 'remove'])]
     private Collection $platforms;
 
@@ -142,54 +130,6 @@ class Subscriber implements UserInterface, PasswordAuthenticatedUserInterface
     public function setFirstname(string $firstname): self
     {
         $this->firstname = $firstname;
-
-        return $this;
-    }
-
-    public function getCity(): string
-    {
-        return $this->city;
-    }
-
-    public function setCity(string $city): self
-    {
-        $this->city = $city;
-
-        return $this;
-    }
-
-    public function getDepartmentNumber(): string
-    {
-        return $this->departmentNumber;
-    }
-
-    public function setDepartmentNumber(string $departmentNumber): self
-    {
-        $this->departmentNumber = $departmentNumber;
-
-        return $this;
-    }
-
-    public function getDepartmentName(): string
-    {
-        return $this->departmentName;
-    }
-
-    public function setDepartmentName(string $departmentName): self
-    {
-        $this->departmentName = $departmentName;
-
-        return $this;
-    }
-
-    public function getRegion(): string
-    {
-        return $this->region;
-    }
-
-    public function setRegion(string $region): self
-    {
-        $this->region = $region;
 
         return $this;
     }

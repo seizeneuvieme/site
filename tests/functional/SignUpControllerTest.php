@@ -67,11 +67,6 @@ class SignUpControllerTest extends WebTestCase
         $email              = $faker->email;
         $password           = $faker->password;
         $firstname          = $faker->firstName;
-        $city               = $faker->city;
-        $departmentNumber   = $faker->numberBetween(10, 95);
-        $departmentName     = $faker->word;
-        $region             = $faker->word;
-        $cityDetails        = "$departmentNumber, $departmentName, $region";
         $streamingPlatforms = [Platform::DISNEY];
 
         $sendInBlueApiService = $this->createMock(SendInBlueApiService::class);
@@ -108,8 +103,6 @@ class SignUpControllerTest extends WebTestCase
                 'password'         => $password,
                 'confirm-password' => $password,
                 'firstname'        => $firstname,
-                'city'             => $city,
-                'city-details'     => $cityDetails,
                 'streaming'        => $streamingPlatforms,
             ]
         );
@@ -124,10 +117,6 @@ class SignUpControllerTest extends WebTestCase
 
         $this->assertEquals($email, $subscriber?->getEmail());
         $this->assertEquals($firstname, $subscriber?->getFirstname());
-        $this->assertEquals($city, $subscriber?->getCity());
-        $this->assertEquals($departmentNumber, $subscriber?->getDepartmentNumber());
-        $this->assertEquals($departmentName, $subscriber?->getDepartmentName());
-        $this->assertEquals($region, $subscriber?->getRegion());
         $this->assertEquals(1, $subscriber?->getPlatforms()->count());
         $this->assertEquals($streamingPlatforms[0], $subscriber?->getPlatforms()->toArray()[0]->getName());
         $this->assertEquals(false, $subscriber?->isVerified());
@@ -305,32 +294,6 @@ class SignUpControllerTest extends WebTestCase
                     'firstname'        => 'text with length more than 125. text with length more than 125. text with length more than 125. text with length more than 125. text with length more than 125. text with length more than 125. text with length more than 125. text with length more than 125. text with length more than 125. text with length more than 125. text with length more than 125. text with length more than 125.',
                     'city'             => $faker->city,
                     'city-details'     => $faker->numberBetween(10, 95).', '.$faker->word.', '.$faker->word,
-                    'streaming'        => [Platform::DISNEY],
-                ],
-                Response::HTTP_OK,
-                'Formulaire invalide',
-            ],
-            'blank city' => [
-                [
-                    'email'            => $faker->email,
-                    'password'         => $password,
-                    'confirm-password' => $password,
-                    'firstname'        => $faker->word,
-                    'city'             => '',
-                    'city-details'     => $faker->numberBetween(10, 95).', '.$faker->word.', '.$faker->word,
-                    'streaming'        => [Platform::DISNEY],
-                ],
-                Response::HTTP_OK,
-                'Formulaire invalide',
-            ],
-            'invalid city details' => [
-                [
-                    'email'            => $faker->email,
-                    'password'         => $password,
-                    'confirm-password' => $password,
-                    'firstname'        => $faker->word,
-                    'city'             => $faker->city,
-                    'city-details'     => $faker->word,
                     'streaming'        => [Platform::DISNEY],
                 ],
                 Response::HTTP_OK,

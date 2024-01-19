@@ -8,7 +8,6 @@ use App\DTO\SubscriberPasswordUpdate;
 use App\DTO\SubscriberStreamingPlatformsUpdate;
 use App\Entity\Platform;
 use App\Entity\Subscriber;
-use App\Service\CityService;
 use App\Service\SendInBlueApiService;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
@@ -183,13 +182,11 @@ class AccountController extends AbstractController
     public function updateUserInfos(
         Request $request,
         ValidatorInterface $validator,
-        CityService $cityService,
         EntityManagerInterface $entityManager
     ): Response {
         if ($request->isMethod('POST') && $this->isCsrfTokenValid('update-user-infos', (string) $request->request->get('token'))) {
             $subscriberContactInfosUpdate = new SubscriberContactInfosUpdate();
             $subscriberContactInfosUpdate->hydrateFromData($request->request->all());
-            $cityService->processCityDetails($subscriberContactInfosUpdate);
 
             $errors = $validator->validate($subscriberContactInfosUpdate);
             if (0 < $errors->count()) {
@@ -215,10 +212,6 @@ class AccountController extends AbstractController
              */
             $subscriber = $this->getUser();
             $subscriber->setFirstname($subscriberContactInfosUpdate->firstname);
-            $subscriber->setCity($subscriberContactInfosUpdate->city);
-            $subscriber->setDepartmentNumber($subscriberContactInfosUpdate->departmentNumber);
-            $subscriber->setDepartmentName($subscriberContactInfosUpdate->departmentName);
-            $subscriber->setRegion($subscriberContactInfosUpdate->region);
 
             $entityManager->flush();
             $this->logger->info(

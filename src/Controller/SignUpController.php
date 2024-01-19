@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\DTO\SubscriberCreate;
 use App\Repository\SubscriberRepository;
 use App\Security\EmailVerifier;
-use App\Service\CityService;
 use App\Service\SendInBlueApiService;
 use App\Service\SubscriberService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -33,7 +32,6 @@ class SignUpController extends AbstractController
     public function index(
         Request $request,
         SubscriberService $subscriberService,
-        CityService $cityService,
         ValidatorInterface $validator,
         EntityManagerInterface $entityManager,
         UserAuthenticatorInterface $userAuthenticator,
@@ -59,7 +57,6 @@ class SignUpController extends AbstractController
                 ]);
             }
 
-            $cityService->processCityDetails($subscriberCreate);
             $errors = $validator->validate($subscriberCreate);
             if ($errors->count() > 0) {
                 $logger->error(

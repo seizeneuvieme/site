@@ -24,6 +24,20 @@ function validateEmail(email) {
   }
 }
 
+function validateFirstname(firstname) {
+  if (firstname.length < 3) {
+    $("#firstname-control-label-too-short").show();
+    return false;
+  } else if (firstname.length > 125) {
+    $("#firstname-control-label-too-long").show();
+    return false;
+  } else {
+    $("#firstname-control-label-too-short").hide();
+    $("#firstname-control-label-too-long").hide();
+    return true;
+  }
+}
+
 function validatePassword(password) {
   if (password.length < 8) {
     $("#password-control-label").show();
@@ -48,6 +62,7 @@ function validateConfirmPassword(password) {
 
 function validateStep1() {
   email = validateEmail($("input.sign-up-form#email").val());
+  firstname = validateFirstname($("input.sign-up-form#firstname").val());
   password = validatePassword($("input.sign-up-form#password").val());
   confirmPassword = validateConfirmPassword($("input.sign-up-form#confirm-password").val());
   return email === true && password === true && confirmPassword === true;
@@ -55,15 +70,19 @@ function validateStep1() {
 
 $("input.sign-up-form#email").on('change', function() {
   validateEmail($(this).val());
-})
+});
+
+$("input.sign-up-form#firstname").on("change", function () {
+  validateFirstname($(this).val());
+});
 
 $("input.sign-up-form#password").on('change', function() {
   validatePassword($(this).val());
-})
+});
 
 $("input.sign-up-form#confirm-password").on('change', function() {
   validateConfirmPassword($(this).val());
-})
+});
 
 $("#btn-step-1").on("click", function (e) {
     e.stopImmediatePropagation();
@@ -72,102 +91,6 @@ $("#btn-step-1").on("click", function (e) {
   }
 });
 
-
-/**
- * STEP 2
- */
-function validateFirstname(firstname) {
-  if (firstname.length < 3) {
-    $("#firstname-control-label-too-short").show();
-    return false;
-  } else if (firstname.length > 125) {
-    $("#firstname-control-label-too-long").show();
-    return false;
-  } else {
-    $("#firstname-control-label-too-short").hide();
-    $("#firstname-control-label-too-long").hide();
-    return true;
-  }
-}
-
-function validateCity(city) {
-  if ($("#city-datalist").length > 0) {
-    $('#city-control-label').hide();
-    city = Array.from($("#city-datalist")[0].options).filter(
-      (option) => option.value === $("input.sign-up-form#city").val()
-    );
-    if (city.length > 0) {
-      $("#city-details").val(city[0].label);
-      return true;
-    } else {
-      $('#city-control-label').show();
-      return false;
-    }
-  } else {
-    $('#city-control-label').show();
-    return false;
-  }
-}
-
-function searchCity(keywords) {
-  alreadyExist = Array.from($("#city-datalist")[0].options).filter(
-    (option) => option.value === keywords
-  );
-  if (keywords.length === 0 || alreadyExist.length > 0) {
-    validateCity($("input.sign-up-form#city").val());
-    return;
-  }
-  $.get(
-    "https://api-adresse.data.gouv.fr/search/?q=" +
-      keywords +
-      "&type=municipality&autocomplete=1",
-    function (data) {
-      if (
-        data.features.length > 0 &&
-        data.features[0].properties.city === keywords
-      ) {
-        validateCity($("input.sign-up-form#city").val());
-        return;
-      }
-      $("#city-datalist").empty();
-      data.features.forEach((feature) => {
-        $("#city-datalist").append(
-          "<option value=" +
-            feature.properties.city +
-            ">" +
-            feature.properties.context +
-            "</option>"
-        );
-      });
-      validateCity($("input.sign-up-form#city").val());
-    }
-  );
-}
-
-function validateStep2() {
-  firstname = validateFirstname($("input.sign-up-form#firstname").val());
-  city = validateCity($("input.sign-up-form#city").val());
-  return firstname === true && city === true
-}
-
-$("input.sign-up-form#firstname").on("change", function () {
-  validateFirstname($(this).val());
-});
-
-$("input.sign-up-form#city").on("input", function () {
-  searchCity(this.value);
-});
-
-$("input.sign-up-form#city").on("change", function () {
-  validateCity($(this).val());
-});
-
-$("#btn-step-2").on("click", function (e) {
-  e.stopImmediatePropagation();
-  if (validateStep2() === true) {
-    $('.wizard').smartWizard('next');
-  }
-});
 
 /**
  * SUBMIT FORM

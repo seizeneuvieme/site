@@ -39,15 +39,18 @@
                 </li>
                 <li class="nav-item"><a class="nav-link btn" href="#etape-2">2</a>
                 </li>
-                <li class="nav-item"><a class="nav-link btn" href="#etape-3">3</a>
               </ul>
               <div class="sw-container tab-content" style="min-height: 232px;">
                 <div id="etape-1" class="active tab-pane step-content" style="">
                   <div class="row justify-content-center">
                     <div class="col-xl-4 col-lg-5 col-md-6">
                       <div class="form-group">
+                        <input name="firstname"  id="firstname" type="text" class="sign-up-form form-control step-2" placeholder="Ton prénom">
+                        <small id="firstname-control-label-too-short" class="text-primary" style="display:none;">C'est un peu court :)</small>
+                        <small id="firstname-control-label-too-long" class="text-primary" style="display:none;">C'est un peu long :)</small>
+                      </div>
+                      <div class="form-group">
                         <input name="email" id="email" type="email" class="sign-up-form form-control step-1" placeholder="Ton adresse email" {% if email is defined and email is not null %}value="{{ email }}"{% endif %}>
-
                         <small id="email-control-label" class="text-primary" style="display:none;">Adresse email invalide</small>
                         <small id="email-control-label" class="text-primary" style="display:none;">Cette adresse email est déjà utilisée</small>
                       </div>
@@ -64,25 +67,6 @@
                   </div>
                 </div>
                 <div id="etape-2" class="tab-pane step-content">
-                  <div class="row justify-content-center">
-                    <div class="col-xl-4 col-lg-5 col-md-6">
-                      <div class="form-group">
-                        <input name="firstname"  id="firstname" type="text" class="sign-up-form form-control step-2" placeholder="Ton prénom">
-                        <small id="firstname-control-label-too-short" class="text-primary" style="display:none;">C'est un peu court :)</small>
-                        <small id="firstname-control-label-too-long" class="text-primary" style="display:none;">C'est un peu long :)</small>                      </div>
-                      <small>En sachant dans quelle ville tu habites, je pourrais t'envoyer des actualités sur les évennements dans ta région (festivals...) :</small><br/><br/>
-                      <div class="form-group">
-                        <input name="city"  id="city" class="sign-up-form form-control step-2" list="city-datalist" placeholder="Ta ville">
-                        <small id="city-control-label" class="text-primary" style="display:none;">Dis-moi où tu habites</small>
-                        <datalist id="city-datalist">
-                        </datalist>
-                        <input name="city-details"  id="city-details" class="sign-up-form form-control" hidden>
-                      </div>
-                      <button class="btn btn-primary sw-btn-next text-white btn-block" id="btn-step-2" type="button">Suivant</button>
-                    </div>
-                  </div>
-                </div>
-                <div id="etape-3" class="tab-pane step-content">
                   <div class="row justify-content-center">
                     <div class="col-xl-4 col-lg-5 col-md-6">
                       <small>En plus des supports gratuits, y a-t-il des plateformes de streaming payantes sur lesquelles tu aimerais recevoir des idées de film à regarder ?</small><br/><br/>
