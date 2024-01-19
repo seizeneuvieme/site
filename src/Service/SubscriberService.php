@@ -32,10 +32,6 @@ class SubscriberService
         $hashedPassword = $this->passwordHasher->hashPassword($subscriber, $subscriberCreate->password);
         $subscriber->setPassword($hashedPassword);
         $subscriber->setFirstname($subscriberCreate->firstname);
-        $subscriber->setCity($subscriberCreate->city);
-        $subscriber->setDepartmentNumber($subscriberCreate->departmentNumber);
-        $subscriber->setDepartmentName($subscriberCreate->departmentName);
-        $subscriber->setRegion($subscriberCreate->region);
 
         foreach ($subscriberCreate->streamingPlatforms as $streamingPlatform) {
             $platform = new Platform();

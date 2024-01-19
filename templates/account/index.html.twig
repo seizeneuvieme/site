@@ -105,6 +105,14 @@
                                         <td colspan="3"><strong>Mes informations personnelles</strong></td>
                                     </tr>
                                     <tr>
+                                        <td><small>Prénom :</small></td>
+                                    </tr>
+                                    <tr>
+                                        <td>{{ subscriber.firstname }}</td>
+                                        <td></td>
+                                        <td class="text-right"><a href="{{ path('app_update_user_infos') }}">modifier</a></td>
+                                    </tr>
+                                    <tr>
                                         <td><small>Email :</small></td>
                                     </tr>
                                     <tr>
@@ -123,36 +131,12 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="row justify-content-center mt-4 mb-5 bg-primary-alt" style="border-radius: 1rem;">
-                            <table class="table table-borderless mt-2 mb-2" style="--bs-table-accent-bg: inherit">
-                                <tbody>
-                                    <tr>
-                                        <td colspan="3" class="text-left"><strong>Mes coordonnées</strong></td>
-                                        <td colspan="2" class="text-right"><a href="{{ path('app_update_user_infos') }}">modifier</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td><small>Prénom :</small></td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2" class="text-left">{{ subscriber.firstname }}</td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td><small>Ville :</small></td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2" class="text-left">{{ subscriber.city }}</td>
-                                        <td></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    <section class="pt-0 pb-0">
+    <section class="pt-3 pb-0">
         <div class="container">
             <div class="row justify-content-start pt-3">
                 <div class="col-lg-12">

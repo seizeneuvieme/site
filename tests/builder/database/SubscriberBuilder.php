@@ -12,10 +12,6 @@ class SubscriberBuilder
     private string|false $roles;
     private string $password;
     private string $firstname;
-    private string $city;
-    private string $departmentNumber;
-    private string $departmentName;
-    private string $region;
     private array $platforms;
 
     private bool $isVerified;
@@ -25,20 +21,16 @@ class SubscriberBuilder
     public function __construct(
         private readonly Connection $connection,
     ) {
-        $faker                  = Factory::create();
-        $this->id               = $faker->randomNumber();
-        $this->email            = 'marty@mcfly.com';
-        $this->roles            = json_encode(['ROLE_ADMIN']);
-        $this->password         = $faker->password;
-        $this->firstname        = $faker->firstName;
-        $this->city             = $faker->city;
-        $this->departmentNumber = (string) $faker->numberBetween(10, 95);
-        $this->departmentName   = $faker->word;
-        $this->region           = $faker->word;
-        $this->platforms        = [];
-        $this->isVerified       = false;
-        $this->createdAt        = new \DateTime('NOW');
-        $this->updatedAt        = new \DateTime('NOW');
+        $faker            = Factory::create();
+        $this->id         = $faker->randomNumber();
+        $this->email      = 'marty@mcfly.com';
+        $this->roles      = json_encode(['ROLE_ADMIN']);
+        $this->password   = $faker->password;
+        $this->firstname  = $faker->firstName;
+        $this->platforms  = [];
+        $this->isVerified = false;
+        $this->createdAt  = new \DateTime('NOW');
+        $this->updatedAt  = new \DateTime('NOW');
     }
 
     public function fake(
@@ -47,24 +39,16 @@ class SubscriberBuilder
         string $roles,
         string $password,
         string $firstName,
-        string $city,
-        string $departmentNumber,
-        string $departmentName,
-        string $region,
         bool $isVerified
     ): self {
-        $this->id               = $id;
-        $this->email            = $email;
-        $this->roles            = $roles;
-        $this->password         = $password;
-        $this->firstname        = $firstName;
-        $this->city             = $city;
-        $this->departmentNumber = $departmentNumber;
-        $this->departmentName   = $departmentName;
-        $this->region           = $region;
-        $this->isVerified       = $isVerified;
-        $this->createdAt        = new \DateTime('NOW');
-        $this->updatedAt        = new \DateTime('NOW');
+        $this->id         = $id;
+        $this->email      = $email;
+        $this->roles      = $roles;
+        $this->password   = $password;
+        $this->firstname  = $firstName;
+        $this->isVerified = $isVerified;
+        $this->createdAt  = new \DateTime('NOW');
+        $this->updatedAt  = new \DateTime('NOW');
 
         return $this;
     }
@@ -75,18 +59,14 @@ class SubscriberBuilder
     public function insert(): self
     {
         $this->connection->insert('subscriber', [
-            'id'                => $this->id,
-            'email'             => $this->email,
-            'roles'             => $this->roles,
-            'password'          => $this->password,
-            'firstname'         => $this->firstname,
-            'city'              => $this->city,
-            'department_number' => $this->departmentNumber,
-            'department_name'   => $this->departmentName,
-            'region'            => $this->region,
-            'is_verified'       => $this->isVerified === true ? 1 : 0,
-            'created_at'        => $this->createdAt->format('y-m-d'),
-            'updated_at'        => $this->updatedAt->format('y-m-d'),
+            'id'          => $this->id,
+            'email'       => $this->email,
+            'roles'       => $this->roles,
+            'password'    => $this->password,
+            'firstname'   => $this->firstname,
+            'is_verified' => $this->isVerified === true ? 1 : 0,
+            'created_at'  => $this->createdAt->format('y-m-d'),
+            'updated_at'  => $this->updatedAt->format('y-m-d'),
         ]);
 
         $faker = Factory::create();

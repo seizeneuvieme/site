@@ -6,7 +6,6 @@ use App\DTO\SubscriberCreate;
 use App\Entity\Platform;
 use App\Entity\Subscriber;
 use App\Repository\SubscriberRepository;
-use App\Service\CityService;
 use App\Service\SubscriberService;
 use Faker\Factory;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -21,7 +20,6 @@ class SubscriberServiceTest extends TestCase
     private SubscriberCreate $subscriberCreate;
     private string $fakeHashedPassword;
     private Subscriber $subscriber;
-    private CityService $cityService;
 
     public function setUp(): void
     {
@@ -35,8 +33,6 @@ class SubscriberServiceTest extends TestCase
 
         $this->subscriberService = new SubscriberService($this->userPasswordHasher, $this->subscriberRepository);
 
-        $this->cityService = new CityService();
-
         $faker                                      = Factory::create();
         $this->subscriberCreate                     = new SubscriberCreate();
         $this->subscriberCreate->email              = $faker->email;
@@ -44,11 +40,6 @@ class SubscriberServiceTest extends TestCase
         $this->subscriberCreate->password           = $password;
         $this->subscriberCreate->confirmPassword    = $password;
         $this->subscriberCreate->firstname          = $faker->firstName;
-        $this->subscriberCreate->city               = $faker->city;
-        $departmentNumber                           = $faker->numberBetween(10, 95);
-        $departmentName                             = $faker->word;
-        $region                                     = $faker->word;
-        $this->subscriberCreate->cityDetails        = $departmentNumber.', '.$departmentName.', '.$region;
         $this->subscriberCreate->streamingPlatforms = [Platform::NETFLIX];
     }
 
@@ -100,7 +91,6 @@ class SubscriberServiceTest extends TestCase
             ->willReturn($this->fakeHashedPassword);
 
         // Act
-        $this->cityService->processCityDetails($this->subscriberCreate);
         $this->subscriber = $this->subscriberService->createSubscriberFromDTO($this->subscriberCreate);
 
         // Assert
@@ -112,10 +102,6 @@ class SubscriberServiceTest extends TestCase
         $this->assertEquals($this->subscriber->getEmail(), $this->subscriberCreate->email);
         $this->assertEquals($this->subscriber->getPassword(), $this->fakeHashedPassword);
         $this->assertEquals($this->subscriber->getFirstname(), $this->subscriberCreate->firstname);
-        $this->assertEquals($this->subscriber->getCity(), $this->subscriberCreate->city);
-        $this->assertEquals($this->subscriber->getDepartmentNumber(), $this->subscriberCreate->departmentNumber);
-        $this->assertEquals($this->subscriber->getDepartmentName(), $this->subscriberCreate->departmentName);
-        $this->assertEquals($this->subscriber->getRegion(), $this->subscriberCreate->region);
         $this->assertEquals(1, $this->subscriber->getPlatforms()->count());
         $this->assertEquals($this->subscriber->getPlatforms()->toArray()[0]->getName(), $this->subscriberCreate->streamingPlatforms[0]);
     }

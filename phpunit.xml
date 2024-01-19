@@ -1,29 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.4/phpunit.xsd"
-         bootstrap="tests/bootstrap.php"
-         cacheResultFile=".phpunit.cache/test-results"
-         executionOrder="depends,defects"
-         beStrictAboutCoversAnnotation="true"
-         beStrictAboutTodoAnnotatedTests="true"
-         verbose="true">
-    <php>
-        <env name="APP_ENV" value="test" force="true"/>
-        <env name="KERNEL_CLASS" value="\App\Kernel" force="true"/>
-        <env name="SYMFONY_DEPRECATIONS_HELPER" value="disabled"/>
-    </php>
-
-    <testsuites>
-        <testsuite name="unit">
-            <directory>tests/unit</directory>
-        </testsuite>
-
-        <testsuite name="functional">
-            <directory>tests/functional</directory>
-        </testsuite>
-    </testsuites>
-
-    <listeners>
-        <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener"/>
-    </listeners>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunit.xsd" bootstrap="tests/bootstrap.php" executionOrder="depends,defects" cacheDirectory=".phpunit.cache" beStrictAboutCoverageMetadata="true">
+  <php>
+    <env name="APP_ENV" value="test" force="true"/>
+    <env name="KERNEL_CLASS" value="\App\Kernel" force="true"/>
+    <env name="SYMFONY_DEPRECATIONS_HELPER" value="disabled"/>
+  </php>
+  <testsuites>
+    <testsuite name="unit">
+      <directory>tests/unit</directory>
+    </testsuite>
+    <testsuite name="functional">
+      <directory>tests/functional</directory>
+    </testsuite>
+  </testsuites>
 </phpunit>

@@ -73,10 +73,6 @@ class CampaignServiceTest extends TestCase
         $faker      = Factory::create();
         $subscriber = new Subscriber();
         $subscriber->setFirstname($faker->firstName);
-        $subscriber->setCity($faker->city);
-        $subscriber->setDepartmentNumber($faker->numberBetween(10, 95));
-        $subscriber->setDepartmentName($faker->word);
-        $subscriber->setRegion($faker->word);
         $platform = new Platform();
         $platform->setName(Platform::NETFLIX);
         $subscriber->addPlatform($platform);
@@ -86,10 +82,6 @@ class CampaignServiceTest extends TestCase
 
         // Assert
         $this->assertEquals($subscriber->getFirstname(), $params['FIRSTNAME']);
-        $this->assertEquals($subscriber->getCity(), $params['CITY']);
-        $this->assertEquals($subscriber->getDepartmentNumber(), $params['DEPARTMENT_NUMBER']);
-        $this->assertEquals($subscriber->getDepartmentName(), $params['DEPARTMENT_NAME']);
-        $this->assertEquals($subscriber->getRegion(), $params['REGION']);
         $this->assertEquals(true, $params['NETFLIX']);
         $this->assertEquals(false, $params['DISNEY']);
     }
@@ -104,11 +96,7 @@ class CampaignServiceTest extends TestCase
         $subscriber = new Subscriber();
         $subscriber->setEmail($faker->email);
         $subscriber->setFirstname($faker->firstName);
-        $subscriber->setCity($faker->city);
         $subscriber->setIsVerified(true);
-        $subscriber->setDepartmentNumber($faker->numberBetween(10, 95));
-        $subscriber->setDepartmentName($faker->word);
-        $subscriber->setRegion($faker->word);
         $platform = new Platform();
         $platform->setName(Platform::NETFLIX);
         $subscriber->addPlatform($platform);

@@ -335,23 +335,16 @@ class AccountControllerTest extends AbstractWebTestCase
         $csrfToken = static::getContainer()->get('security.csrf.token_generator')->generateToken();
         $this->setLoginSessionValue(SessionTokenStorage::SESSION_NAMESPACE."/$tokenId", $csrfToken);
 
-        $faker            = Factory::create();
-        $firstname        = $faker->firstName;
-        $city             = $faker->city;
-        $departmentNumber = $faker->numberBetween(10, 95);
-        $departmentName   = $faker->word;
-        $region           = $faker->word;
-        $cityDetails      = $departmentNumber.', '.$departmentName.', '.$region;
+        $faker     = Factory::create();
+        $firstname = $faker->firstName;
 
         // Act
         $this->client->request(
             'POST',
             '/account/data/edit',
             [
-                'firstname'    => $firstname,
-                'city'         => $city,
-                'city-details' => $cityDetails,
-                'token'        => $csrfToken,
+                'firstname' => $firstname,
+                'token'     => $csrfToken,
             ]
         );
 
@@ -363,10 +356,6 @@ class AccountControllerTest extends AbstractWebTestCase
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('div.alert-success > p', 'Tes coordonnées ont bien été modifiées 🎉');
         $this->assertEquals($firstname, $subscriber->getFirstname());
-        $this->assertEquals($city, $subscriber->getCity());
-        $this->assertEquals($departmentNumber, $subscriber->getDepartmentNumber());
-        $this->assertEquals($departmentName, $subscriber->getDepartmentName());
-        $this->assertEquals($region, $subscriber->getRegion());
     }
 
     /**
@@ -416,34 +405,14 @@ class AccountControllerTest extends AbstractWebTestCase
         return [
             'firstname too short' => [
                 [
-                    'firstname'    => 'ab',
-                    'city'         => $faker->city,
-                    'city-details' => $faker->numberBetween(10, 95).', '.$faker->word.', '.$faker->word,
+                    'firstname' => 'ab',
                 ],
                 'div.alert-primary > p',
                 'Formulaire invalide.',
             ],
             'firstname too long' => [
                 [
-                    'firstname'    => 'azertyuiopqsdfghjklmwxcvbnazertyuiopqsdfghjklmwxcvbnazertyuiopqsdfghjklmwxcvbnazertyuiopqsdfghjklmwxcvbnazertyuiopqsdfghjklmwxcvbnazertyuiopqsdfghjklmwxcvbnazertyuiopqsdfghjklmwxcvbnazertyuiopqsdfghjklmwxcvbnazertyuiopqsdfghjklmwxcvbnazertyuiopqsdfghjklmwxcvbn',
-                    'city'         => $faker->city,
-                    'city-details' => $faker->numberBetween(10, 95).', '.$faker->word.', '.$faker->word,
-                ],
-                'div.alert-primary > p',
-                'Formulaire invalide.',
-            ],
-            'blank city' => [
-                [
-                    'firstname'    => $faker->firstName,
-                    'city-details' => $faker->numberBetween(10, 95).', '.$faker->word.', '.$faker->word,
-                ],
-                'div.alert-primary > p',
-                'Formulaire invalide.',
-            ],
-            'blank city details' => [
-                [
-                    'firstname' => $faker->firstName,
-                    'city'      => $faker->city,
+                    'firstname' => 'azertyuiopqsdfghjklmwxcvbnazertyuiopqsdfghjklmwxcvbnazertyuiopqsdfghjklmwxcvbnazertyuiopqsdfghjklmwxcvbnazertyuiopqsdfghjklmwxcvbnazertyuiopqsdfghjklmwxcvbnazertyuiopqsdfghjklmwxcvbnazertyuiopqsdfghjklmwxcvbnazertyuiopqsdfghjklmwxcvbnazertyuiopqsdfghjklmwxcvbn',
                 ],
                 'div.alert-primary > p',
                 'Formulaire invalide.',

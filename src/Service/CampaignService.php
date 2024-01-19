@@ -111,13 +111,9 @@ class CampaignService
 
     public function createParams(Subscriber $subscriber): array
     {
-        $params                      = [];
-        $params['FIRSTNAME']         = $subscriber->getFirstname();
-        $params['CITY']              = $subscriber->getCity();
-        $params['DEPARTMENT_NAME']   = $subscriber->getDepartmentName();
-        $params['DEPARTMENT_NUMBER'] = $subscriber->getDepartmentNumber();
-        $params['REGION']            = $subscriber->getRegion();
-        $params['TNT']               = $subscriber->getPlatforms()->filter(function (Platform $platform) {
+        $params              = [];
+        $params['FIRSTNAME'] = $subscriber->getFirstname();
+        $params['TNT']       = $subscriber->getPlatforms()->filter(function (Platform $platform) {
             return $platform->getName() === Platform::TNT;
         })->count() > 0;
         $params['NETFLIX'] = $subscriber->getPlatforms()->filter(function (Platform $platform) {
