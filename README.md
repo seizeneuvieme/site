@@ -52,7 +52,7 @@ symfony console app:send:email-campaign
 
 Si une campagne est programmée le même jour que celui de l'exécution de la commande, les envois d'emails seront automatiquement déclenchés via Sendinblue.
 
-En `production`, cette commande est automatiquement exécutée par un CRON, tous les jours à 11h45. 
+En `production`, cette commande est automatiquement exécutée par un CRON, tous les jours à 11h10. 
 
 **7°) Stopper le projet en local**
 
