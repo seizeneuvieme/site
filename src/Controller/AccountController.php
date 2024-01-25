@@ -8,7 +8,7 @@ use App\DTO\SubscriberPasswordUpdate;
 use App\DTO\SubscriberStreamingPlatformsUpdate;
 use App\Entity\Platform;
 use App\Entity\Subscriber;
-use App\Service\SendInBlueApiService;
+use App\Service\BrevoApiService;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -25,7 +25,7 @@ use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
 class AccountController extends AbstractController
 {
     public function __construct(
-        private readonly SendInBlueApiService $sendInBlueApiService,
+        private readonly BrevoApiService $BrevoApiService,
         private readonly VerifyEmailHelperInterface $verifyEmailHelper,
         private readonly LoggerInterface $logger
     ) {
@@ -54,9 +54,9 @@ class AccountController extends AbstractController
             ['id' => $subscriber->getId()]
         );
 
-        $template = $this->sendInBlueApiService->getTemplate(SendInBlueApiService::ACTIVE_ACCOUNT_TEMPLATE_ID);
+        $template = $this->BrevoApiService->getTemplate(BrevoApiService::ACTIVE_ACCOUNT_TEMPLATE_ID);
         if ($template !== null) {
-            $this->sendInBlueApiService->sendTransactionalEmail(
+            $this->BrevoApiService->sendTransactionalEmail(
                 $template,
                 [
                     'name'  => $subscriber->getFirstname(),
@@ -313,9 +313,9 @@ class AccountController extends AbstractController
                     ]
                 );
 
-                $template = $this->sendInBlueApiService->getTemplate(SendInBlueApiService::CONFIRM_ACCOUNT_REMOVED);
+                $template = $this->BrevoApiService->getTemplate(BrevoApiService::CONFIRM_ACCOUNT_REMOVED);
                 if ($template !== null) {
-                    $this->sendInBlueApiService->sendTransactionalEmail(
+                    $this->BrevoApiService->sendTransactionalEmail(
                         $template,
                         [
                             'name'  => $subscriber->getFirstname(),

@@ -26,6 +26,6 @@ services:
         arguments:
             $loginAuthenticator: '@security.authenticator.form_login.main'
 
-    App\Service\SendInBlueApiService:
+    App\Service\BrevoApiService:
         arguments:
             $apiKey: '%env(BREVO_API_KEY)%'

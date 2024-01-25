@@ -9,7 +9,7 @@ use App\Entity\Subscriber;
 use App\Repository\CampaignRepository;
 use App\Repository\SubscriberRepository;
 use App\Service\CampaignService;
-use App\Service\SendInBlueApiService;
+use App\Service\BrevoApiService;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -24,7 +24,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class BackofficeController extends AbstractController
 {
     public function __construct(
-        private readonly SendInBlueApiService $sendInBlueApiService,
+        private readonly BrevoApiService $BrevoApiService,
         private readonly LoggerInterface $logger
     ) {
     }
@@ -80,7 +80,7 @@ class BackofficeController extends AbstractController
         if ($request->isMethod('POST') && $this->isCsrfTokenValid('add-campaign', (string) $request->request->get('token'))) {
             $templateId = $request->request->get('template-id');
 
-            $template = $this->sendInBlueApiService->getTemplate((int) $templateId);
+            $template = $this->BrevoApiService->getTemplate((int) $templateId);
 
             if ($template === null) {
                 $this->addFlash('invalid_template_id', 'Identifiant invalide');
@@ -234,7 +234,7 @@ class BackofficeController extends AbstractController
     public function sendCampaignMailTest(
         Request $request,
         CampaignRepository $campaignRepository,
-        SendInBlueApiService $sendInBlueApiService,
+        BrevoApiService $BrevoApiService,
         CampaignService $campaignService
     ): Response {
         if ($request->isMethod('POST') && $this->isCsrfTokenValid('test-campaign', (string) $request->request->get('token'))) {
@@ -246,14 +246,14 @@ class BackofficeController extends AbstractController
                 return $this->redirectToRoute('app_backoffice');
             }
 
-            $template = $sendInBlueApiService->getTemplate($campaign->getTemplateId());
+            $template = $BrevoApiService->getTemplate($campaign->getTemplateId());
             if ($template !== null) {
                 /**
                  * @var Subscriber $subscriber
                  */
                 $subscriber = $this->getUser();
                 $params     = $campaignService->createParams($subscriber);
-                $result     = $sendInBlueApiService->sendTransactionalEmail($template, [
+                $result     = $BrevoApiService->sendTransactionalEmail($template, [
                     'name'  => $subscriber->getFirstname(),
                     'email' => $subscriber->getEmail(),
                 ], $params);

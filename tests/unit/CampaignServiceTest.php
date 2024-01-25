@@ -8,7 +8,7 @@ use App\Entity\Platform;
 use App\Entity\Subscriber;
 use App\Repository\SubscriberRepository;
 use App\Service\CampaignService;
-use App\Service\SendInBlueApiService;
+use App\Service\BrevoApiService;
 use Brevo\Client\Model\GetSmtpTemplateOverview;
 use Doctrine\ORM\EntityManagerInterface;
 use Faker\Factory;
@@ -27,7 +27,7 @@ class CampaignServiceTest extends TestCase
         $entityManager = $this->getMockBuilder(EntityManagerInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
-        $sendInBlueApiService = $this->getMockBuilder(SendInBlueApiService::class)
+        $BrevoApiService = $this->getMockBuilder(BrevoApiService::class)
             ->disableOriginalConstructor()
             ->getMock();
         $loggerInterface = $this->getMockBuilder(LoggerInterface::class)
@@ -36,7 +36,7 @@ class CampaignServiceTest extends TestCase
         $this->campaignService = new CampaignService(
             $subscriberRepository,
             $entityManager,
-            $sendInBlueApiService,
+            $BrevoApiService,
             $loggerInterface
         );
     }
@@ -113,7 +113,7 @@ class CampaignServiceTest extends TestCase
         $entityManager = $this->getMockBuilder(EntityManagerInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
-        $sendInBlueApiService = $this->getMockBuilder(SendInBlueApiService::class)
+        $BrevoApiService = $this->getMockBuilder(BrevoApiService::class)
             ->disableOriginalConstructor()
             ->getMock();
         $loggerInterface = $this->getMockBuilder(LoggerInterface::class)
@@ -122,11 +122,11 @@ class CampaignServiceTest extends TestCase
         $this->campaignService = new CampaignService(
             $subscriberRepository,
             $entityManager,
-            $sendInBlueApiService,
+            $BrevoApiService,
             $loggerInterface
         );
 
-        $sendInBlueApiService
+        $BrevoApiService
             ->expects(self::exactly(2))
             ->method('getTemplate')
             ->willReturn(new GetSmtpTemplateOverview());
@@ -136,7 +136,7 @@ class CampaignServiceTest extends TestCase
             ->method('findBy')
             ->willReturn([$subscriber]);
 
-        $sendInBlueApiService
+        $BrevoApiService
             ->expects(self::exactly(2))
             ->method('sendTransactionalEmail')
             ->willReturn(true);

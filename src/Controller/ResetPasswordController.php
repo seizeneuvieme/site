@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\DTO\SubscriberPasswordUpdate;
 use App\Entity\Subscriber;
-use App\Service\SendInBlueApiService;
+use App\Service\BrevoApiService;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -30,7 +30,7 @@ class ResetPasswordController extends AbstractController
     public function __construct(
         private readonly ResetPasswordHelperInterface $resetPasswordHelper,
         private readonly EntityManagerInterface $entityManager,
-        private readonly SendInBlueApiService $sendInBlueApiService
+        private readonly BrevoApiService $BrevoApiService
     ) {
     }
 
@@ -200,9 +200,9 @@ class ResetPasswordController extends AbstractController
             return $this->redirectToRoute('app_check_email');
         }
 
-        $template = $this->sendInBlueApiService->getTemplate(SendInBlueApiService::RESET_PASSWORD_TEMPLATE_ID);
+        $template = $this->BrevoApiService->getTemplate(BrevoApiService::RESET_PASSWORD_TEMPLATE_ID);
         if ($template !== null) {
-            $this->sendInBlueApiService->sendTransactionalEmail(
+            $this->BrevoApiService->sendTransactionalEmail(
                 $template,
                 [
                     'name'  => $user->getFirstname(),

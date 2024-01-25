@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\DTO\SubscriberCreate;
 use App\Repository\SubscriberRepository;
 use App\Security\EmailVerifier;
-use App\Service\SendInBlueApiService;
+use App\Service\BrevoApiService;
 use App\Service\SubscriberService;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
@@ -24,7 +24,7 @@ class SignUpController extends AbstractController
         private readonly VerifyEmailHelperInterface $verifyEmailHelper,
         private readonly EmailVerifier $emailVerifier,
         private readonly AuthenticatorInterface $loginAuthenticator,
-        private readonly SendInBlueApiService $sendInBlueApiService
+        private readonly BrevoApiService $BrevoApiService
     ) {
     }
 
@@ -90,9 +90,9 @@ class SignUpController extends AbstractController
                 "{$subscriber->getEmail()}",
                 ['id' => $subscriber->getId()]
             );
-            $template = $this->sendInBlueApiService->getTemplate(SendInBlueApiService::ACTIVE_ACCOUNT_TEMPLATE_ID);
+            $template = $this->BrevoApiService->getTemplate(BrevoApiService::ACTIVE_ACCOUNT_TEMPLATE_ID);
             if ($template !== null) {
-                $this->sendInBlueApiService->sendTransactionalEmail(
+                $this->BrevoApiService->sendTransactionalEmail(
                     $template,
                     [
                         'name'  => $subscriber->getFirstname(),

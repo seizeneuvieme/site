@@ -16,7 +16,7 @@ class CampaignService
     public function __construct(
         private readonly SubscriberRepository $subscriberRepository,
         private readonly EntityManagerInterface $entityManager,
-        private readonly SendInBlueApiService $sendInBlueApiService,
+        private readonly BrevoApiService $BrevoApiService,
         private readonly LoggerInterface $logger
     ) {
     }
@@ -36,7 +36,7 @@ class CampaignService
      */
     public function processCampaign(Campaign $campaign): void
     {
-        $template = $this->sendInBlueApiService->getTemplate($campaign->getTemplateId());
+        $template = $this->BrevoApiService->getTemplate($campaign->getTemplateId());
 
         if ($template === null) {
             throw new Exception("Template with id {$campaign->getTemplateId()} not found.");
@@ -63,7 +63,7 @@ class CampaignService
                     continue;
                 }
 
-                $result = $this->sendInBlueApiService->sendTransactionalEmail(
+                $result = $this->BrevoApiService->sendTransactionalEmail(
                     $template,
                     [
                         'name'  => $subscriber->getFirstname(),
@@ -88,13 +88,13 @@ class CampaignService
         $campaign->setState(Campaign::SENT_STATE);
         $this->entityManager->flush();
 
-        $template = $this->sendInBlueApiService->getTemplate(SendInBlueApiService::CONFIRM_CAMPAIGN_SENT);
+        $template = $this->BrevoApiService->getTemplate(BrevoApiService::CONFIRM_CAMPAIGN_SENT);
         if ($template === null) {
             throw new Exception('Confirm campaign template id not found.');
         }
-        $this->sendInBlueApiService->sendTransactionalEmail(
+        $this->BrevoApiService->sendTransactionalEmail(
             $template,
-            SendInBlueApiService::CONFIRM_CAMPAIGN_TO,
+            BrevoApiService::CONFIRM_CAMPAIGN_TO,
             [
                 'CAMPAIGN_NAME'  => $campaign->getName(),
                 'MAILS_SENT'     => $numberEmailSent,

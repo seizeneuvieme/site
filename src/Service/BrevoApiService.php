@@ -11,7 +11,7 @@ use Brevo\Client\Model\SendSmtpEmailTo;
 use GuzzleHttp\Client;
 use Psr\Log\LoggerInterface;
 
-class SendInBlueApiService
+class BrevoApiService
 {
     public const ACTIVE_ACCOUNT_TEMPLATE_ID = 4;
     public const RESET_PASSWORD_TEMPLATE_ID = 5;

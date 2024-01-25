@@ -4,7 +4,7 @@ namespace App\Tests\functional;
 
 use App\Entity\Platform;
 use App\Repository\SubscriberRepository;
-use App\Service\SendInBlueApiService;
+use App\Service\BrevoApiService;
 use App\Tests\builder\database\SubscriberBuilder;
 use Brevo\Client\Model\GetSmtpTemplateOverview;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
@@ -92,15 +92,15 @@ class AccountControllerTest extends AbstractWebTestCase
         ]);
         $this->client->loginUser($subscriber);
 
-        $sendInBlueApiService = $this->createMock(SendInBlueApiService::class);
-        $sendInBlueApiService->expects(self::once())
+        $BrevoApiService = $this->createMock(BrevoApiService::class);
+        $BrevoApiService->expects(self::once())
             ->method('getTemplate')
             ->willReturn(new GetSmtpTemplateOverview())
         ;
-        $sendInBlueApiService->expects(self::once())
+        $BrevoApiService->expects(self::once())
             ->method('sendTransactionalEmail')
         ;
-        $container->set(SendInBlueApiService::class, $sendInBlueApiService);
+        $container->set(BrevoApiService::class, $BrevoApiService);
 
         // Act
         $this->client->request('GET', '/account/send-activation-code');
@@ -552,15 +552,15 @@ class AccountControllerTest extends AbstractWebTestCase
         // Prevent client from rebooting the kernel
         $this->client->disableReboot();
 
-        $sendInBlueApiService = $this->createMock(SendInBlueApiService::class);
-        $sendInBlueApiService->expects(self::once())
+        $BrevoApiService = $this->createMock(BrevoApiService::class);
+        $BrevoApiService->expects(self::once())
             ->method('getTemplate')
             ->willReturn(new GetSmtpTemplateOverview())
         ;
-        $sendInBlueApiService->expects(self::once())
+        $BrevoApiService->expects(self::once())
             ->method('sendTransactionalEmail')
         ;
-        $container->set(SendInBlueApiService::class, $sendInBlueApiService);
+        $container->set(BrevoApiService::class, $BrevoApiService);
 
         $tokenId   = 'remove-account';
         $csrfToken = static::getContainer()->get('security.csrf.token_generator')->generateToken();

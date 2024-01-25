@@ -4,7 +4,7 @@ namespace App\Tests\functional;
 
 use App\Repository\CampaignRepository;
 use App\Repository\SubscriberRepository;
-use App\Service\SendInBlueApiService;
+use App\Service\BrevoApiService;
 use App\Tests\builder\database\CampaignBuilder;
 use App\Tests\builder\database\SubscriberBuilder;
 use Brevo\Client\Model\GetSmtpTemplateOverview;
@@ -113,15 +113,15 @@ class BackofficeControllerTest extends AbstractWebTestCase
         // Arrange
         $faker                = Factory::create();
         $container            = $this->client->getContainer();
-        $sendInBlueApiService = $this->createMock(SendInBlueApiService::class);
+        $BrevoApiService = $this->createMock(BrevoApiService::class);
         $campaignName         = $faker->word;
-        $sendInBlueApiService
+        $BrevoApiService
             ->method('getTemplate')
             ->willReturn(new GetSmtpTemplateOverview([
                 'id'   => $faker->randomNumber(),
                 'name' => $campaignName,
             ]));
-        $container->set(SendInBlueApiService::class, $sendInBlueApiService);
+        $container->set(BrevoApiService::class, $BrevoApiService);
         /**
          * @var SubscriberRepository $subscriberRepository
          */
@@ -162,15 +162,15 @@ class BackofficeControllerTest extends AbstractWebTestCase
         // Arrange
         $faker                = Factory::create();
         $container            = $this->client->getContainer();
-        $sendInBlueApiService = $this->createMock(SendInBlueApiService::class);
+        $BrevoApiService = $this->createMock(BrevoApiService::class);
         $campaignName         = $faker->word;
-        $sendInBlueApiService
+        $BrevoApiService
             ->method('getTemplate')
             ->willReturn(new GetSmtpTemplateOverview([
                 'id'   => $faker->randomNumber(),
                 'name' => $campaignName,
             ]));
-        $container->set(SendInBlueApiService::class, $sendInBlueApiService);
+        $container->set(BrevoApiService::class, $BrevoApiService);
         /**
          * @var SubscriberRepository $subscriberRepository
          */
@@ -394,9 +394,9 @@ class BackofficeControllerTest extends AbstractWebTestCase
         // Arrange
         $faker                = Factory::create();
         $container            = $this->client->getContainer();
-        $sendInBlueApiService = $this->createMock(SendInBlueApiService::class);
+        $BrevoApiService = $this->createMock(BrevoApiService::class);
         $campaignName         = $faker->word;
-        $sendInBlueApiService
+        $BrevoApiService
             ->method('getTemplate')
             ->willReturn(
                 new GetSmtpTemplateOverview([
@@ -404,10 +404,10 @@ class BackofficeControllerTest extends AbstractWebTestCase
                 'name' => $campaignName,
             ])
             );
-        $sendInBlueApiService
+        $BrevoApiService
             ->method('sendTransactionalEmail')
             ->willReturn(true);
-        $container->set(SendInBlueApiService::class, $sendInBlueApiService);
+        $container->set(BrevoApiService::class, $BrevoApiService);
 
         /**
          * @var Connection $connection

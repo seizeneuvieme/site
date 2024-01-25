@@ -4,7 +4,7 @@ namespace App\Tests\functional;
 
 use App\Repository\CampaignRepository;
 use App\Repository\SubscriberRepository;
-use App\Service\SendInBlueApiService;
+use App\Service\BrevoApiService;
 use App\Tests\builder\database\CampaignBuilder;
 use App\Tests\builder\database\SubscriberBuilder;
 use Brevo\Client\Model\GetSmtpTemplateOverview;
@@ -89,18 +89,18 @@ class SendEmailCampaignCommandTest extends KernelTestCase
             ->withSendingDate(new \DateTime('+1 day'))
             ->insert();
 
-        $sendInBlueApiService = $this->createMock(SendInBlueApiService::class);
-        $sendInBlueApiService
+        $BrevoApiService = $this->createMock(BrevoApiService::class);
+        $BrevoApiService
             ->expects(self::exactly(2))
             ->method('getTemplate')
             ->willReturn(
                 new GetSmtpTemplateOverview()
             );
-        $sendInBlueApiService
+        $BrevoApiService
             ->expects(self::exactly(2))
             ->method('sendTransactionalEmail')
             ->willReturn(true);
-        $container->set(SendInBlueApiService::class, $sendInBlueApiService);
+        $container->set(BrevoApiService::class, $BrevoApiService);
 
         // Act
         $command       = $application->find('app:send:email-campaign');
