@@ -138,7 +138,7 @@ class BrevoApiService
 
         $contact = $apiInstance->createContact($contact);
 
-        return $contact->getId();
+        return $contact !== null ? $contact->getId() : null;
     }
 
     /**
