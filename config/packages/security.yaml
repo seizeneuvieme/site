@@ -13,6 +13,8 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+        webhooks:
+            pattern: ^/brevo-webhooks
         main:
             lazy: true
             provider: app_user_provider
@@ -35,7 +37,8 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
          - { path: ^/account, roles: ROLE_USER }
-         - { path: ^/platform934, roles: ROLE_ADMIN }
+         - { path: ^/brevo-webhooks, ips: [185.107.132.1/24, 1.179.112.1/20] }
+         - { path: ^/brevo-webhooks, roles: ROLE_NO_ACCESS }
 
 when@test:
     security:

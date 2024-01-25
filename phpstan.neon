@@ -6,5 +6,6 @@ parameters:
         - src
     checkGenericClassInNonGenericObjectType: false
     checkMissingIterableValueType: false
+    treatPhpDocTypesAsCertain: false
     ignoreErrors:
             - '#Method App\\Validator\\.*::validate\(\) has parameter \$value with no type specified.#'
