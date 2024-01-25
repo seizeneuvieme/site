@@ -2,7 +2,7 @@
 
 namespace App\Tests\functional;
 
-use App\Service\SendInBlueApiService;
+use App\Service\BrevoApiService;
 use App\Tests\builder\database\SubscriberBuilder;
 use Brevo\Client\Model\GetSmtpTemplateOverview;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
@@ -54,16 +54,16 @@ class ResetPasswordControllerTest extends WebTestCase
     public function it_requests_new_password(): void
     {
         // Arrange
-        $container            = $this->client->getContainer();
-        $sendInBlueApiService = $this->createMock(SendInBlueApiService::class);
-        $sendInBlueApiService->expects(self::once())
+        $container       = $this->client->getContainer();
+        $brevoApiService = $this->createMock(BrevoApiService::class);
+        $brevoApiService->expects(self::once())
             ->method('getTemplate')
             ->willReturn(new GetSmtpTemplateOverview())
         ;
-        $sendInBlueApiService->expects(self::once())
+        $brevoApiService->expects(self::once())
             ->method('sendTransactionalEmail')
         ;
-        $container->set(SendInBlueApiService::class, $sendInBlueApiService);
+        $container->set(BrevoApiService::class, $brevoApiService);
 
         // Act
         $this->client->request(

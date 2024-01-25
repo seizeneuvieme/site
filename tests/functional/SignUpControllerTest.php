@@ -5,7 +5,7 @@ namespace App\Tests\functional;
 use App\Entity\Platform;
 use App\Entity\Subscriber;
 use App\Repository\SubscriberRepository;
-use App\Service\SendInBlueApiService;
+use App\Service\BrevoApiService;
 use App\Tests\builder\database\SubscriberBuilder;
 use Brevo\Client\Model\GetSmtpTemplateOverview;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
@@ -69,13 +69,13 @@ class SignUpControllerTest extends WebTestCase
         $firstname          = $faker->firstName;
         $streamingPlatforms = [Platform::DISNEY];
 
-        $sendInBlueApiService = $this->createMock(SendInBlueApiService::class);
+        $brevoApiService = $this->createMock(BrevoApiService::class);
 
-        $sendInBlueApiService->expects(self::once())
+        $brevoApiService->expects(self::once())
             ->method('getTemplate')
             ->willReturn(new GetSmtpTemplateOverview())
         ;
-        $sendInBlueApiService->expects(self::once())
+        $brevoApiService->expects(self::once())
             ->method('sendTransactionalEmail')
         ;
 
@@ -84,7 +84,7 @@ class SignUpControllerTest extends WebTestCase
             ->willReturn($password);
 
         $container = static::getContainer();
-        $container->set(SendInBlueApiService::class, $sendInBlueApiService);
+        $container->set(BrevoApiService::class, $brevoApiService);
         /**
          * @var SubscriberRepository $subscriberRepository
          */
@@ -187,9 +187,9 @@ class SignUpControllerTest extends WebTestCase
     public function it_gets_error_if_sign_up_form_has_errors(array $invalidFields, int $expectedStatusCode, string $expectedMessage): void
     {
         // Arrange
-        $sendInBlueApiService = $this->createMock(SendInBlueApiService::class);
-        $container            = static::getContainer();
-        $container->set(SendInBlueApiService::class, $sendInBlueApiService);
+        $brevoApiService = $this->createMock(BrevoApiService::class);
+        $container       = static::getContainer();
+        $container->set(BrevoApiService::class, $brevoApiService);
 
         // Act
         $this->client->request(

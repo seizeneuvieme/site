@@ -13,24 +13,25 @@ class SubscriberBuilder
     private string $password;
     private string $firstname;
     private array $platforms;
-
     private bool $isVerified;
+    private ?int $brevoContactId;
     private \DateTimeInterface $createdAt;
     private \DateTimeInterface $updatedAt;
 
     public function __construct(
         private readonly Connection $connection,
     ) {
-        $faker            = Factory::create();
-        $this->id         = $faker->randomNumber();
-        $this->email      = 'marty@mcfly.com';
-        $this->roles      = json_encode(['ROLE_ADMIN']);
-        $this->password   = $faker->password;
-        $this->firstname  = $faker->firstName;
-        $this->platforms  = [];
-        $this->isVerified = false;
-        $this->createdAt  = new \DateTime('NOW');
-        $this->updatedAt  = new \DateTime('NOW');
+        $faker                = Factory::create();
+        $this->id             = $faker->randomNumber();
+        $this->email          = 'marty@mcfly.com';
+        $this->roles          = json_encode(['ROLE_ADMIN']);
+        $this->password       = $faker->password;
+        $this->firstname      = $faker->firstName;
+        $this->platforms      = [];
+        $this->isVerified     = false;
+        $this->brevoContactId = null;
+        $this->createdAt      = new \DateTime('NOW');
+        $this->updatedAt      = new \DateTime('NOW');
     }
 
     public function fake(
@@ -39,16 +40,18 @@ class SubscriberBuilder
         string $roles,
         string $password,
         string $firstName,
-        bool $isVerified
+        bool $isVerified,
+        ?int $brevoContactId
     ): self {
-        $this->id         = $id;
-        $this->email      = $email;
-        $this->roles      = $roles;
-        $this->password   = $password;
-        $this->firstname  = $firstName;
-        $this->isVerified = $isVerified;
-        $this->createdAt  = new \DateTime('NOW');
-        $this->updatedAt  = new \DateTime('NOW');
+        $this->id             = $id;
+        $this->email          = $email;
+        $this->roles          = $roles;
+        $this->password       = $password;
+        $this->firstname      = $firstName;
+        $this->isVerified     = $isVerified;
+        $this->brevoContactId = $brevoContactId;
+        $this->createdAt      = new \DateTime('NOW');
+        $this->updatedAt      = new \DateTime('NOW');
 
         return $this;
     }
@@ -59,14 +62,15 @@ class SubscriberBuilder
     public function insert(): self
     {
         $this->connection->insert('subscriber', [
-            'id'          => $this->id,
-            'email'       => $this->email,
-            'roles'       => $this->roles,
-            'password'    => $this->password,
-            'firstname'   => $this->firstname,
-            'is_verified' => $this->isVerified === true ? 1 : 0,
-            'created_at'  => $this->createdAt->format('y-m-d'),
-            'updated_at'  => $this->updatedAt->format('y-m-d'),
+            'id'               => $this->id,
+            'email'            => $this->email,
+            'roles'            => $this->roles,
+            'password'         => $this->password,
+            'firstname'        => $this->firstname,
+            'is_verified'      => $this->isVerified === true ? 1 : 0,
+            'brevo_contact_id' => $this->brevoContactId,
+            'created_at'       => $this->createdAt->format('y-m-d'),
+            'updated_at'       => $this->updatedAt->format('y-m-d'),
         ]);
 
         $faker = Factory::create();
@@ -102,6 +106,13 @@ class SubscriberBuilder
     public function withIsVerified(bool $isVerified): self
     {
         $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    public function brevoContactId(int $brevoContactId): self
+    {
+        $this->brevoContactId = $brevoContactId;
 
         return $this;
     }

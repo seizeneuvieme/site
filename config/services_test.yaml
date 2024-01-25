@@ -4,7 +4,7 @@ services:
     autowire: true
     autoconfigure: true
 
-  App\Service\SendInBlueApiService:
+  App\Service\BrevoApiService:
     public: true
     arguments:
       $apiKey: '%env(BREVO_API_KEY)%'

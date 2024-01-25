@@ -2,17 +2,23 @@
 
 namespace App\Service;
 
+use App\Entity\Subscriber;
+use Brevo\Client\Api\ContactsApi;
 use Brevo\Client\Api\TransactionalEmailsApi;
+use Brevo\Client\ApiException;
 use Brevo\Client\Configuration;
+use Brevo\Client\Model\CreateContact;
 use Brevo\Client\Model\GetSmtpTemplateOverview;
 use Brevo\Client\Model\SendSmtpEmail;
 use Brevo\Client\Model\SendSmtpEmailSender;
 use Brevo\Client\Model\SendSmtpEmailTo;
+use Brevo\Client\Model\UpdateContact;
 use GuzzleHttp\Client;
 use Psr\Log\LoggerInterface;
 
-class SendInBlueApiService
+class BrevoApiService
 {
+    public const NEWSLETTER_LIST_ID         = 3;
     public const ACTIVE_ACCOUNT_TEMPLATE_ID = 4;
     public const RESET_PASSWORD_TEMPLATE_ID = 5;
     public const CONFIRM_CAMPAIGN_SENT      = 6;
@@ -99,5 +105,71 @@ class SendInBlueApiService
 
             return false;
         }
+    }
+
+    /**
+     * @throws ApiException
+     */
+    public function createUpdateContact(Subscriber $subscriber): ?int
+    {
+        $configuration = Configuration::getDefaultConfiguration()->setApiKey('api-key', $this->apiKey);
+        $apiInstance   = new ContactsApi(
+            new Client(),
+            $configuration
+        );
+        $contact = new CreateContact();
+        $contact->setEmail($subscriber->getEmail());
+
+        $contact->setListIds([self::NEWSLETTER_LIST_ID]);
+        $contact->setUpdateEnabled(true);
+
+        $attributes = [
+            'PRENOM'  => $subscriber->getFirstname(),
+            'TNT'     => false,
+            'NETFLIX' => false,
+            'PRIME'   => false,
+            'DISNEY'  => false,
+            'CANAL'   => false,
+        ];
+        foreach ($subscriber->getPlatforms() as $platform) {
+            $attributes[strtoupper((string) $platform->getName())] = true;
+        }
+        $contact->setAttributes((object) $attributes);
+
+        $contact = $apiInstance->createContact($contact);
+
+        return $contact->getId();
+    }
+
+    /**
+     * @throws ApiException
+     */
+    public function updateContactEmail(Subscriber $subscriber): void
+    {
+        $configuration = Configuration::getDefaultConfiguration()->setApiKey('api-key', $this->apiKey);
+        $apiInstance   = new ContactsApi(
+            new Client(),
+            $configuration
+        );
+        $contact    = new UpdateContact();
+        $attributes = [
+            'EMAIL' => $subscriber->getEmail(),
+        ];
+        $contact->setAttributes((object) $attributes);
+        $apiInstance->updateContact((string) $subscriber->getBrevoContactId(), $contact);
+    }
+
+    /**
+     * @throws ApiException
+     */
+    public function deleteContact(int $id): void
+    {
+        $configuration = Configuration::getDefaultConfiguration()->setApiKey('api-key', $this->apiKey);
+        $apiInstance   = new ContactsApi(
+            new Client(),
+            $configuration
+        );
+
+        $apiInstance->deleteContact((string) $id);
     }
 }

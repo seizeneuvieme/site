@@ -43,18 +43,7 @@ Pour lancer les tests unitaires et fonctionnels, exécuter la commande suivante 
 make test
 ```
 
-**6°) Lancer la commande d'envoi de campagne**
-
-Pour envoyer une campagne, lancer la commande suivante :
-```
-symfony console app:send:email-campaign
-```
-
-Si une campagne est programmée le même jour que celui de l'exécution de la commande, les envois d'emails seront automatiquement déclenchés via Sendinblue.
-
-En `production`, cette commande est automatiquement exécutée par un CRON, tous les jours à 11h10. 
-
-**7°) Stopper le projet en local**
+**6°) Stopper le projet en local**
 
 Pour stopper le projet en local, exécuter la commande suivante :
 ```

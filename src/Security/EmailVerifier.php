@@ -3,6 +3,8 @@
 namespace App\Security;
 
 use App\Entity\Subscriber;
+use App\Service\BrevoApiService;
+use Brevo\Client\ApiException;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,7 +18,8 @@ class EmailVerifier
     public function __construct(
         private readonly VerifyEmailHelperInterface $verifyEmailHelper,
         private readonly MailerInterface $mailer,
-        private readonly EntityManagerInterface $entityManager
+        private readonly EntityManagerInterface $entityManager,
+        private readonly BrevoApiService $brevoApiService,
     ) {
     }
 
@@ -43,6 +46,7 @@ class EmailVerifier
 
     /**
      * @throws VerifyEmailExceptionInterface
+     * @throws ApiException
      */
     public function handleEmailConfirmation(Request $request, UserInterface $user): void
     {
@@ -55,6 +59,11 @@ class EmailVerifier
             "{$user->getEmail()}"
         );
 
+        $brevoCreateContactId = $this->brevoApiService->createUpdateContact($user);
+
+        if ($brevoCreateContactId !== null) {
+            $user->setBrevoContactId($brevoCreateContactId);
+        }
         $user->setIsVerified(true);
 
         $this->entityManager->persist($user);

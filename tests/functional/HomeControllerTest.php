@@ -19,6 +19,6 @@ class HomeControllerTest extends WebTestCase
 
         // Assert
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('h1', 'La newsletter des films cultes à voir directement depuis ton canapé 🍿');
+        $this->assertSelectorTextContains('h1', 'La newsletter des films cultes à (re)découvrir directement depuis ton canapé 🍿');
     }
 }
