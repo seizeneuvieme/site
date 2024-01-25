@@ -24,7 +24,7 @@ class SignUpController extends AbstractController
         private readonly VerifyEmailHelperInterface $verifyEmailHelper,
         private readonly EmailVerifier $emailVerifier,
         private readonly AuthenticatorInterface $loginAuthenticator,
-        private readonly BrevoApiService $BrevoApiService
+        private readonly BrevoApiService $brevoApiService
     ) {
     }
 
@@ -90,9 +90,9 @@ class SignUpController extends AbstractController
                 "{$subscriber->getEmail()}",
                 ['id' => $subscriber->getId()]
             );
-            $template = $this->BrevoApiService->getTemplate(BrevoApiService::ACTIVE_ACCOUNT_TEMPLATE_ID);
+            $template = $this->brevoApiService->getTemplate(BrevoApiService::ACTIVE_ACCOUNT_TEMPLATE_ID);
             if ($template !== null) {
-                $this->BrevoApiService->sendTransactionalEmail(
+                $this->brevoApiService->sendTransactionalEmail(
                     $template,
                     [
                         'name'  => $subscriber->getFirstname(),

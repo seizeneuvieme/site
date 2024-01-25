@@ -30,7 +30,7 @@ class ResetPasswordController extends AbstractController
     public function __construct(
         private readonly ResetPasswordHelperInterface $resetPasswordHelper,
         private readonly EntityManagerInterface $entityManager,
-        private readonly BrevoApiService $BrevoApiService
+        private readonly BrevoApiService $brevoApiService
     ) {
     }
 
@@ -200,9 +200,9 @@ class ResetPasswordController extends AbstractController
             return $this->redirectToRoute('app_check_email');
         }
 
-        $template = $this->BrevoApiService->getTemplate(BrevoApiService::RESET_PASSWORD_TEMPLATE_ID);
+        $template = $this->brevoApiService->getTemplate(BrevoApiService::RESET_PASSWORD_TEMPLATE_ID);
         if ($template !== null) {
-            $this->BrevoApiService->sendTransactionalEmail(
+            $this->brevoApiService->sendTransactionalEmail(
                 $template,
                 [
                     'name'  => $user->getFirstname(),

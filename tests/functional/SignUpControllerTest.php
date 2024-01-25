@@ -69,13 +69,13 @@ class SignUpControllerTest extends WebTestCase
         $firstname          = $faker->firstName;
         $streamingPlatforms = [Platform::DISNEY];
 
-        $BrevoApiService = $this->createMock(BrevoApiService::class);
+        $brevoApiService = $this->createMock(BrevoApiService::class);
 
-        $BrevoApiService->expects(self::once())
+        $brevoApiService->expects(self::once())
             ->method('getTemplate')
             ->willReturn(new GetSmtpTemplateOverview())
         ;
-        $BrevoApiService->expects(self::once())
+        $brevoApiService->expects(self::once())
             ->method('sendTransactionalEmail')
         ;
 
@@ -84,7 +84,7 @@ class SignUpControllerTest extends WebTestCase
             ->willReturn($password);
 
         $container = static::getContainer();
-        $container->set(BrevoApiService::class, $BrevoApiService);
+        $container->set(BrevoApiService::class, $brevoApiService);
         /**
          * @var SubscriberRepository $subscriberRepository
          */
@@ -187,9 +187,9 @@ class SignUpControllerTest extends WebTestCase
     public function it_gets_error_if_sign_up_form_has_errors(array $invalidFields, int $expectedStatusCode, string $expectedMessage): void
     {
         // Arrange
-        $BrevoApiService = $this->createMock(BrevoApiService::class);
-        $container            = static::getContainer();
-        $container->set(BrevoApiService::class, $BrevoApiService);
+        $brevoApiService = $this->createMock(BrevoApiService::class);
+        $container       = static::getContainer();
+        $container->set(BrevoApiService::class, $brevoApiService);
 
         // Act
         $this->client->request(

@@ -27,13 +27,6 @@
                             {% endif %}
                         </div>
                     </div>
-                    {% if app.user is defined and is_granted('ROLE_ADMIN') %}
-                        <div class="bg-primary mb-4 text-white" style="border-radius: 1rem;">
-                            <div class="text-center pb-2 pt-2 text-white">
-                                <a href="{{ path('app_backoffice') }}" class="hover-arrow text-white" >Accéder au backoffice</a>
-                            </div>
-                        </div>
-                    {% endif %}
                     <div class="text-center mb-4">
                         <h2 class="mb-2">Gérer <span style="color: #ff2e3d">mon compte</span></h2>
                     </div>

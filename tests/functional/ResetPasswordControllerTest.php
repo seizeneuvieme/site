@@ -54,16 +54,16 @@ class ResetPasswordControllerTest extends WebTestCase
     public function it_requests_new_password(): void
     {
         // Arrange
-        $container            = $this->client->getContainer();
-        $BrevoApiService = $this->createMock(BrevoApiService::class);
-        $BrevoApiService->expects(self::once())
+        $container       = $this->client->getContainer();
+        $brevoApiService = $this->createMock(BrevoApiService::class);
+        $brevoApiService->expects(self::once())
             ->method('getTemplate')
             ->willReturn(new GetSmtpTemplateOverview())
         ;
-        $BrevoApiService->expects(self::once())
+        $brevoApiService->expects(self::once())
             ->method('sendTransactionalEmail')
         ;
-        $container->set(BrevoApiService::class, $BrevoApiService);
+        $container->set(BrevoApiService::class, $brevoApiService);
 
         // Act
         $this->client->request(

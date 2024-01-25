@@ -9,6 +9,7 @@ use App\DTO\SubscriberStreamingPlatformsUpdate;
 use App\Entity\Platform;
 use App\Entity\Subscriber;
 use App\Service\BrevoApiService;
+use Brevo\Client\ApiException;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -25,7 +26,7 @@ use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
 class AccountController extends AbstractController
 {
     public function __construct(
-        private readonly BrevoApiService $BrevoApiService,
+        private readonly BrevoApiService $brevoApiService,
         private readonly VerifyEmailHelperInterface $verifyEmailHelper,
         private readonly LoggerInterface $logger
     ) {
@@ -54,9 +55,9 @@ class AccountController extends AbstractController
             ['id' => $subscriber->getId()]
         );
 
-        $template = $this->BrevoApiService->getTemplate(BrevoApiService::ACTIVE_ACCOUNT_TEMPLATE_ID);
+        $template = $this->brevoApiService->getTemplate(BrevoApiService::ACTIVE_ACCOUNT_TEMPLATE_ID);
         if ($template !== null) {
-            $this->BrevoApiService->sendTransactionalEmail(
+            $this->brevoApiService->sendTransactionalEmail(
                 $template,
                 [
                     'name'  => $subscriber->getFirstname(),
@@ -74,6 +75,9 @@ class AccountController extends AbstractController
         return $this->redirectToRoute('app_account');
     }
 
+    /**
+     * @throws ApiException
+     */
     #[Route('/email/edit', name: 'app_update_email')]
     public function updateEmail(
         Request $request,
@@ -109,6 +113,9 @@ class AccountController extends AbstractController
              * @var Subscriber $subscriber
              */
             $subscriber->setEmail($subscriberEmailUpdate->email);
+            if ($subscriber->isVerified()) {
+                $this->brevoApiService->updateContactEmail($subscriber);
+            }
             $entityManager->flush();
             $this->logger->info(
                 'EMAIL_UPDATED',
@@ -178,6 +185,9 @@ class AccountController extends AbstractController
         return $this->render('account/update_password.html.twig');
     }
 
+    /**
+     * @throws ApiException
+     */
     #[Route('/data/edit', name: 'app_update_user_infos')]
     public function updateUserInfos(
         Request $request,
@@ -212,7 +222,9 @@ class AccountController extends AbstractController
              */
             $subscriber = $this->getUser();
             $subscriber->setFirstname($subscriberContactInfosUpdate->firstname);
-
+            if ($subscriber->isVerified()) {
+                $this->brevoApiService->createUpdateContact($subscriber);
+            }
             $entityManager->flush();
             $this->logger->info(
                 'USER_INFOS_UPDATED',
@@ -226,6 +238,9 @@ class AccountController extends AbstractController
         return $this->render('account/update_user_infos.html.twig');
     }
 
+    /**
+     * @throws ApiException
+     */
     #[Route('/platforms/edit', name: 'app_update_platforms')]
     public function updatePlatforms(
         Request $request,
@@ -265,7 +280,9 @@ class AccountController extends AbstractController
                 $platform->setName($streamingPlatform);
                 $subscriber->addPlatform($platform);
             }
-
+            if ($subscriber->isVerified()) {
+                $this->brevoApiService->createUpdateContact($subscriber);
+            }
             $entityManager->flush();
             $this->logger->info(
                 'PLATFORMS_UPDATED',
@@ -304,6 +321,9 @@ class AccountController extends AbstractController
              * @var Subscriber $subscriber
              */
             if ($isPasswordValid === true) {
+                if ($subscriber->getBrevoContactId() !== null) {
+                    $this->brevoApiService->deleteContact($subscriber->getBrevoContactId());
+                }
                 $entityManager->remove($subscriber);
                 $entityManager->flush();
                 $this->logger->info(
@@ -313,9 +333,9 @@ class AccountController extends AbstractController
                     ]
                 );
 
-                $template = $this->BrevoApiService->getTemplate(BrevoApiService::CONFIRM_ACCOUNT_REMOVED);
+                $template = $this->brevoApiService->getTemplate(BrevoApiService::CONFIRM_ACCOUNT_REMOVED);
                 if ($template !== null) {
-                    $this->BrevoApiService->sendTransactionalEmail(
+                    $this->brevoApiService->sendTransactionalEmail(
                         $template,
                         [
                             'name'  => $subscriber->getFirstname(),

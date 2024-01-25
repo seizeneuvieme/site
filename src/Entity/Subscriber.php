@@ -39,6 +39,9 @@ class Subscriber implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'boolean', options: ['default' => false])]
     private bool $isVerified = false;
 
+    #[ORM\Column(type: 'integer', options: ['default' => null])]
+    private ?int $brevoContactId = null;
+
     #[ORM\Column]
     #[Gedmo\Timestampable(on: 'create')]
     private ?\DateTimeImmutable $createdAt = null;
@@ -192,5 +195,15 @@ class Subscriber implements UserInterface, PasswordAuthenticatedUserInterface
         $this->updatedAt = $updatedAt;
 
         return $this;
+    }
+
+    public function getBrevoContactId(): ?int
+    {
+        return $this->brevoContactId;
+    }
+
+    public function setBrevoContactId(int $brevoContactId): void
+    {
+        $this->brevoContactId = $brevoContactId;
     }
 }
