@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Repository\SubscriberRepository;
 use App\Service\BrevoApiService;
+use Brevo\Client\ApiException;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,10 +22,16 @@ class BrevoWebhooksController extends AbstractController
     ) {
     }
 
+    /**
+     * @throws ApiException
+     */
     #[Route('/unsubscribe', name: 'webhook_unsubscribe', methods: ['POST'])]
     public function index(Request $request, EntityManagerInterface $entityManager): Response
     {
-        $email      = $request->request->get('email');
+        $this->logger->info('Unsubscribed event received from Brevo webhook', ['data' => $request->getContent()]);
+
+        $data       = json_decode($request->getContent(), true);
+        $email      = $data['email'];
         $subscriber = $this->subscriberRepository->findOneBy([
            'email' => $email,
         ]);
@@ -41,7 +48,7 @@ class BrevoWebhooksController extends AbstractController
                        'user' => $subscriber->getEmail(),
                    ]
         );
-
+        $this->brevoApiService->deleteContact($subscriber->getBrevoContactId());
         $template = $this->brevoApiService->getTemplate(BrevoApiService::CONFIRM_ACCOUNT_REMOVED);
         if ($template !== null) {
             $this->brevoApiService->sendTransactionalEmail(

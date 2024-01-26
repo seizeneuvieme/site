@@ -87,58 +87,6 @@
                 </p>
               </div>
             </div>
-            <div class="modal fade" id="discover-modal" tabindex="-1" role="dialog" aria-hidden="true">
-              <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                  <div class="modal-body">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <img class="icon bg-dark" src="{{ asset('build/images/icons/interface/cross.svg') }}" alt="cross interface icon" data-inject-svg />
-                    </button>
-                    <div class="m-3">
-                      <ul class="avatars justify-content-center">
-                        <li>
-                          <img src="{{ asset('build/images/avatars/team-1.jpg') }}" alt="Avatar" class="avatar avatar-lg">
-                        </li>
-                        <li>
-                          <img src="{{ asset('build/images/avatars/team-2.jpg') }}" alt="Avatar" class="avatar avatar-lg">
-                        </li>
-                        <li>
-                          <img src="{{ asset('build/images/avatars/team-3.jpg') }}" alt="Avatar" class="avatar avatar-lg">
-                        </li>
-                      </ul>
-                      <div class="text-center my-3">
-                        <h4 class="h3 mb-1">Pre-sales Questions</h4>
-                        <p>
-                          Please get in touch for any questions you may have. We typically reply within 24 hours.
-                        </p>
-                      </div>
-                      <form novalidate>
-                        <div class="form-group">
-                          <input type="text" class="form-control" name="contact-name" placeholder="Your Name" required>
-                        </div>
-                        <div class="form-group">
-                          <input type="email" class="form-control" name="contact-email" placeholder="Email Address" required>
-                        </div>
-                        <div class="form-group">
-                          <textarea name="contact-box-message" rows="5" class="form-control" placeholder="Type your message here" required></textarea>
-                        </div>
-                        <div data-recaptcha data-sitekey="INSERT_YOUR_RECAPTCHA_V2_SITEKEY_HERE"></div>
-                        <div class="d-none alert alert-danger" role="alert" data-error-message>
-                          Please fill all fields correctly.
-                        </div>
-                        <div class="d-none alert alert-success" role="alert" data-success-message>
-                          Thanks, a member of our team will be in touch shortly.
-                        </div>
-                        <button type="submit" class="btn btn-block btn-primary btn-loading" data-loading-text="Sending">
-                          <img class="icon" src="{{ asset('build/images/icons/theme/code/loading.svg') }}" alt="loading icon" data-inject-svg />
-                          <span>Send</span>
-                        </button>
-                      </form>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>
