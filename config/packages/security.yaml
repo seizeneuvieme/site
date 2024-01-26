@@ -37,7 +37,7 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
          - { path: ^/account, roles: ROLE_USER }
-         - { path: ^/brevo-webhooks, ips: [185.107.132.1/24, 1.179.112.1/20] }
+         - { path: ^/brevo-webhooks, roles: PUBLIC_ACCESS, ips: [185.107.232.0/24, 1.179.112.0/20] }
          - { path: ^/brevo-webhooks, roles: ROLE_NO_ACCESS }
 
 when@test:

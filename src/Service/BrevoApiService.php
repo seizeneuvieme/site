@@ -162,7 +162,7 @@ class BrevoApiService
     /**
      * @throws ApiException
      */
-    public function deleteContact(int $id): void
+    public function deleteContact(?int $id): void
     {
         $configuration = Configuration::getDefaultConfiguration()->setApiKey('api-key', $this->apiKey);
         $apiInstance   = new ContactsApi(
