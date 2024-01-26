@@ -1172,10 +1172,10 @@
   resolved "https://registry.npmjs.org/@sinclair/typebox/-/typebox-0.27.8.tgz"
   integrity sha512-+Fj43pSMwJs4KRrH/938Uf+uAELIgVBmQzg/q1YG10djyfA3TnrU8N8XzqCh/okZdszqBQTZf96idMfE5lnwTA==
 
-"@symfony/stimulus-bridge@^3.2.0":
-  version "3.2.1"
-  resolved "https://registry.npmjs.org/@symfony/stimulus-bridge/-/stimulus-bridge-3.2.1.tgz"
-  integrity sha512-eawmVu+tLVkiTz7ewkcsxFvaSZKxFWXmdWxIsxr2jIfQ64PSJg7PIcd7GsPMDxX8sLwg3LGxXfJv5bASL1es+A==
+"@symfony/stimulus-bridge@^3.2.2":
+  version "3.2.2"
+  resolved "https://registry.yarnpkg.com/@symfony/stimulus-bridge/-/stimulus-bridge-3.2.2.tgz#afc1918f82d78cb2b6e299285c54094aa7f53696"
+  integrity sha512-kIaUEGPXW7g14zsHkIvQWw8cmfCdXSqsEQx18fuHPBb+R0h8nYPyY+e9uVtTuHlE2wHwAjrJoc6YBBK4a7CpKA==
   dependencies:
     "@hotwired/stimulus-webpack-helpers" "^1.0.1"
     "@types/webpack-env" "^1.16.4"
