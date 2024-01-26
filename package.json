@@ -4,7 +4,7 @@
     "@popperjs/core": "^2.11.8",
     "@tanem/svg-injector": "^10.1.34",
     "aos": "^2.3.4",
-    "autosize": "^5.0.1",
+    "autosize": "^6.0.1",
     "bootstrap": "^5.2.2",
     "clipboard": "^2.0.11",
     "countup.js": "^2.3.2",
