@@ -2830,10 +2830,10 @@ inherits@2.0.3:
   resolved "https://registry.npmjs.org/inherits/-/inherits-2.0.3.tgz"
   integrity sha512-x00IRNXNy63jwGkJmzPigoySHbaqpNuzKbBOmzK+g2OdZpQ9w+sxCN+VSB3ja7IAge2OP2qpfxTjeNcyjmW1uw==
 
-inter-ui@^3.19.3:
-  version "3.19.3"
-  resolved "https://registry.npmjs.org/inter-ui/-/inter-ui-3.19.3.tgz"
-  integrity sha512-5FG9fjuYOXocIfjzcCBhICL5cpvwEetseL3FU6tP3d6Bn7g8wODhB+I9RNGRTizCT7CUG4GOK54OPxqq3msQgg==
+inter-ui@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/inter-ui/-/inter-ui-4.0.1.tgz#6bf36222ac1701b53279b6290539dc4b0f752409"
+  integrity sha512-hg6LBzJIYSDDpEX45b4X90ieGh0CJ7XnaaXRt9zZS65y/fiW2WwAEyXArjToJJKFO8H6MSozLO2T35WVOhJFrg==
 
 interpret@^3.1.1:
   version "3.1.1"
