@@ -2836,10 +2836,10 @@ inherits@2.0.3:
   resolved "https://registry.npmjs.org/inherits/-/inherits-2.0.3.tgz"
   integrity sha512-x00IRNXNy63jwGkJmzPigoySHbaqpNuzKbBOmzK+g2OdZpQ9w+sxCN+VSB3ja7IAge2OP2qpfxTjeNcyjmW1uw==
 
-inter-ui@^4.0.1:
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/inter-ui/-/inter-ui-4.0.1.tgz#6bf36222ac1701b53279b6290539dc4b0f752409"
-  integrity sha512-hg6LBzJIYSDDpEX45b4X90ieGh0CJ7XnaaXRt9zZS65y/fiW2WwAEyXArjToJJKFO8H6MSozLO2T35WVOhJFrg==
+inter-ui@^4.0.2:
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/inter-ui/-/inter-ui-4.0.2.tgz#e1bcfcaad509a084396e22cb23480df8caa9a8a2"
+  integrity sha512-YmfzwEtzuVzEenQwSB/tmmqi/A0a2GnFk4mG4ZFULXiO5DNk0fJWiO3o9i1sdVKuMVGx9iiNQnCq8ghWZJVVHw==
 
 interpret@^3.1.1:
   version "3.1.1"
