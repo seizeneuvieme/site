@@ -1,0 +1,76 @@
+{
+  "entrypoints": {
+    "app": {
+      "js": [
+        "/build/runtime.546df83f.js",
+        "/build/692.0dbd2f55.js",
+        "/build/761.77ac1567.js",
+        "/build/283.7022c514.js",
+        "/build/app.1f92aa8b.js"
+      ],
+      "css": [
+        "/build/app.f0d7a2fa.css"
+      ]
+    },
+    "sign-up": {
+      "js": [
+        "/build/runtime.546df83f.js",
+        "/build/692.0dbd2f55.js",
+        "/build/761.77ac1567.js",
+        "/build/sign-up.f511ccb5.js"
+      ]
+    },
+    "sign-in": {
+      "js": [
+        "/build/runtime.546df83f.js",
+        "/build/692.0dbd2f55.js",
+        "/build/761.77ac1567.js",
+        "/build/sign-in.8a683081.js"
+      ]
+    },
+    "request-reset": {
+      "js": [
+        "/build/runtime.546df83f.js",
+        "/build/692.0dbd2f55.js",
+        "/build/761.77ac1567.js",
+        "/build/request-reset.27940725.js"
+      ]
+    },
+    "reset": {
+      "js": [
+        "/build/runtime.546df83f.js",
+        "/build/692.0dbd2f55.js",
+        "/build/reset.b9664452.js"
+      ]
+    },
+    "update-email": {
+      "js": [
+        "/build/runtime.546df83f.js",
+        "/build/692.0dbd2f55.js",
+        "/build/761.77ac1567.js",
+        "/build/update-email.3d89e948.js"
+      ]
+    },
+    "update-password": {
+      "js": [
+        "/build/runtime.546df83f.js",
+        "/build/692.0dbd2f55.js",
+        "/build/update-password.539620af.js"
+      ]
+    },
+    "update-user-infos": {
+      "js": [
+        "/build/runtime.546df83f.js",
+        "/build/692.0dbd2f55.js",
+        "/build/update-user-infos.e231b30a.js"
+      ]
+    },
+    "update-platforms": {
+      "js": [
+        "/build/runtime.546df83f.js",
+        "/build/692.0dbd2f55.js",
+        "/build/update-platforms.293d988b.js"
+      ]
+    }
+  }
+}
