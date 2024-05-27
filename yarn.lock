@@ -3103,10 +3103,10 @@ isotope-layout@^3.0.6:
     masonry-layout "^4.1.0"
     outlayer "^2.1.0"
 
-jarallax@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/jarallax/-/jarallax-2.2.0.tgz#d54170b1693aae4a174825005fed9ed91336c1e2"
-  integrity sha512-eOMYb1RaCkmPuJ8W1exbLKh5wdhg2D3pLkNmH824xvfH7Mw6swmw9wQklDe0Y+44S3GuJMEZt6P9pUMhdyQOgQ==
+jarallax@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/jarallax/-/jarallax-2.2.1.tgz#9d0aeb2132b6a4a2582953be71c269a6770727f0"
+  integrity sha512-O4pqiWGp856cTGG5uBG9b0Uk7AIRmfFCVisRwgpICsG2xyIRnUrVbx4SIbpzUDAhkD00jdjBiqb1bZPTkHi1vQ==
   dependencies:
     video-worker "^2.2.0"
 
